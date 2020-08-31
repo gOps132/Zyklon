@@ -1,0 +1,1 @@
+Vendor mostly contains external header only libraries

@@ -1,0 +1,1 @@
+Libraries which is linked locally in the Zyklon project
