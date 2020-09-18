@@ -66,16 +66,11 @@ set(CMAKE_CXX_VISIBILITY_PRESET         hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN     YES)
 
 # -------------BUILD TYPE FLAGS---------------
-# if(${CMAKE_BUILD_TYPE} EQUAL DEBUG)
-#     target_compile_definitions(${PROJECT_NAME}
-#         PRIVATE     
-#     )
-# endif()
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG
     "-Dzyklon_ENABLE_ASSERTS"
 )
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-# --------------------------------------------
 
 add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 
@@ -85,6 +80,13 @@ include(GenerateExportHeader)
 generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/Zyklon/zyklon_exports.h)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(ZYKLON_OUTPUT_ENABLE "set ZYKLON_OUTPUT_BIN_DIR to specified output directory" OFF)
+if(${ZYKLON_OUTPUT_ENABLE})
+    message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
+else()
+    set(ZYKLON_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+endif()
 
 # PROJECT PROPERTIES
 set_target_properties(${PROJECT_NAME} PROPERTIES 

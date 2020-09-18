@@ -34,10 +34,14 @@ Extras for the game engine series
 ### Initial Setup:
 
 ```sh
-    # $ git clone https://github.com/gOps132/game-engine-demo game-engine-demo --recursive
+    $ git clone https://github.com/gOps132/game-engine-demo
     
-    # $ mugit select zyklon
-    # $ mugit pull
+    $ mugit select main
+    $ mugit pull
+    $ cd Zyklon
+    $ mugit select zyklon
+    $ mugit pull
+
 ```
     AND
     
