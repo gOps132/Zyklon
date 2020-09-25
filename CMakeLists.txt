@@ -38,8 +38,6 @@ elseif(UNIX AND NOT APPLE)
     )
 endif()
 
-# NOTE: the libraries are only visible to the translation
-# unit of  the ZYKLON_SOURCE_FILES variables and anything that is linked to this library
 set(ZYKLON_SOURCE_FILES
     src/Application.cpp
     src/Log.cpp
@@ -48,9 +46,7 @@ set(ZYKLON_SOURCE_FILES
 
     src/ImguiLayer.cpp
 
-    #------------------IMGUI docking---------------------
     src/ImguiBuild.cpp
-    #----------------------------------------------------
 
     src/zyklon_pch.cpp
 
@@ -65,22 +61,27 @@ endif()
 set(CMAKE_CXX_VISIBILITY_PRESET         hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN     YES)
 
-# -------------BUILD TYPE FLAGS---------------
+# ------------------------------------------
+# BUILD TYPE FLAGS
+# ------------------------------------------
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG
     "-Dzyklon_ENABLE_ASSERTS"
 )
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 
-# not needed for building static libs
-# generate visibility headers in Zyklon includes directory
+# ------------------------------------------
+# GENERATING DLL VISIBILITY EXPORT HEADERS
+# ------------------------------------------
 include(GenerateExportHeader)
 generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/Zyklon/zyklon_exports.h)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# ------------------------------------------
+# OUTPUT BIN DIRECTORY DEFAULT
+# ------------------------------------------
 option(ZYKLON_OUTPUT_ENABLE "set ZYKLON_OUTPUT_BIN_DIR to specified output directory" OFF)
 if(${ZYKLON_OUTPUT_ENABLE})
     message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
@@ -88,7 +89,9 @@ else()
     set(ZYKLON_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 endif()
 
-# PROJECT PROPERTIES
+# ------------------------------------------
+# BUILD TYPE FLAGS
+# ------------------------------------------
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     LINKER_LANGUAGE CXX
 
@@ -126,7 +129,9 @@ if(MSVC AND RUNTIME_STATIC_LINKAGE)
     endforeach(flag)
 endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 
-# Platform specific properties
+# ------------------------------------------
+# PLATFORM SPECIFIC MACRO DEFINITIONS
+# ------------------------------------------
 if(APPLE)
     target_compile_definitions(${PROJECT_NAME} 
         PRIVATE     -DZYKLON_PLATFORM_MACOS
@@ -143,7 +148,6 @@ elseif(UNIX AND NOT APPLE)
     )
 endif()
 
-# PLATFORM FLAGS 
 if (APPLE)
     list (APPEND EXTRA_LIBS "-framework OpenGL")
 elseif(WIN32)
