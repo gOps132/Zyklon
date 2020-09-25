@@ -3,6 +3,7 @@
 
 #include "Zyklon/Core.h"
 #include "Events/Event.h"
+
 #include "zyklon_exports.h"
 
 namespace Zyklon {

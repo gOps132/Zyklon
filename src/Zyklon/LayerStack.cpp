@@ -1,6 +1,6 @@
-#include "Zyklon/zyklon_pch.h"
+#include "zyklon_pch.h"
 
-#include "Zyklon/LayerStack.h"
+#include "LayerStack.h"
 
 namespace Zyklon {
 

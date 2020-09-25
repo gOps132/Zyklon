@@ -1,10 +1,10 @@
 #include "Zyklon/zyklon_pch.h"
 
-#include "Zyklon/Platform/Linux/LinuxWindow.h"
-
 #include "Zyklon/Events/ApplicationEvent.h"
 #include "Zyklon/Events/KeyEvent.h"
 #include "Zyklon/Events/MouseEvent.h"
+
+#include "LinuxWindow.h"
 
 namespace Zyklon
 {

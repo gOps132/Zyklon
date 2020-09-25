@@ -26,8 +26,7 @@ https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
 [ ] Add Rendering API
 
-[ ] Add clang-tidy config
-    - cpp version
+[ ] Add clang-format config
 
 Extras for the game engine series
 
@@ -54,13 +53,6 @@ Extras for the game engine series
 and then run it in there. Also works with CLion and etc. You can also use the 
 compile_command.json with however you please.
 
-* Run the bash file everytime you change it.
-
-* Right now the only graphics API that I use is openGL, eventually when I have time,
-I will add other Graphics API support that is fit on multiple platforms. Right now
-Imgui does not need abstracting since it's platform independent, which means it supports
-multiple graphics API's as well.
-
 * This cmakelists.txt file will definitely not compile and link correctly in windows  
 
-* Planning to switch to mugit. More information -- https://www.youtube.com/watch?v=UulEctX0z4I
+* prefer to to build with cmake build option -DSPDLOG_ENABLE_PCH=ON

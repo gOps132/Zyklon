@@ -1,9 +1,9 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
-#include "Zyklon/zyklon_exports.h"
-#include "Zyklon/Events/Event.h"
-#include "Zyklon/Core.h"
+#include "zyklon_exports.h"
+#include "Events/Event.h"
+#include "Core.h"
 
 namespace Zyklon
 {

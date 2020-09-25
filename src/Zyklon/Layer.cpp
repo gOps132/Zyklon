@@ -1,6 +1,6 @@
-#include "Zyklon/zyklon_pch.h"
+#include "zyklon_pch.h"
 
-#include "Zyklon/Layer.h"
+#include "Layer.h"
 
 namespace Zyklon {
 

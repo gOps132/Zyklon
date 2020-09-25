@@ -23,32 +23,32 @@ add_subdirectory(lib/imgui-test)
 
 if(APPLE)
     set(PLATFORM_SOURCES 
-        src/MacosWindow.cpp
-        src/MacosInput.cpp
+        src/Zyklon/Platform/Macos/MacosWindow.cpp
+        src/Zyklon/Platform/Macos/MacosInput.cpp
     )
 elseif(WIN32)
     set(PLATFORM_SOURCES
-        src/WindowsWindow.cpp
-        src/WindowsInput.cpp
+        src/Zyklon/Platform/Windows/WindowsWindow.cpp
+        src/Zyklon/Platform/Windows/WindowsInput.cpp
     )
 elseif(UNIX AND NOT APPLE)
     set(PLATFORM_SOURCES 
-        src/LinuxWindow.cpp
-        src/LinuxInput.cpp
+        src/Zyklon/Platform/Linux/LinuxWindow.cpp
+        src/Zyklon/Platform/Linux/LinuxInput.cpp
     )
 endif()
 
 set(ZYKLON_SOURCE_FILES
-    src/Application.cpp
-    src/Log.cpp
-    src/Layer.cpp
-    src/LayerStack.cpp
+    src/Zyklon/Application.cpp
+    src/Zyklon/Log.cpp
+    src/Zyklon/Layer.cpp
+    src/Zyklon/LayerStack.cpp
 
-    src/ImguiLayer.cpp
+    src/Imgui/ImguiLayer.cpp
 
-    src/ImguiBuild.cpp
+    src/Imgui/ImguiBuild.cpp
 
-    src/zyklon_pch.cpp
+    src/Zyklon/zyklon_pch.cpp
 
     ${PLATFORM_SOURCES}
 )
@@ -76,7 +76,7 @@ add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 # GENERATING DLL VISIBILITY EXPORT HEADERS
 # ------------------------------------------
 include(GenerateExportHeader)
-generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/Zyklon/zyklon_exports.h)
+generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_exports.h)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ------------------------------------------
@@ -173,10 +173,10 @@ target_link_libraries(
 
 target_precompile_headers(
     ${PROJECT_NAME}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/Zyklon/zyklon_pch.h
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_pch.h
 )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
 )

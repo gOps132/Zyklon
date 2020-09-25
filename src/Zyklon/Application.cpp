@@ -2,13 +2,13 @@
  * Actual application instances
 */
 
-#include "Zyklon/zyklon_pch.h"
+#include "zyklon_pch.h"
 
-#include "Zyklon/Application.h"
-#include "Zyklon/Events/ApplicationEvent.h"
-#include "Zyklon/Window.h"
-#include "Zyklon/Core.h"
-#include "Zyklon/Input/Input.h"
+#include "Application.h"
+#include "Events/ApplicationEvent.h"
+#include "Window.h"
+#include "Core.h"
+#include "Input/Input.h"
 
 #include <glad/glad.h>
 

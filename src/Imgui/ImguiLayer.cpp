@@ -4,12 +4,14 @@
 
 #include "Zyklon/zyklon_pch.h"
 
-#include "Imgui/ImguiLayer.h"
+#include "ImguiLayer.h"
+
 
 #include "Zyklon/Application.h"
 #include "Zyklon/Core.h"
 
 #include <imgui.h>
+
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
@@ -19,7 +21,6 @@
 namespace Zyklon
 {
 
-    
     ImGuiLayer::ImGuiLayer()
         : Layer("Imgui Layer")
     {
@@ -59,7 +60,7 @@ namespace Zyklon
         Application &app = Application::Get();
         GLFWwindow *window = static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
 
-        // Setup Platform/Renderer bindings
+        // Setup Platform/Renderer bindingss
         ImGui_ImplGlfw_InitForOpenGL(window, true);
 
         ImGui_ImplOpenGL3_Init("#version 430 core");

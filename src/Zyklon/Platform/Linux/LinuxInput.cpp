@@ -1,8 +1,8 @@
 #include "Zyklon/zyklon_pch.h"
 
-#include "Zyklon/Platform/Linux/LinuxInput.h"
-
 #include "Zyklon/Application.h"
+
+#include "LinuxInput.h"
 
 #include <GLFW/glfw3.h>
 
