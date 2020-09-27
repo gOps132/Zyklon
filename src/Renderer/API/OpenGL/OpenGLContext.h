@@ -18,7 +18,7 @@ namespace Zyklon
     private:
         GLFWwindow* m_WindowHandler;
     };
-
+    
 } // namespace Zyklon
     
 #endif // __OPENGLCONTEXT_H__

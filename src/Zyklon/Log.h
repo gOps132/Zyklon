@@ -31,23 +31,16 @@ namespace Zyklon
 
 /* Strip these from distribution builds */
 
-/* 
- *Core Log Macros 
- *TODO: make this visible to only this library
-*/
 #define ZYKLON_CORE_TRACE(...)    ::Zyklon::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define ZYKLON_CORE_INFO(...)     ::Zyklon::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define ZYKLON_CORE_WARN(...)     ::Zyklon::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define ZYKLON_CORE_ERROR(...)    ::Zyklon::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define ZYKLON_CORE_CRITICAL(...) ::Zyklon::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
-/* 
- *Client Log Macros 
- *TODO: make this visible to only clients
-*/
 #define ZYKLON_TRACE(...)         ::Zyklon::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define ZYKLON_INFO(...)          ::Zyklon::Log::GetClientLogger()->info(__VA_ARGS__)
 #define ZYKLON_WARN(...)          ::Zyklon::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define ZYKLON_ERROR(...)         ::Zyklon::Log::GetClientLogger()->error(__VA_ARGS__)
 #define ZYKLON_CRITICAL(...)      ::Zyklon::Log::GetClientLogger()->critical(__VA_ARGS__)
+
 #endif // __LOG_H__

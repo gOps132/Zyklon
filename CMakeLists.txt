@@ -38,6 +38,11 @@ elseif(UNIX AND NOT APPLE)
     )
 endif()
 
+# TODO: abstract this when abstracting graphics API
+set(GRAPHICS_API 
+    src/Renderer/API/OpenGL/OpenGLContext.cpp
+)
+
 set(ZYKLON_SOURCE_FILES
     src/Zyklon/Application.cpp
     src/Zyklon/Log.cpp
@@ -50,6 +55,7 @@ set(ZYKLON_SOURCE_FILES
 
     src/Zyklon/zyklon_pch.cpp
 
+    ${GRAPHICS_API}
     ${PLATFORM_SOURCES}
 )
 

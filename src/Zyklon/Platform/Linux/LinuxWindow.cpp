@@ -6,6 +6,8 @@
 
 #include "LinuxWindow.h"
 
+#include "Renderer/API/OpenGL/OpenGLContext.h"
+
 namespace Zyklon
 {
 
@@ -43,13 +45,12 @@ namespace Zyklon
 
 			s_GLFWInitialized = true;
 		}
-
+		
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
 
-		/* Initialize glad */
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		ZYKLON_CORE_ASSERT(status, "failed to initialize glad");
+		// OpenGL for now
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
@@ -163,6 +164,6 @@ namespace Zyklon
 	void LinuxWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 } // namespace Zyklon

@@ -8,7 +8,6 @@
 
 namespace Zyklon
 {
-
     Input* Input::s_Instance = new LinuxInput();
 
     bool LinuxInput::IsKeyPressedImpl(int keycode)

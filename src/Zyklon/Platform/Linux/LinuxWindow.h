@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Renderer/API/OpenGL/OpenGLContext.h"
+
 namespace Zyklon
 {
 
@@ -31,6 +33,7 @@ namespace Zyklon
 
 	private:
 		GLFWwindow *m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{	
