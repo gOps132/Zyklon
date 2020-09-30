@@ -13,6 +13,11 @@ namespace Zyklon
     public:
         Shader(const std::string& vertexSource, const std::string& fragmentSource);
         ~Shader();
+
+        void bind();
+        void unbind();
+    private:
+        uint32_t m_RendererID;
     };
     
 } // namespace Zyklon

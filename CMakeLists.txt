@@ -41,6 +41,8 @@ endif()
 # TODO: abstract this when abstracting graphics API
 set(GRAPHICS_API 
     src/Renderer/API/OpenGL/OpenGLContext.cpp
+
+    src/Renderer/API/OpenGL/Shader.cpp
 )
 
 set(ZYKLON_SOURCE_FILES
