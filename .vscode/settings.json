@@ -1,0 +1,7 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.configureArgs": [
+        "-DSPDLOG_ENABLE_PCH=ON",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ]
+}

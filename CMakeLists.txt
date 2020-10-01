@@ -15,8 +15,8 @@ set(VENDOR_DIR "src/vendor")
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/glm)
-    add_subdirectory(lib/spdlog)
-
+add_subdirectory(lib/spdlog)
+add_subdirectory(lib/ZyklonProfiler)
 # NOTE: needs to be in docking branch
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
@@ -188,3 +188,9 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
 )
+
+# ------------------------------------------
+# BUILD EXAMPLE
+# ------------------------------------------
+option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" ON)
+add_subdirectory(examples/Sandbox)
