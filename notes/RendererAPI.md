@@ -18,3 +18,7 @@ CONS
 |---|---|
 |only supports one specific API In that binary|Miss out on compile time optimization|
 
+10/01/2020
+
+Renderer API design
+
