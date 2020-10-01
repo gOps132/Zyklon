@@ -15,7 +15,7 @@ set(VENDOR_DIR "src/vendor")
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/glm)
-add_subdirectory(lib/spdlog)
+    add_subdirectory(lib/spdlog)
 
 # NOTE: needs to be in docking branch
 # add_subdirectory(lib/imgui-cmake)
@@ -38,7 +38,8 @@ elseif(UNIX AND NOT APPLE)
     )
 endif()
 
-# TODO: abstract this when abstracting graphics API
+# TODO: abstract this when abstracting graphics API in compile time.
+# or not when I decide I'll use it on build time
 set(GRAPHICS_API 
     src/Renderer/API/OpenGL/OpenGLContext.cpp
 
@@ -46,16 +47,15 @@ set(GRAPHICS_API
 )
 
 set(ZYKLON_SOURCE_FILES
+
     src/Zyklon/Application.cpp
     src/Zyklon/Log.cpp
     src/Zyklon/Layer.cpp
     src/Zyklon/LayerStack.cpp
+    src/Zyklon/zyklon_pch.cpp
 
     src/Imgui/ImguiLayer.cpp
-
     src/Imgui/ImguiBuild.cpp
-
-    src/Zyklon/zyklon_pch.cpp
 
     ${GRAPHICS_API}
     ${PLATFORM_SOURCES}

@@ -32,6 +32,11 @@ Extras for the game engine series
 
 ### Initial Setup:
 
+<!-- TODO: 
+    Configure setup on specific platform 
+ -->
+
+* Linux
 ```sh
     $ git clone https://github.com/gOps132/game-engine-demo
     
@@ -41,12 +46,11 @@ Extras for the game engine series
     $ mugit select zyklon
     $ mugit pull
 
-```
     AND
     
-```sh
     $ bash build.sh 
 ```
+
 ### Note
 
 * Run the bash files to load the cmake cache into vscode's cmake tool extension
@@ -56,3 +60,9 @@ compile_command.json with however you please.
 * This cmakelists.txt file will definitely not compile and link correctly in windows  
 
 * prefer to to build with cmake build option -DSPDLOG_ENABLE_PCH=ON
+
+* .vscode cmake args used:
+    *   "cmake.configureArgs": [
+        "-DSPDLOG_ENABLE_PCH=ON",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ]
