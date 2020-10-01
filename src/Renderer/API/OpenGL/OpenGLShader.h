@@ -1,18 +1,20 @@
-#ifndef __SHADER_H__
-#define __SHADER_H__
+#ifndef __OPENGLSHADER_H__
+#define __OPENGLSHADER_H__
 
 #include "Zyklon/zyklon_pch.h"
+
+#include "Renderer/Shader.h"
 
 namespace Zyklon
 {
     // TODO: this should be an openGL specific file andn should be renamed to shader.
-    class Shader
+    class OpenGLShader : public Shader
     {
     private:
 
     public:
-        Shader(const std::string& vertexSource, const std::string& fragmentSource);
-        ~Shader();
+        OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
+        ~OpenGLShader();
 
         void bind();
         void unbind();
@@ -22,5 +24,4 @@ namespace Zyklon
     
 } // namespace Zyklon
 
-
-#endif // __SHADER_H__
+#endif // __OPENGLSHADER_H__
