@@ -63,6 +63,7 @@ namespace Zyklon
         // Setup Platform/Renderer bindingss
         ImGui_ImplGlfw_InitForOpenGL(window, true);
 
+        // Higher version later support 
         ImGui_ImplOpenGL3_Init("#version 150");
     }
 

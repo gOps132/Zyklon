@@ -3,11 +3,12 @@
 
 /*
  * precompiled header header for zyklon implemented with cmake
- */
+ */ 
 
-/* -------------------------------------- */
-/* STL HEADERS AND DATA STRUCTURES        */
-/* -------------------------------------- */
+
+//--------------------------------------
+// STL HEADERS AND DATA STRUCTURES       
+//--------------------------------------
 #include <memory>
 
 #include <utility>
@@ -25,17 +26,15 @@
 #include <unordered_map>
 
 #include <unordered_set>
-/* -------------------------------------- */
 
+#include <stdint.h>
 
-/* -------------------------------------- */
-/*            LOCAL FILES                 */
-/* -------------------------------------- */
 #include "Log.h"
-/* -------------------------------------- */
 
     
-/* Vendor Files */
+// ------------------------------------------ 
+// VENDOR FILES
+// ------------------------------------------ 
 #include <debugbreak.h>
 
 #ifdef ZYKLON_PLATFORM_WINDOWS

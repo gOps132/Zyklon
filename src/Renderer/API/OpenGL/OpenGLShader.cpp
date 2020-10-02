@@ -1,12 +1,12 @@
 #include "Zyklon/zyklon_pch.h"
-#include "Shader.h"
+#include "OpenGLShader.h"
 #include "Zyklon/Core.h"
 #include <glad/glad.h>
 
 namespace Zyklon
 {
 
-    Shader::Shader(const std::string &vertexSource, const std::string &fragmentSource)
+    OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &fragmentSource)
     {
         // Create an empty vertex shader handle
         unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -112,17 +112,17 @@ namespace Zyklon
         glDetachShader(m_RendererID, fragmentShader);
     }
 
-    Shader::~Shader()
+    OpenGLShader::~OpenGLShader()
     {
         glDeleteProgram(m_RendererID);
     }
 
-    void Shader::bind()
+    void OpenGLShader::bind()
     {
         glUseProgram(m_RendererID);
     }
 
-    void Shader::unbind()
+    void OpenGLShader::unbind()
     {
         glUseProgram(0);
     }

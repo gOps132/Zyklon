@@ -22,3 +22,8 @@ CONS
 
 Renderer API design
 
+10/02/2020
+
+The renderer API is gonna be a very large part of the codebase
+there are tons of things to decide a rendering API mostly where
+the processing should be done in, the CPU or the GPU.

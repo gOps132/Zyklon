@@ -21,29 +21,37 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 
-if(APPLE)
-    set(PLATFORM_SOURCES 
-        src/Zyklon/Platform/Macos/MacosWindow.cpp
-        src/Zyklon/Platform/Macos/MacosInput.cpp
-    )
-elseif(WIN32)
-    set(PLATFORM_SOURCES
-        src/Zyklon/Platform/Windows/WindowsWindow.cpp
-        src/Zyklon/Platform/Windows/WindowsInput.cpp
-    )
-elseif(UNIX AND NOT APPLE)
-    set(PLATFORM_SOURCES 
-        src/Zyklon/Platform/Linux/LinuxWindow.cpp
-        src/Zyklon/Platform/Linux/LinuxInput.cpp
-    )
-endif()
+# if(APPLE)
+#     set(PLATFORM_SOURCES 
+#         src/Zyklon/Platform/Macos/MacosWindow.cpp
+#         src/Zyklon/Platform/Macos/MacosInput.cpp
+#     )
+# elseif(WIN32)
+#     set(PLATFORM_SOURCES
+#         src/Zyklon/Platform/Windows/WindowsWindow.cpp
+#         src/Zyklon/Platform/Windows/WindowsInput.cpp
+#     )
+# elseif(UNIX AND NOT APPLE)
+#     set(PLATFORM_SOURCES 
+#         src/Zyklon/Platform/Linux/LinuxWindow.cpp
+#         src/Zyklon/Platform/Linux/LinuxInput.cpp
+#     )
+# endif()
 
-# TODO: abstract this when abstracting graphics API in compile time.
-# or not when I decide I'll use it on build time
+set(PLATFORM_SOURCES 
+    src/Zyklon/Platform/Linux/LinuxWindow.cpp
+    src/Zyklon/Platform/Linux/LinuxInput.cpp
+)
+
+# TODO: add abstraction test for build time and runtime
+set(RENDER_API_DIR "src/Renderer/API")
+
+# OpenGL for now
 set(GRAPHICS_API 
-    src/Renderer/API/OpenGL/OpenGLContext.cpp
-
-    src/Renderer/API/OpenGL/Shader.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLVertexBuffer.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLIndexBuffer.cpp
 )
 
 set(ZYKLON_SOURCE_FILES
@@ -78,6 +86,9 @@ set(CMAKE_CXX_FLAGS_DEBUG
 )
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
+# ------------------------------------------
+# GENERATE ZYKLON STATIC LIBRARY
+# ------------------------------------------
 add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 
 # ------------------------------------------
@@ -90,8 +101,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ------------------------------------------
 # OUTPUT BIN DIRECTORY DEFAULT
 # ------------------------------------------
-option(ZYKLON_OUTPUT_ENABLE "set ZYKLON_OUTPUT_BIN_DIR to specified output directory" OFF)
-if(${ZYKLON_OUTPUT_ENABLE})
+if(${ZYKLON_OUTPUT_BIN_DIR})
     message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
 else()
     set(ZYKLON_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
@@ -107,7 +117,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION     ${PROJECT_VERSION}
 
     LIBRARY_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
-    ARCHIVE_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+    ARCHIVE_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
 
     DEFINITIONS -Dzyklon_EXPORTS 
 )

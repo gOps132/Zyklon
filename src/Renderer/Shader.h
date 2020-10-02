@@ -9,8 +9,8 @@ namespace Zyklon
     class Shader
     {
     public:
-        virtual Shader(const std::string& vertexSource, const std::string& fragmentSource) = 0;
-        virtual ~Shader() = 0;
+        Shader() {}
+        virtual ~Shader() {}
 
         virtual void bind() = 0;
         virtual void unbind() = 0;

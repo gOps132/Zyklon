@@ -16,8 +16,8 @@ namespace Zyklon
         OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
         ~OpenGLShader();
 
-        void bind();
-        void unbind();
+        virtual void bind() override;
+        virtual void unbind() override;
     private:
         uint32_t m_RendererID;
     };

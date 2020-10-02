@@ -3,5 +3,13 @@
     "cmake.configureArgs": [
         "-DSPDLOG_ENABLE_PCH=ON",
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
-    ]
+    ],
+    "files.associations": {
+        "memory": "cpp",
+        "algorithm": "cpp",
+        "bitset": "cpp",
+        "optional": "cpp",
+        "random": "cpp",
+        "ios": "cpp"
+    }
 }

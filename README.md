@@ -1,15 +1,13 @@
 # Zyklon
 
-right now I am just following the game engine series and trying to wrap my head
+right now I am just following the game engine series and trying to wrap my head around it.
 
-pardon my poor cmake skills and everything else...
+I dunno, maybe I'll scale it into some serious hobby project :).
 
-The sandbox project uses Zyklon as a dll
-
-## game engine resources
+## citations
 https://github.com/TheCherno/Hazel
 
-watch the game engine series
+watch the Hazel Game Engine Series!!
 https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
 ## Libraries used
@@ -21,6 +19,11 @@ https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 * stb_image
 * Debugbreak
 
+## Other Used
+* cmake modules from Jason Turners cpp_starter_project
+    * https://github.com/lefticus/cpp_starter_project
+
+
 ### TODO:
 [ ] Fix concurrency problem with spdlog logging
 
@@ -28,13 +31,9 @@ https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
 [ ] Add clang-format config
 
-Extras for the game engine series
-
 ### Initial Setup:
 
-<!-- TODO: 
-    Configure setup on specific platform 
- -->
+<!-- TODO: Configure setup on specific platform -->
 
 * Linux
 ```sh
@@ -50,6 +49,9 @@ Extras for the game engine series
     
     $ bash build.sh 
 ```
+
+* MacOS
+* Windows
 
 ### Note
 
