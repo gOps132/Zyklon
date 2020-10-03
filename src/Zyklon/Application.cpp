@@ -80,7 +80,6 @@ namespace Zyklon {
             }            
         )";
 
-        // m_Shader.reset(new OpenGLShader(vertexSrc, fragmentSrc));
         m_Shader = std::make_unique<OpenGLShader>(vertexSrc, fragmentSrc);
     }
 

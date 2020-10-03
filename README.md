@@ -35,15 +35,14 @@ https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
 <!-- TODO: Configure setup on specific platform -->
 
+NOTE: Always check bash files before executing them
+
 * Linux
 ```sh
     $ git clone https://github.com/gOps132/game-engine-demo
     
-    $ mugit select main
-    $ mugit pull
-    $ cd Zyklon
-    $ mugit select zyklon
-    $ mugit pull
+    $ cd scripts
+    $ bash pull.sh
 
     AND
     
