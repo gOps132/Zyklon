@@ -39,8 +39,6 @@ namespace Zyklon {
         
         m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
         
-        // m_VertexBuffer = std::make_unique<VertexBuffer>(VertexBuffer::Create(vertices, sizeof(vertices))); 
-                
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
