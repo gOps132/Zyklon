@@ -45,13 +45,14 @@ set(PLATFORM_SOURCES
 
 # TODO: add abstraction test for build time and runtime
 set(RENDER_API_DIR "src/Renderer/API")
-
-# OpenGL for now
 set(GRAPHICS_API 
+    src/Renderer/Renderer.cpp
+
     ${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLVertexBuffer.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLIndexBuffer.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLErrorManager.cpp
 )
 
 set(ZYKLON_SOURCE_FILES

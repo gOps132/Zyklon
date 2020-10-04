@@ -14,6 +14,9 @@ namespace Zyklon
 
         virtual void bind() = 0;
         virtual void unbind() = 0;
+    
+        static Shader* Create(const std::string& vertexSource, const std::string& fragmentSource);
+
     private:
         uint32_t m_RendererID;
     };

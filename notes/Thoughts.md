@@ -12,3 +12,8 @@ that it's just some extra overhead, most modules that I am using seems to
 be on branch master, and everytime that I mugit pull the module does not 
 checkout on the specified branch which seems like a joke, because that's the
 purpose of the tool in the first place.
+
+10/03/2020
+
+There is some issues with concerning the gl hheader and the glsl version
+support https://stackoverflow.com/questions/11962665/glcreateshader-was-not-declared-in-this-scope

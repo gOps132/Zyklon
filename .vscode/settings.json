@@ -10,6 +10,9 @@
         "bitset": "cpp",
         "optional": "cpp",
         "random": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "chrono": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp"
     },
 }

@@ -1,3 +1,6 @@
+#ifndef __OPENGLVERTEXBUFFER_H__
+#define __OPENGLVERTEXBUFFER_H__
+
 #include "Zyklon/zyklon_pch.h"
 
 #include "Renderer/VertexBuffer.h"
@@ -18,3 +21,5 @@ namespace Zyklon
     };
     
 } // namespace Zyklon
+
+#endif // __OPENGLVERTEXBUFFER_H__

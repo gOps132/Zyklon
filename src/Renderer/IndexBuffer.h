@@ -13,9 +13,12 @@ namespace Zyklon
         virtual void Bind() const = 0; 
         virtual void Unbind() const = 0;
 
+        inline virtual uint32_t GetCount() const = 0;
+        
         // 16 bit optimization
-        static IndexBuffer* create(uint32_t* indices, size_t size);
+        static IndexBuffer* Create(uint32_t* indices, size_t size);
     };
+    
 
 } // namespace Zyklon
 

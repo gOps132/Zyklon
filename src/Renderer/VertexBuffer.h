@@ -13,7 +13,7 @@ namespace Zyklon
         virtual void Bind() const = 0; 
         virtual void Unbind() const = 0;
 
-        static VertexBuffer* create(float* vertices, size_t size);
+        static VertexBuffer* Create(float* vertices, size_t size);
     };
 
 } // namespace Zyklon

@@ -10,8 +10,6 @@ namespace Zyklon
     // TODO: this should be an openGL specific file andn should be renamed to shader.
     class OpenGLShader : public Shader
     {
-    private:
-
     public:
         OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
         ~OpenGLShader();

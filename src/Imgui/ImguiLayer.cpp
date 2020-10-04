@@ -4,9 +4,6 @@
 
 #include "Zyklon/zyklon_pch.h"
 
-#include "ImguiLayer.h"
-
-
 #include "Zyklon/Application.h"
 #include "Zyklon/Core.h"
 
@@ -17,6 +14,8 @@
 
 // should not be including glfw3 here
 #include <GLFW/glfw3.h>
+
+#include "ImguiLayer.h"
 
 namespace Zyklon
 {
@@ -64,7 +63,7 @@ namespace Zyklon
         ImGui_ImplGlfw_InitForOpenGL(window, true);
 
         // Higher version later support 
-        ImGui_ImplOpenGL3_Init("#version 150");
+        ImGui_ImplOpenGL3_Init("#version 450 core");
     }
 
     void ImGuiLayer::OnDetach()
