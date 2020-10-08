@@ -63,7 +63,11 @@ namespace Zyklon
         ImGui_ImplGlfw_InitForOpenGL(window, true);
 
         // Higher version later support 
+        #ifdef __APPLE__
+        ImGui_ImplOpenGL3_Init("#version 330");
+        #else
         ImGui_ImplOpenGL3_Init("#version 450 core");
+        #endif
     }
 
     void ImGuiLayer::OnDetach()
