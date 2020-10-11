@@ -6,6 +6,13 @@
 namespace Zyklon
 {
     // TODO: this should be an openGL specific file andn should be renamed to shader.
+    
+    struct ShaderProgramSource
+    {
+        std::string VertexSource;
+        std::string FragmentSource;
+    };
+
     class Shader
     {
     public:

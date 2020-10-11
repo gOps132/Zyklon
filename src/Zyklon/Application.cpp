@@ -17,7 +17,7 @@ namespace Zyklon {
 
     Application* Application::s_Instance = nullptr;
 
-    Application::Application(/* args */)
+    Application::Application()
     {
         ZYKLON_CORE_ASSERT(!s_Instance, "Application already exists!");
         s_Instance = this;

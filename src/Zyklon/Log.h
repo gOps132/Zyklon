@@ -16,21 +16,20 @@ namespace Zyklon
 {
     class ZYKLON_EXPORT Log
     {
-    private:
-        static std::shared_ptr<spdlog::logger> s_CoreLogger;
-        static std::shared_ptr<spdlog::logger> s_ClientLogger;
-
     public:
-        static void init();
+        static void init(const std::string& logging_name);
 
         inline static std::shared_ptr<spdlog::logger> &GetCoreLogger() { return s_CoreLogger; }
         inline static std::shared_ptr<spdlog::logger> &GetClientLogger() { return s_ClientLogger; }
+        
+    private:
+        static std::shared_ptr<spdlog::logger> s_CoreLogger;
+        static std::shared_ptr<spdlog::logger> s_ClientLogger;
     };
 
 } // namespace Zyklon
 
 /* Strip these from distribution builds */
-
 #define ZYKLON_CORE_TRACE(...)    ::Zyklon::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define ZYKLON_CORE_INFO(...)     ::Zyklon::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define ZYKLON_CORE_WARN(...)     ::Zyklon::Log::GetCoreLogger()->warn(__VA_ARGS__)
