@@ -30,3 +30,12 @@ I want the Client project to control the client name of the project. It kinda ma
 
 I shall implement in parsing the shader in the program. Maybe I should implement a C
 data structure this time, I could unit test this part.
+
+spdlog include errors, it must have undergon some updates. the cmake file looks more simpler.
+Should I tie to the last revision or use the new one?
+
+I deleted
+// #include <spdlog/sinks/stdout_color_sinks.h>
+// #include <spdlog/sinks/stdout_sinks.h>
+
+I decided to stick to the new revision of spdlog

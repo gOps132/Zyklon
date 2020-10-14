@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.14)
 project(Zyklon 
         VERSION 1.0.0
         DESCRIPTION "Zyklon Game Engine Demo"
-        LANGUAGES C CXX)
+        LANGUAGES CXX)
 
 set(HEADER_DIR "src/header")
 set(VENDOR_DIR "src/vendor")
@@ -187,7 +187,7 @@ target_link_libraries(
         PRIVATE     glad
         PUBLIC      glm
         PUBLIC      imgui-test
-        PUBLIC      spdlog_header_only
+        PUBLIC      spdlog
 )
 
 target_precompile_headers(

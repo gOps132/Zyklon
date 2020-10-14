@@ -26,6 +26,8 @@ namespace Zyklon
         Application();
         virtual ~Application();
 
+        // Application *CreateApplication();
+
         /* Main Run Loop */
         void Run();
 

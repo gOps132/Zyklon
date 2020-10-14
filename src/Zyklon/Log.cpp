@@ -1,6 +1,6 @@
 #include "Zyklon/zyklon_pch.h"
 
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "Log.h"
 
 namespace Zyklon
 {

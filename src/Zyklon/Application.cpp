@@ -45,7 +45,7 @@ namespace Zyklon {
 		unsigned int indices[3] = { 0, 1, 2 };
         m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
-        std::string vertexSrc = R"(
+        const std::string vertexSrc = R"(
             #version 330 core
 
             layout(location = 0) in vec3 a_Position;
@@ -59,7 +59,7 @@ namespace Zyklon {
             }            
         )";
 
-        std::string fragmentSrc = R"(
+        const std::string fragmentSrc = R"(
             #version 330 core
 
             in vec3 v_Position;   

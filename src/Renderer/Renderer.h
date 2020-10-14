@@ -17,6 +17,6 @@ namespace Zyklon {
 	};
 
 }
-
+	
 
 #endif // __RENDERER_H__
