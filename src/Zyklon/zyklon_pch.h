@@ -3,11 +3,10 @@
 
 /*
  * precompiled header header for zyklon implemented with cmake
- */ 
-
+ */
 
 //--------------------------------------
-// STL HEADERS AND DATA STRUCTURES       
+// STL HEADERS AND DATA STRUCTURES
 //--------------------------------------
 #include <memory>
 
@@ -31,14 +30,13 @@
 
 #include "Log.h"
 
-    
-// ------------------------------------------ 
+// ------------------------------------------
 // VENDOR FILES
-// ------------------------------------------ 
+// ------------------------------------------
 #include <debugbreak.h>
 
 #ifdef ZYKLON_PLATFORM_WINDOWS
-    #include <Windows.h>
+#include <Windows.h>
 #endif
 
 #endif // __ZYKLON_PCH_H__

@@ -7,11 +7,9 @@
 
 #include "zyklon_exports.h"
 
-
 #include "Application.h"
-#include "Log.h"
 #include "Layer.h"
-
+#include "Log.h"
 
 //------------INPUT--------------
 #include "Input/Input.h"
@@ -19,11 +17,9 @@
 #include "Input/MouseButtonCodes.h"
 //-------------------------------
 
-
 //------------IMGUI--------------
 #include "Imgui/ImguiLayer.h"
 //-------------------------------
-
 
 //----------Entry Point----------
 #include "EntryPoint.h"

@@ -50,3 +50,13 @@ Zyklon::Start(callback fn for d)
 
 since I am talking about explicit code, I also want every copy constructor to explicit, since 
 I don't want any accidental copying and that sucks for performance.
+
+10/15/2020
+
+The only issue regarding clang format is changing the order of the macros, or more specificcally, include
+macros.
+
+I think I had made a mistake in using mugit instead of git, it requires the client who is using the engine to install a python cli called mugit and it's quite a hastle, I think it's much better, if you have the normal git repository and a bash file to checkout to a specific repository. I believe that is
+more portable because this zyklon project that I have is sort of a static library.
+
+It seems that I have to redo the renderer soon, the structure of the renderer is good enough

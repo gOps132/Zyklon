@@ -3,32 +3,28 @@
 
 #include "Zyklon/zyklon_pch.h"
 
-namespace Zyklon
-{
-    // TODO: this should be an openGL specific file andn should be renamed to shader.
-    
-    struct ShaderProgramSource
-    {
-        std::string VertexSource;
-        std::string FragmentSource;
-    };
+namespace Zyklon {
 
-    class Shader
-    {
-    public:
-        Shader() {}
-        virtual ~Shader() {}
+struct ShaderProgramSource {
+    std::string VertexSource;
+    std::string FragmentSource;
+};
 
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
-    
-        static Shader* Create(const std::string& vertexSource, const std::string& fragmentSource);
+class Shader {
+  public:
+    Shader() {}
+    virtual ~Shader() {}
 
-    private:
-        uint32_t m_RendererID;
-    };
-    
+    virtual void bind() = 0;
+    virtual void unbind() = 0;
+
+    static Shader *Create(const std::string &vertexSource,
+                          const std::string &fragmentSource);
+
+  private:
+    uint32_t m_RendererID;
+};
+
 } // namespace Zyklon
-
 
 #endif // __SHADER_H__
