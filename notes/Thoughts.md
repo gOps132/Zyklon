@@ -39,3 +39,14 @@ I deleted
 // #include <spdlog/sinks/stdout_sinks.h>
 
 I decided to stick to the new revision of spdlog
+
+10/13/2020
+
+I am thinking on moving the entrypoint for the client to handle, since I really want the client to
+be more explictt, altough the entrypoint is a part of the game engine, maybe I could have some wrappers
+like
+
+Zyklon::Start(callback fn for d)
+
+since I am talking about explicit code, I also want every copy constructor to explicit, since 
+I don't want any accidental copying and that sucks for performance.
