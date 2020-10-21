@@ -14,7 +14,9 @@ struct WindowProps {
 
     WindowProps(const std::string &title = "Zyklon Engine",
                 unsigned int width = 1280, unsigned int height = 720)
-        : Title(title), Width(width), Height(height) {}
+        : Title(title), Width(width), Height(height)
+    {
+    }
 };
 
 /* This is just an interface to be implemented per DESKTOP platform */

@@ -180,9 +180,9 @@ set(IMGUI_EXAMPLES OFF)
 set(IMGUI_IMPL_SDL OFF)
 target_link_libraries(
         ${PROJECT_NAME}
+        PRIVATE     -lstdc++
         PRIVATE     ${EXTRA_LIBS}
         PUBLIC      zyklon_profiler_header_only
-        PUBLIC      -lstdc++
         PRIVATE     glfw
         PRIVATE     glad
         PUBLIC      glm

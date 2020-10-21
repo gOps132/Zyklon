@@ -60,3 +60,8 @@ I think I had made a mistake in using mugit instead of git, it requires the clie
 more portable because this zyklon project that I have is sort of a static library.
 
 It seems that I have to redo the renderer soon, the structure of the renderer is good enough
+
+I abstracted away the graphics context
+
+I am having some thoughts about reshaping the engine API with callbacks, this method seems more verbose and has
+more oppurtunity for optimizations. :|

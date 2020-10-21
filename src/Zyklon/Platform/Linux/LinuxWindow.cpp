@@ -13,15 +13,18 @@ namespace Zyklon {
 //  Initialized GLFW once, but we might initialize more than one window
 static bool s_GLFWInitialized = false;
 
-static void GLFWErrorCallback(int error, const char *description) {
+static void GLFWErrorCallback(int error, const char *description)
+{
     ZYKLON_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-Window *Window::Create(const WindowProps &props) {
+Window *Window::Create(const WindowProps &props)
+{
     return new LinuxWindow(props);
 }
 
-LinuxWindow::LinuxWindow(const WindowProps &props) {
+LinuxWindow::LinuxWindow(const WindowProps &props)
+{
     m_Data.Title = props.Title;
     m_Data.Width = props.Width;
     m_Data.Height = props.Height;
@@ -131,7 +134,8 @@ LinuxWindow::LinuxWindow(const WindowProps &props) {
         });
 }
 
-void LinuxWindow::SetVsync(bool enabled) {
+void LinuxWindow::SetVsync(bool enabled)
+{
     glfwSwapInterval(enabled);
     m_Data.VSync = enabled;
 }
@@ -140,7 +144,8 @@ bool LinuxWindow::IsVsync() const { return m_Data.VSync; }
 
 LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_Window); }
 
-void LinuxWindow::OnUpdate() {
+void LinuxWindow::OnUpdate()
+{
     glfwPollEvents();
     m_Context->SwapBuffers();
 }

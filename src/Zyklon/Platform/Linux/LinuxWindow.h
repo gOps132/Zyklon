@@ -18,16 +18,19 @@ class LinuxWindow : public Window {
 
     virtual void OnUpdate() override;
 
-    inline virtual unsigned int GetWidth() const override {
+    inline virtual unsigned int GetWidth() const override
+    {
         return m_Data.Width;
     }
-    inline virtual unsigned int GetHeight() const override {
+    inline virtual unsigned int GetHeight() const override
+    {
         return m_Data.Height;
     }
 
     // Window attributes
     inline virtual void
-    SetEventCallback(const EventCallbackFn &callback) override {
+    SetEventCallback(const EventCallbackFn &callback) override
+    {
         m_Data.EventCallback = callback;
     }
     virtual void SetVsync(bool enabled) override;

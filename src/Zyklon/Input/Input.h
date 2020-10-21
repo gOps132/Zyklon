@@ -7,14 +7,17 @@ namespace Zyklon {
 
 class ZYKLON_EXPORT Input {
   public:
-    inline static bool IsKeyIsPressed(int keycode) {
+    inline static bool IsKeyIsPressed(int keycode)
+    {
         return s_Instance->IsKeyPressedImpl(keycode);
     }
 
-    inline static bool IsMouseButtonPressed(int button) {
+    inline static bool IsMouseButtonPressed(int button)
+    {
         return s_Instance->IsMouseButtonPressedImpl(button);
     }
-    inline static std::pair<float, float> GetMousePosition() {
+    inline static std::pair<float, float> GetMousePosition()
+    {
         return s_Instance->GetMousePositionImpl();
     };
     inline static float GetMouseX() { return s_Instance->GetMouseXImpl(); }

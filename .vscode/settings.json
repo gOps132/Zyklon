@@ -4,6 +4,9 @@
         "-DSPDLOG_ENABLE_PCH=ON",
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
     ],
+    "cmake.debugConfig": {
+        "cwd": "${workspaceDirectory}"
+    },
     "files.associations": {
         "memory": "cpp",
         "algorithm": "cpp",

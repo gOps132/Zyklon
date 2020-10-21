@@ -13,7 +13,8 @@ class ZYKLON_EXPORT MouseMovedEvent : public Event {
     inline float GetX() const { return m_MouseX; }
     inline float GetY() const { return m_MouseY; }
 
-    virtual std::string ToString() const override {
+    virtual std::string ToString() const override
+    {
         std::stringstream ss;
         ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
         return ss.str();
@@ -28,12 +29,15 @@ class ZYKLON_EXPORT MouseMovedEvent : public Event {
 class ZYKLON_EXPORT MouseScrolledEvent : public Event {
   public:
     MouseScrolledEvent(float xOffset, float yOffset)
-        : m_XOffset(xOffset), m_YOffset(yOffset) {}
+        : m_XOffset(xOffset), m_YOffset(yOffset)
+    {
+    }
 
     inline float GetXOffset() const { return m_XOffset; }
     inline float GetYOffset() const { return m_YOffset; }
 
-    virtual std::string ToString() const override {
+    virtual std::string ToString() const override
+    {
         std::stringstream ss;
         ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
         return ss.str();
@@ -60,7 +64,8 @@ class ZYKLON_EXPORT MouseButtonPressedEvent : public MouseButtonEvent {
   public:
     MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
 
-    virtual std::string ToString() const override {
+    virtual std::string ToString() const override
+    {
         std::stringstream ss;
         ss << "MouseButtonPressedEvent: " << m_Button;
         return ss.str();
@@ -73,7 +78,8 @@ class ZYKLON_EXPORT MouseButtonReleasedEvent : public MouseButtonEvent {
   public:
     MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
 
-    virtual std::string ToString() const override {
+    virtual std::string ToString() const override
+    {
         std::stringstream ss;
         ss << "MouseButtonReleasedEvent: " << m_Button;
         return ss.str();

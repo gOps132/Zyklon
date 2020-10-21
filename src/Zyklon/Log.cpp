@@ -6,7 +6,8 @@ namespace Zyklon {
 std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
-void Log::init(const std::string &logging_name) {
+void Log::init(const std::string &logging_name)
+{
     spdlog::set_pattern("%^[%T] %n: %v%$");
     s_CoreLogger = spdlog::stdout_color_mt("ZYKLON");
     s_CoreLogger->set_level(spdlog::level::trace);
