@@ -47,6 +47,7 @@ set(PLATFORM_SOURCES
 set(RENDER_API_DIR "src/Renderer/API")
 set(GRAPHICS_API 
     src/Renderer/Renderer.cpp
+    src/Renderer/Shader.cpp
 
     ${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
@@ -120,7 +121,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
     ARCHIVE_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
 
-    DEFINITIONS -Dzyklon_EXPORTS 
+    DEFINITIONS -Dzyklon_EXPORTS
 )
 
 if(MSVC)

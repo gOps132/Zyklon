@@ -11,15 +11,16 @@
 
 namespace Zyklon {
 
-OpenGLShader::OpenGLShader(const std::string &vertexSource,
-                           const std::string &fragmentSource)
+OpenGLShader::OpenGLShader(const std::string &filepath)
 {
+    m_ShaderSource = parseShader(filepath);
+
     // Create an empty vertex shader handle
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
     // Send the vertex shader source code to GL
     // Note that std::string's .c_str is NULL character terminated.
-    const char *source = vertexSource.c_str();
+    const char *source = m_ShaderSource.vertexSource.c_str();
     GLCall(glShaderSource(vertexShader, 1, &source, 0));
 
     // Compile the vertex shader
@@ -50,7 +51,7 @@ OpenGLShader::OpenGLShader(const std::string &vertexSource,
 
     // Send the fragment shader source code to GL
     // Note that std::string's .c_str is NULL character terminated.
-    source = fragmentSource.c_str();
+    source = m_ShaderSource.fragmentSource.c_str();
     GLCall(glShaderSource(fragmentShader, 1, &source, 0));
 
     // Compile the fragment shader

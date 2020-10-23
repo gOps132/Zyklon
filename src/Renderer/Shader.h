@@ -6,8 +6,8 @@
 namespace Zyklon {
 
 struct ShaderProgramSource {
-    std::string VertexSource;
-    std::string FragmentSource;
+    std::string vertexSource;
+    std::string fragmentSource;
 };
 
 class Shader {
@@ -18,8 +18,9 @@ class Shader {
     virtual void bind() = 0;
     virtual void unbind() = 0;
 
-    static Shader *Create(const std::string &vertexSource,
-                          const std::string &fragmentSource);
+    static Shader *Create(const std::string &filepath);
+
+    static ShaderProgramSource parseShader(const std::string &filePath);
 
   private:
     uint32_t m_RendererID;

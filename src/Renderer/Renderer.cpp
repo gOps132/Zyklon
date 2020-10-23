@@ -40,15 +40,28 @@ VertexBuffer *VertexBuffer::Create(float *vertices, size_t size)
     return nullptr;
 }
 
-Shader *Shader::Create(const std::string &vertexSource,
-                       const std::string &fragmentSource)
+// Shader *Shader::Create(const std::string &vertexSource,
+//                        const std::string &fragmentSource)
+// {
+//     switch (Renderer::GetAPI()) {
+//     case RendererAPI::None:
+//         ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
+//         return nullptr;
+//     case RendererAPI::OpenGL:
+//         return new OpenGLShader(vertexSource, fragmentSource);
+//     }
+//     ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
+//     return nullptr;
+// }
+
+Shader *Shader::Create(const std::string& filepath)
 {
     switch (Renderer::GetAPI()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new OpenGLShader(vertexSource, fragmentSource);
+        return new OpenGLShader(filepath);
     }
     ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
     return nullptr;
