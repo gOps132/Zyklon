@@ -2,11 +2,6 @@
 <workspace>
     <repositories>
         <repository
-            path="examples/Sandbox"
-            url="git@github.com:gOps132/Sandbox.git"
-            branch="master"
-            />
-        <repository
             path="lib/ZyklonProfiler"
             url="git@github.com:gOps132/ZyklonProfiler.git"
             branch="master"

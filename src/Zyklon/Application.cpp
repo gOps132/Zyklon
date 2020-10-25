@@ -13,6 +13,9 @@
 
 #include "Application.h"
 
+// TEMP
+#include "Renderer/API/OpenGL/OpenGLErrorManager.h"
+
 namespace Zyklon {
 
 Application *Application::s_Instance = nullptr;
@@ -41,7 +44,7 @@ Application::Application()
 
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
     
     // glEnableVertexAttribArray(1);
     // glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (const void*)12);
@@ -51,8 +54,7 @@ Application::Application()
         IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
     // TODO: implement a platform agnostic thing that can find the current directory 
-    // I could just a use a predefined macro in cmake
-    m_Shader.reset(Shader::Create("/Users/giancedrickepilan/dev/engine/Zyklon/src/Shaders/BasicShader.shader"));
+    m_Shader.reset(Shader::Create("/home/gian/dev/engine/Zyklon/src/Shaders/BasicShader.shader"));
 }
 
 Application::~Application() {}

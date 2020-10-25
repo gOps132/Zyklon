@@ -101,13 +101,9 @@ generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_D
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ------------------------------------------
-# OUTPUT BIN DIRECTORY DEFAULT
+# CHANGING GLOBAL CWD (MAY HAVE ERRORS)
 # ------------------------------------------
-if(${ZYKLON_OUTPUT_BIN_DIR})
-    message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
-else()
-    set(ZYKLON_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
-endif()
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # ------------------------------------------
 # BUILD TYPE FLAGS
@@ -118,8 +114,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     SOVERSION   ${PROJECT_VERSION_MAJOR}
     VERSION     ${PROJECT_VERSION}
 
-    LIBRARY_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
-    ARCHIVE_OUTPUT_DIRECTORY        "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+    LIBRARY_OUTPUT_DIRECTORY        "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+    ARCHIVE_OUTPUT_DIRECTORY        "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
 
     DEFINITIONS -Dzyklon_EXPORTS
 )
@@ -127,7 +123,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 if(MSVC)
     option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
 endif(MSVC)
-
+    
 # If the runtime static linkage option is turned on, replace
 # compiler flag that selects runtime library variant.
 if(MSVC AND RUNTIME_STATIC_LINKAGE)
