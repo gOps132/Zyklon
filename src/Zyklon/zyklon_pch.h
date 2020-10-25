@@ -26,6 +26,7 @@
 
 #include <stdint.h>
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>

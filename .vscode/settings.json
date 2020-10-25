@@ -84,6 +84,7 @@
         "variant": "cpp",
         "vector": "cpp",
         "codecvt": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "filesystem": "cpp"
     },
 }

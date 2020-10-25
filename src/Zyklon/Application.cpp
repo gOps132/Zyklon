@@ -31,13 +31,20 @@ Application::Application()
     glGenVertexArrays(1, &m_VertexArray);
     glBindVertexArray(m_VertexArray);
 
-    float vertices[3 * 3] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,
-                             0.0f,  0.0f,  0.5f, 0.0f};
-
+    float vertices[3 * 3] = {
+        -0.5f, -0.5f, 0.0f, 
+         0.5f, -0.5f, 0.0f,  
+         0.0f,  0.5f, 0.0f
+    };
+    
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
+
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), nullptr);
+    
+    // glEnableVertexAttribArray(1);
+    // glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (const void*)12);
 
     unsigned int indices[3] = {0, 1, 2};
     m_IndexBuffer.reset(
@@ -74,6 +81,8 @@ void Application::Run()
         glClear(GL_COLOR_BUFFER_BIT);
 
         m_Shader->bind();
+
+        // m_VertexArray->bind(); 
         glBindVertexArray(m_VertexArray);
         glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT,
                        nullptr);
