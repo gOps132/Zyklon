@@ -79,3 +79,8 @@ I do not think that the vertex array interface is going to be graphics API agnos
 ## 10/26/2020
 
 I should remember that I need to think about the target_include_directories visibility.
+
+why can't we just make the application::create_application function static? I'm sure master Cherno 
+has some good reason.
+
+I am planning to switch the naming conventions into c style naming conventions so it's much more consistent.
