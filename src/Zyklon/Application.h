@@ -23,7 +23,7 @@ class ZYKLON_EXPORT Application {
     Application();
     virtual ~Application();
 
-    Application *CreateApplication();
+    static Application *CreateApplication();
 
     /* Main Run Loop */
     void Run();
@@ -36,7 +36,6 @@ class ZYKLON_EXPORT Application {
     inline Window &GetWindow() { return *m_Window; }
 
     inline static Application &Get() { return *s_Instance; }
-
   private:
     bool OnWindowClose(WindowCloseEvent &e);
 
@@ -56,7 +55,6 @@ class ZYKLON_EXPORT Application {
     static Application *s_Instance;
 };
 
-Application *CreateApplication();
 } // namespace Zyklon
 
 #endif // __APPLICATION_H__

@@ -3,9 +3,6 @@
 
 #ifdef ZYKLON_EXPORT
 
-/* extern empty function of the CreateApplication Function */
-extern Zyklon::Application *CreateApplication();
-
 int main(int argc, char **argv)
 {
     Zyklon::Log::init("APP");
@@ -13,7 +10,7 @@ int main(int argc, char **argv)
     ZYKLON_CORE_WARN("Initialized Log");
     ZYKLON_CORE_INFO("Welcome To Zyklon Game Engine");
 
-    auto app = Zyklon::CreateApplication();
+    auto app = Zyklon::Application::CreateApplication();
     app->Run();
     delete app;
 
