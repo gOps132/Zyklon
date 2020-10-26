@@ -8,6 +8,8 @@ git submodule update --init --recursive
 cd lib/spdlog
 git checkout master
 
+cd ../..
+
 cd lib/imgui-cmake
 git checkout cmake
 
