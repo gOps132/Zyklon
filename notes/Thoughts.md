@@ -75,3 +75,7 @@ opengl series, the problem is how to abstract the properly. MAybe I'll overlook 
 with vulkan.
 
 I do not think that the vertex array interface is going to be graphics API agnostic
+
+## 10/26/2020
+
+I should remember that I need to think about the target_include_directories visibility.

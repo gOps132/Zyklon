@@ -1,8 +1,19 @@
 #!/bin/bash
 
+# I know that some are redundant but this is personal
+
 cd ..
-mugit select zyklon
-mugit pull
+git submodule update --init --recursive
+
+cd lib/spdlog
+git checkout master
+
+cd lib/imgui-cmake
+git checkout cmake
+
+cd ../..
+
 cd lib/imgui-test
 git checkout docking
+
 cd ../..
