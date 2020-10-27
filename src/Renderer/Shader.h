@@ -10,6 +10,10 @@ struct ShaderProgramSource {
     std::string fragmentSource;
 };
 
+enum ShaderDataType{
+    Float1 = 1;
+};
+
 class Shader {
   public:
     Shader() {}

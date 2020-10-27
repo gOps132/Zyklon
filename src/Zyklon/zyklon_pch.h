@@ -8,9 +8,11 @@
 //--------------------------------------
 // STL HEADERS AND DATA STRUCTURES
 //--------------------------------------
+#include <stdint.h>
+
 #include <memory>
 
-#include <utility>
+#include <utility>  
 
 #include <algorithm>
 
@@ -23,8 +25,6 @@
 #include <unordered_map>
 
 #include <unordered_set>
-
-#include <stdint.h>
 
 #include <filesystem>
 #include <fstream>

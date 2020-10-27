@@ -13,9 +13,6 @@
 
 #include "Application.h"
 
-// TEMP
-#include "Renderer/API/OpenGL/OpenGLErrorManager.h"
-
 namespace Zyklon {
 
 Application *Application::s_Instance = nullptr;
@@ -35,19 +32,22 @@ Application::Application()
     glBindVertexArray(m_VertexArray);
 
     float vertices[3 * 3] = {
-        -0.5f, -0.5f, 0.0f, 
          0.5f, -0.5f, 0.0f,  
+        -0.5f, -0.5f, 0.0f, 
          0.0f,  0.5f, 0.0f
     };
     
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
+    Bufferlayout layout({
+        { ShaderDataType::Float3 a_Position },
+        { ShaderDataType::Float4 a_Color }
+    });
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-    
-    // glEnableVertexAttribArray(1);
-    // glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (const void*)12);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (const void*)12);
 
     unsigned int indices[3] = {0, 1, 2};
     m_IndexBuffer.reset(
