@@ -5,10 +5,6 @@
 
 #include "Zyklon/zyklon_pch.h"
 
-/*
- * FIXME: Deal with bug that breakpoints even if assertion is okay
- */
-
 #ifndef DEBUG
 #define GLCall(x)                                                              \
     GLClearError();                                                            \

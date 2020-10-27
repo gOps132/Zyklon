@@ -1,16 +1,14 @@
 #include "Zyklon/Core.h"
 #include "Zyklon/zyklon_pch.h"
 
+#include "Renderer/API/OpenGL/OpenGLBuffer.h"
 #include "Renderer/API/OpenGL/OpenGLContext.h"
-#include "Renderer/API/OpenGL/OpenGLIndexBuffer.h"
 #include "Renderer/API/OpenGL/OpenGLShader.h"
-#include "Renderer/API/OpenGL/OpenGLVertexBuffer.h"
 
 #include "GraphicsContext.h"
 #include "Renderer.h"
 
 namespace Zyklon {
-// hotswap interface this later
 RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
 
 GraphicsContext *GraphicsContext::Create(GLFWwindow *window)
@@ -40,21 +38,7 @@ VertexBuffer *VertexBuffer::Create(float *vertices, size_t size)
     return nullptr;
 }
 
-// Shader *Shader::Create(const std::string &vertexSource,
-//                        const std::string &fragmentSource)
-// {
-//     switch (Renderer::GetAPI()) {
-//     case RendererAPI::None:
-//         ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
-//         return nullptr;
-//     case RendererAPI::OpenGL:
-//         return new OpenGLShader(vertexSource, fragmentSource);
-//     }
-//     ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
-//     return nullptr;
-// }
-
-Shader *Shader::Create(const std::string& filepath)
+Shader *Shader::Create(const std::string &filepath)
 {
     switch (Renderer::GetAPI()) {
     case RendererAPI::None:

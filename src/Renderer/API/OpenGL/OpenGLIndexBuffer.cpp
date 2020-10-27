@@ -4,9 +4,8 @@
 
 #include "Zyklon/Core.h"
 
+#include "OpenGLBuffer.h"
 #include "OpenGLErrorManager.h"
-#include "OpenGLIndexBuffer.h"
-#include "Renderer/Renderer.h"
 
 namespace Zyklon {
 

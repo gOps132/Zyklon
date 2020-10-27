@@ -31,30 +31,30 @@ Application::Application()
     glGenVertexArrays(1, &m_VertexArray);
     glBindVertexArray(m_VertexArray);
 
-    float vertices[3 * 3] = {
-         0.5f, -0.5f, 0.0f,  
-        -0.5f, -0.5f, 0.0f, 
-         0.0f,  0.5f, 0.0f
-    };
-    
+    float vertices[3 * 3] = {0.5f, -0.5f, 0.0f, -0.5f, -0.5f,
+                             0.0f, 0.0f,  0.5f, 0.0f};
+
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
     Bufferlayout layout({
-        { ShaderDataType::Float3 a_Position },
-        { ShaderDataType::Float4 a_Color }
+        {ShaderDataType::Float3, "a_Position"}
     });
+    m_VertexBuffer->SetLayout(layout);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (const void*)12);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float),
+                          (const void *)12);
 
     unsigned int indices[3] = {0, 1, 2};
     m_IndexBuffer.reset(
         IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
-    // TODO: implement a platform agnostic thing that can find the current directory 
-    m_Shader.reset(Shader::Create("/home/gian/dev/engine/Zyklon/src/Shaders/BasicShader.shader"));
+    // TODO: implement a platform agnostic thing that can find the current
+    // directory
+    m_Shader.reset(Shader::Create(
+        "/home/gian/dev/engine/Zyklon/src/Shaders/BasicShader.shader"));
 }
 
 Application::~Application() {}
@@ -84,7 +84,7 @@ void Application::Run()
 
         m_Shader->bind();
 
-        // m_VertexArray->bind(); 
+        // m_VertexArray->bind();
         glBindVertexArray(m_VertexArray);
         glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT,
                        nullptr);

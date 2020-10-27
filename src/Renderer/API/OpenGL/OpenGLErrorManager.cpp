@@ -7,7 +7,6 @@
 
 void GLClearError()
 {
-    //    infinite loop if it has errors
     while (glGetError() != GL_NO_ERROR)
         ;
 }

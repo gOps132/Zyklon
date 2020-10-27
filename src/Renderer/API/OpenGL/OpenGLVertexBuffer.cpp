@@ -1,9 +1,8 @@
 #include "Zyklon/Core.h"
 #include "Zyklon/zyklon_pch.h"
 
+#include "OpenGLBuffer.h"
 #include "OpenGLErrorManager.h"
-#include "OpenGLVertexBuffer.h"
-#include "Renderer/Renderer.h"
 
 #include <glad/glad.h>
 
