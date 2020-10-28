@@ -7,9 +7,6 @@
 [submodule "lib/imgui-cmake"]
 	path = lib/imgui-cmake
 	url = https://github.com/Qix-/imgui.git
-[submodule "examples/Sandbox"]
-	path = examples/Sandbox
-	url = git@github.com:gOps132/Sandbox.git
 [submodule "lib/imgui-test"]
 	path = lib/imgui-test
 	url = https://github.com/gOps132/imgui.git
