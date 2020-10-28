@@ -53,7 +53,7 @@ void ImGuiLayer::OnAttach() {
 
     Application &app = Application::Get();
     GLFWwindow *window =
-        static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
+        static_cast<GLFWwindow *>(app.GetWindow().get_native_window());
 
     // Setup Platform/Renderer bindingss
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -83,7 +83,7 @@ void ImGuiLayer::End() {
 
     Application &app = Application::Get();
     io.DisplaySize =
-        ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+        ImVec2(app.GetWindow().get_width(), app.GetWindow().get_height());
 
     // Rendering
     ImGui::Render();

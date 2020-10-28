@@ -18,7 +18,7 @@ static void GLFWErrorCallback(int error, const char *description)
     ZYKLON_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-Window *Window::Create(const WindowProps &props)
+Window *Window::create(const WindowProps &props)
 {
     return new LinuxWindow(props);
 }
@@ -52,7 +52,7 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
     m_Context->Init();
 
     glfwSetWindowUserPointer(m_Window, &m_Data);
-    SetVsync(true);
+    set_vsync(true);
 
     // Set GLFW callback
     glfwSetWindowSizeCallback(
@@ -134,17 +134,17 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         });
 }
 
-void LinuxWindow::SetVsync(bool enabled)
+void LinuxWindow::set_vsync(bool enabled)
 {
     glfwSwapInterval(enabled);
     m_Data.VSync = enabled;
 }
 
-bool LinuxWindow::IsVsync() const { return m_Data.VSync; }
+bool LinuxWindow::is_vsync() const { return m_Data.VSync; }
 
 LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_Window); }
 
-void LinuxWindow::OnUpdate()
+void LinuxWindow::on_update()
 {
     glfwPollEvents();
     m_Context->SwapBuffers();

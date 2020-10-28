@@ -14,17 +14,17 @@ class ZYKLON_EXPORT LayerStack {
     LayerStack();
     ~LayerStack();
 
-    void PushLayer(Layer *layer);
-    void PushOverlay(Layer *overlay);
-    void PopLayer(Layer *layer);
-    void PopOverlay(Layer *overlay);
+    void ls_push_layer(Layer *layer);
+    void ls_push_overlay(Layer *overlay);
+    void ls_pop_layer(Layer *layer);
+    void ls_pop_overlay(Layer *overlay);
 
-    std::vector<Layer *>::iterator begin() { return m_Layers.begin(); }
-    std::vector<Layer *>::iterator end() { return m_Layers.end(); }
+    std::vector<Layer *>::iterator ls_begin() { return m_layers.begin(); }
+    std::vector<Layer *>::iterator end() { return m_layers.end(); }
 
   private:
-    std::vector<Layer *> m_Layers;
-    unsigned int m_LayerInsertIndex = 0;
+    std::vector<Layer *> m_layers;
+    unsigned int m_layer_insert_index = 0;
 };
 
 } // namespace Zyklon

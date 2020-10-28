@@ -8,44 +8,44 @@ LayerStack::LayerStack() {}
 
 LayerStack::~LayerStack()
 {
-    for (Layer *layer : m_Layers) {
+    for (Layer *layer : m_layers) {
         layer->OnDetach();
         delete layer;
     }
 }
 
-void LayerStack::PushLayer(Layer *layer)
+void LayerStack::ls_push_layer(Layer *layer)
 {
-    m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
-    m_LayerInsertIndex++;
+    m_layers.emplace(m_layers.begin() + m_layer_insert_index, layer);
+    m_layer_insert_index++;
 
     layer->OnAttach();
 }
 
-void LayerStack::PushOverlay(Layer *overlay)
+void LayerStack::ls_push_overlay(Layer *overlay)
 {
-    m_Layers.emplace_back(overlay);
+    m_layers.emplace_back(overlay);
 
     overlay->OnAttach();
 }
 
-void LayerStack::PopLayer(Layer *layer)
+void LayerStack::ls_pop_layer(Layer *layer)
 {
-    auto it = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex,
+    auto it = std::find(m_layers.begin(), m_layers.begin() + m_layer_insert_index,
                         layer);
-    if (it != m_Layers.begin() + m_LayerInsertIndex) {
+    if (it != m_layers.begin() + m_layer_insert_index) {
         layer->OnDetach();
-        m_Layers.erase(it);
-        m_LayerInsertIndex--;
+        m_layers.erase(it);
+        m_layer_insert_index--;
     }
 }
 
-void LayerStack::PopOverlay(Layer *overlay)
+void LayerStack::ls_pop_overlay(Layer *overlay)
 {
-    auto it = std::find(m_Layers.begin() + m_LayerInsertIndex, m_Layers.end(),
+    auto it = std::find(m_layers.begin() + m_layer_insert_index, m_layers.end(),
                         overlay);
-    if (it != m_Layers.end())
+    if (it != m_layers.end())
         overlay->OnDetach();
-    m_Layers.erase(it);
+    m_layers.erase(it);
 }
 } // namespace Zyklon
