@@ -14,7 +14,7 @@ LayerStack::~LayerStack()
     }
 }
 
-void LayerStack::ls_push_layer(Layer *layer)
+void LayerStack::PushLayer(Layer *layer)
 {
     m_layers.emplace(m_layers.begin() + m_layer_insert_index, layer);
     m_layer_insert_index++;
@@ -22,14 +22,14 @@ void LayerStack::ls_push_layer(Layer *layer)
     layer->OnAttach();
 }
 
-void LayerStack::ls_push_overlay(Layer *overlay)
+void LayerStack::PushOverlay(Layer *overlay)
 {
     m_layers.emplace_back(overlay);
 
     overlay->OnAttach();
 }
 
-void LayerStack::ls_pop_layer(Layer *layer)
+void LayerStack::PopLayer(Layer *layer)
 {
     auto it = std::find(m_layers.begin(), m_layers.begin() + m_layer_insert_index,
                         layer);
@@ -40,7 +40,7 @@ void LayerStack::ls_pop_layer(Layer *layer)
     }
 }
 
-void LayerStack::ls_pop_overlay(Layer *overlay)
+void LayerStack::PopOverlay(Layer *overlay)
 {
     auto it = std::find(m_layers.begin() + m_layer_insert_index, m_layers.end(),
                         overlay);

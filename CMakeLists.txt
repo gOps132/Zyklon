@@ -21,6 +21,11 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 
+# ------------------------------------------
+# CHANGING GLOBAL CWD (MAY HAVE ERRORS)
+# ------------------------------------------
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 # if(APPLE)
 #     set(PLATFORM_SOURCES 
 #         src/Zyklon/Platform/Macos/MacosWindow.cpp
@@ -99,11 +104,6 @@ add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 include(GenerateExportHeader)
 generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_exports.h)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# ------------------------------------------
-# CHANGING GLOBAL CWD (MAY HAVE ERRORS)
-# ------------------------------------------
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # ------------------------------------------
 # BUILD TYPE FLAGS
@@ -198,7 +198,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # ------------------------------------------
-# BUILD EXAMPLE
+# BUILD EXAMPLE     DEFAULT ON 
 # ------------------------------------------
 option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" ON)
 add_subdirectory(examples/Sandbox)

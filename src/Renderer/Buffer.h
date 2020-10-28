@@ -6,7 +6,7 @@
 
 namespace Zyklon {
 
-enum class ShaderDataType : uint8_t {
+enum class ShaderDataType : uint32_t {
     None = 0,
     Float,
     Float2,
@@ -22,9 +22,9 @@ enum class ShaderDataType : uint8_t {
     Struct
 };
 
-static uint32_t ShaderDataTypeSize(ShaderDataType type)
+static uint32_t ShaderDataTypeSize(ShaderDataType pType)
 {
-    switch (type) {
+    switch (pType) {
     case ShaderDataType::Float:
         return 4;
     case ShaderDataType::Float2:
@@ -54,15 +54,16 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type)
 }
 
 struct BufferElement {
-    BufferElement(ShaderDataType type, const std::string &name)
-        : m_name(name), m_type(ShaderDataTypeSize(type)), m_offset(0), m_size(0)
+    BufferElement(ShaderDataType pType, const std::string &pName)
+        : m_Name(pName), m_Type(ShaderDataTypeSize(pType)), m_Offset(0),
+          m_Size(0)
     {
     }
 
-    std::string m_name;
-    ShaderDataType m_type;
-    uint32_t m_offset;
-    uint32_t m_size;
+    std::string m_Name;
+    uint32_t m_Type;
+    uint32_t m_Offset;
+    uint32_t m_Size;
 };
 
 class BufferLayout {
@@ -70,6 +71,7 @@ class BufferLayout {
     BufferLayout(const std::initializer_list<BufferElement> &element)
         : m_BufferElements(element)
     {
+        CalculateOffsetsAndStride();
     }
 
     inline const std::vector<BufferElement> &getBufferElements() const
@@ -77,17 +79,16 @@ class BufferLayout {
         return m_BufferElements;
     }
 
-	void CalculateOffsetsAndStride()
-	{
-		uint32_t offset = 0;
-		m_Stride = 0;
-		for(auto& element : m_BufferElements)
-		{
-			element.m_offset = offset;
-			offset += element.m_size;
-			m_Stride = element.m_size;
-		}
-	}
+    void CalculateOffsetsAndStride()
+    {
+        uint32_t offset = 0;
+        m_Stride = 0;
+        for (auto &element : m_BufferElements) {
+            element.m_Offset = offset;
+            offset += element.m_Size;
+            m_Stride += element.m_Size;
+        }
+    }
 
   private:
     std::vector<BufferElement> m_BufferElements;

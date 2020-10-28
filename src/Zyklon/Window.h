@@ -8,13 +8,13 @@
 namespace Zyklon {
 /* Default window parameters */
 struct WindowProps {
-    std::string title;
-    unsigned int width;
-    unsigned int height;
+    std::string Title;
+    unsigned int Width;
+    unsigned int Height;
 
-    WindowProps(const std::string &title = "Zyklon Engine",
-                unsigned int width = 1280, unsigned int height = 720)
-        : title(title), width(width), height(height)
+    WindowProps(const std::string &pTitle = "Zyklon Engine",
+                unsigned int pWidth = 1280, unsigned int pHeight = 720)
+        : Title(pTitle), Width(pWidth), Height(pHeight)
     {
     }
 };
@@ -26,21 +26,21 @@ class ZYKLON_EXPORT Window {
 
     virtual ~Window() {}
 
-    virtual void on_update() = 0;
+    virtual void OnUpdate() = 0;
 
-    virtual unsigned int get_width() const = 0;
-    virtual unsigned int get_height() const = 0;
+    virtual unsigned int GetWidth() const = 0;
+    virtual unsigned int GetHeight() const = 0;
 
     /* Window attributes */
-    virtual void set_event_callback(const EventCallbackFn &callback) = 0;
-    virtual void set_vsync(bool enabled) = 0;
-    virtual bool is_vsync() const = 0;
+    virtual void SetEventCallback(const EventCallbackFn &callback) = 0;
+    virtual void SetVsync(bool enabled) = 0;
+    virtual bool IsVsync() const = 0;
 
-    virtual void *get_native_window() const = 0;
+    virtual void *GetNativeWindow() const = 0;
 
     /* if don't specify windows properties it creates the default using windows
      * props */
-    static Window *create(const WindowProps &props = WindowProps());
+    static Window *Create(const WindowProps &props = WindowProps());
 };
 } // namespace Zyklon
 

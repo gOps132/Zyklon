@@ -1,4 +1,3 @@
-#include "Zyklon/Core.h"
 #include "Zyklon/zyklon_pch.h"
 
 #include <glad/glad.h>

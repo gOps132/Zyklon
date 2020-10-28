@@ -14,12 +14,12 @@ class ZYKLON_EXPORT LayerStack {
     LayerStack();
     ~LayerStack();
 
-    void ls_push_layer(Layer *layer);
-    void ls_push_overlay(Layer *overlay);
-    void ls_pop_layer(Layer *layer);
-    void ls_pop_overlay(Layer *overlay);
+    void PushLayer(Layer *layer);
+    void PushOverlay(Layer *overlay);
+    void PopLayer(Layer *layer);
+    void PopOverlay(Layer *overlay);
 
-    std::vector<Layer *>::iterator ls_begin() { return m_layers.begin(); }
+    std::vector<Layer *>::iterator begin() { return m_layers.begin(); }
     std::vector<Layer *>::iterator end() { return m_layers.end(); }
 
   private:

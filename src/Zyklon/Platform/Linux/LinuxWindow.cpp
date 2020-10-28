@@ -18,19 +18,19 @@ static void GLFWErrorCallback(int error, const char *description)
     ZYKLON_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-Window *Window::create(const WindowProps &props)
+Window *Window::Create(const WindowProps &props)
 {
     return new LinuxWindow(props);
 }
 
 LinuxWindow::LinuxWindow(const WindowProps &props)
 {
-    m_Data.Title = props.title;
-    m_Data.Width = props.width;
-    m_Data.Height = props.height;
+    m_Data.Title = props.Title;
+    m_Data.Width = props.Width;
+    m_Data.Height = props.Height;
 
-    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width,
-                     props.height);
+    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
+                     props.Height);
     if (!s_GLFWInitialized) {
         // TODO: glfwTerminate on system shutdown
         int success = glfwInit();
@@ -45,14 +45,14 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         s_GLFWInitialized = true;
     }
 
-    m_Window = glfwCreateWindow((int)props.width, (int)props.height,
+    m_Window = glfwCreateWindow((int)props.Width, (int)props.Height,
                                 m_Data.Title.c_str(), nullptr, nullptr);
 
     m_Context = GraphicsContext::Create(m_Window);
     m_Context->Init();
 
     glfwSetWindowUserPointer(m_Window, &m_Data);
-    set_vsync(true);
+    SetVsync(true);
 
     // Set GLFW callback
     glfwSetWindowSizeCallback(
@@ -134,17 +134,17 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         });
 }
 
-void LinuxWindow::set_vsync(bool enabled)
+void LinuxWindow::SetVsync(bool enabled)
 {
     glfwSwapInterval(enabled);
     m_Data.VSync = enabled;
 }
 
-bool LinuxWindow::is_vsync() const { return m_Data.VSync; }
+bool LinuxWindow::IsVsync() const { return m_Data.VSync; }
 
 LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_Window); }
 
-void LinuxWindow::on_update()
+void LinuxWindow::OnUpdate()
 {
     glfwPollEvents();
     m_Context->SwapBuffers();
