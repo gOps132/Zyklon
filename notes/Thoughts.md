@@ -84,3 +84,19 @@ why can't we just make the application::create_application function static? I'm 
 has some good reason.
 
 I am planning to switch the naming conventions into c style naming conventions so it's much more consistent.
+
+## 10/27/2020
+
+Continued with the buffer layouts. I really need to think on tricks on saving memory and less allocations.
+Like using more efficient data, structures, compile time computations, pmr.
+
+I have to make more snse of this gaen engine first before I advance to that.
+
+I am noticing so many problems in terms of memory in this code.
+
+Take in mind, most of these code are implemented by Master Cherno. I am still analyzing and understanding some parts (especially the bloody event system). I get imposter syndrom even though I thouroughly understand the code, because I keep 
+reminding myself that I didn't write it. Even the blocks that I wrote seems to be copied in my eyes. Is this
+normal? 
+I'm sad now...
+
+I'm planning to add some unit testing. note for this later.

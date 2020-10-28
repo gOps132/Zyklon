@@ -36,9 +36,10 @@ Application::Application()
 
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-    Bufferlayout layout({
+    BufferLayout layout({
         {ShaderDataType::Float3, "a_Position"}
     });
+
     m_VertexBuffer->SetLayout(layout);
 
     glEnableVertexAttribArray(0);
@@ -51,8 +52,7 @@ Application::Application()
     m_IndexBuffer.reset(
         IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
-    // TODO: implement a platform agnostic thing that can find the current
-    // directory
+    // FIXME: platform agonostic relative working directory
     m_Shader.reset(Shader::Create(
         "/home/gian/dev/engine/Zyklon/src/Shaders/BasicShader.shader"));
 }

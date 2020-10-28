@@ -25,12 +25,12 @@ Window *Window::Create(const WindowProps &props)
 
 LinuxWindow::LinuxWindow(const WindowProps &props)
 {
-    m_Data.Title = props.Title;
-    m_Data.Width = props.Width;
-    m_Data.Height = props.Height;
+    m_Data.Title = props.title;
+    m_Data.Width = props.width;
+    m_Data.Height = props.height;
 
-    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
-                     props.Height);
+    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width,
+                     props.height);
     if (!s_GLFWInitialized) {
         // TODO: glfwTerminate on system shutdown
         int success = glfwInit();
@@ -45,7 +45,7 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         s_GLFWInitialized = true;
     }
 
-    m_Window = glfwCreateWindow((int)props.Width, (int)props.Height,
+    m_Window = glfwCreateWindow((int)props.width, (int)props.height,
                                 m_Data.Title.c_str(), nullptr, nullptr);
 
     m_Context = GraphicsContext::Create(m_Window);

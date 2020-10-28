@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Sandbox"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\glfw\;CMake Files\lib\glfw\CMake\;CMake Files\lib\glfw\src\;CMake Files\lib\glfw\docs\;CMake Files\lib\glad\;CMake Files\lib\glm\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\spdlog\tests\;CMake Files\lib\ZyklonProfiler\;CMake Files\lib\imgui-test\;CMake Files\examples\;CMake Files\examples\Sandbox\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sandbox">
+				<Option output="/Users/giancedrickepilan/dev/engine/Zyklon/bin/Sandbox-Debug/sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/giancedrickepilan/dev/engine/Zyklon"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/src"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/vendor"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/ZyklonProfiler/include"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glm/.."/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/imgui-test"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/spdlog/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 sandbox"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sandbox/fast">
+				<Option output="/Users/giancedrickepilan/dev/engine/Zyklon/bin/Sandbox-Debug/sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/giancedrickepilan/dev/engine/Zyklon"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/src"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/vendor"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/ZyklonProfiler/include"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glm/.."/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/imgui-test"/>
+					<Add directory="/Users/giancedrickepilan/dev/engine/Zyklon/lib/spdlog/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 sandbox/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/giancedrickepilan/dev/engine/Zyklon/cmake-build-debug/examples/Sandbox/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/examples/Sandbox/src/Sandbox.cpp">
+			<Option target="sandbox"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/CMake/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/CMake/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/CMake/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\lib\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/docs/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\glfw\docs\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glfw/docs/Doxyfile.in">
+			<Option virtualFolder="CMake Files\lib\glfw\docs\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glad/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\glad\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/glm/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\glm\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/spdlog/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\spdlog\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/spdlog/cmake/spdlog.pc.in">
+			<Option virtualFolder="CMake Files\lib\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/spdlog/tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\spdlog\tests\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/ZyklonProfiler/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\ZyklonProfiler\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/lib/imgui-test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\imgui-test\"/>
+		</Unit>
+		<Unit filename="/Users/giancedrickepilan/dev/engine/Zyklon/examples/Sandbox/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\examples\Sandbox\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

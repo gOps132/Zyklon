@@ -11,9 +11,8 @@
 
 #include "Imgui/ImguiLayer.h"
 
-#include "Renderer/IndexBuffer.h"
+#include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
-#include "Renderer/VertexBuffer.h"
 
 namespace Zyklon {
 
