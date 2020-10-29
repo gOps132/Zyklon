@@ -13,6 +13,8 @@
 
 #include "Application.h"
 
+#include "Renderer/API/OpenGL/OpenGLBuffer.h"
+
 namespace Zyklon {
 
 Application *Application::s_Instance = nullptr;
@@ -36,15 +38,12 @@ Application::Application()
 
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-    static BufferLayout layout({
+    BufferLayout layout{
         {ShaderDataType::Float3, "a_Position"},
-        {ShaderDataType::Float4, "a_Color"},
-        {ShaderDataType::Float3, "a_Normal"}
-    });
+    };
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-
+    m_VertexBuffer->SetLayout(layout);
+    
     unsigned int indices[3] = {0, 1, 2};
     m_IndexBuffer.reset(
         IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
@@ -56,8 +55,7 @@ Application::~Application() {}
 
 void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
 
-void Application::PushOverlay(Layer *layer) {
-    m_LayerStack.PushOverlay(layer); }
+void Application::PushOverlay(Layer *layer) { m_LayerStack.PushOverlay(layer); }
 
 void Application::OnEvent(Event &e)
 {
