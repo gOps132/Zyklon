@@ -118,3 +118,4 @@ bit annoying.
 
 ## 10/29/2020
 
+Added more cleaner task on running a cmake target on the workspaceFolder

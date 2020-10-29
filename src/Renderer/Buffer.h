@@ -25,6 +25,7 @@ enum class ShaderDataType : uint32_t {
 static uint32_t ShaderDataTypeSize(ShaderDataType pType)
 {
     switch (pType) {
+
     case ShaderDataType::Float:
         return 4;
     case ShaderDataType::Float2:
@@ -37,7 +38,7 @@ static uint32_t ShaderDataTypeSize(ShaderDataType pType)
         return 4 * 3 * 3;
     case ShaderDataType::Mat4:
         return 4 * 4 * 4;
-    case ShaderDataType::Int:
+        case ShaderDataType::Int:
         return 4;
     case ShaderDataType::Int2:
         return 4 * 2;

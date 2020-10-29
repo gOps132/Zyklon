@@ -123,6 +123,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 if(MSVC)
     option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
 endif(MSVC)
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
     
 # If the runtime static linkage option is turned on, replace
 # compiler flag that selects runtime library variant.
@@ -177,7 +179,6 @@ set(IMGUI_EXAMPLES OFF)
 set(IMGUI_IMPL_SDL OFF)
 target_link_libraries(
         ${PROJECT_NAME}
-        PRIVATE     -lstdc++
         PRIVATE     ${EXTRA_LIBS}
         PUBLIC      zyklon_profiler_header_only
         PRIVATE     glfw
