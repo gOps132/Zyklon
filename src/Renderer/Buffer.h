@@ -71,7 +71,7 @@ class BufferLayout {
     BufferLayout(const std::initializer_list<BufferElement> &element)
         : m_BufferElements(element)
     {
-        CalculateOffsetsAndStride();
+        calculate_offsets_and_stride();
     }
 
     inline const std::vector<BufferElement> &getBufferElements() const
@@ -79,7 +79,7 @@ class BufferLayout {
         return m_BufferElements;
     }
 
-    void CalculateOffsetsAndStride()
+    void calculate_offsets_and_stride()
     {
         uint32_t offset = 0;
         m_Stride = 0;

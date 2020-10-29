@@ -102,3 +102,19 @@ I'm sad now...
 I'm planning to add some unit testing. note for this later.
 
 ## 10/28/2020
+
+Great, I fixed the relative directory problem in vscode, which is finding files from the project root
+directory. I solved this using a simple tasks.json running sandbox in the root directory, puttin
+binaries in the bin directory is not a bad decision after all. This means, I don't have to use the 
+vscode debugger along with the cmake tools to change the binary executable at the workspaceFolder, 
+this oonly works at debugging mode.
+
+run custom tasks with
+    ctrl + shift + b
+
+However there are some setbacks. I can't use ctrl + f7 to run using the vscode cmake tools normally
+anymore. Instead I need to build first then use ctrl + shift + b to run a custom task. It's not that a big deal tho, it's just a
+bit annoying.
+
+## 10/29/2020
+
