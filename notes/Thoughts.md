@@ -119,3 +119,20 @@ bit annoying.
 ## 10/29/2020
 
 Added more cleaner task on running a cmake target on the workspaceFolder
+
+My naming convention is really confusing.
+
+I felt like I disliked the current code. I felt like that there are so many things that
+are factored out in terms of performance and the naming conventions, the bloody naming
+conventions it's just not consistent.
+
+I might need to rework the whole code base.
+
+I won't worry, things will get better soon.
+
+Finally, found out how to not sort the macros when formatting code with clang-format.
+There is literally an option called SortIncludes, I just set it to false.
+
+There are a lot of problems with commit lately mostly because the commits are really vague, so
+drafted a simple solution. Every small change I make a small frequent commit, with the "fc" or the 
+"frequent_commit" prefix.
