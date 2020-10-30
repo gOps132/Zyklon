@@ -17,6 +17,22 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "run_gprof_script",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/scripts",
+            },
+            "command": "bash",
+            "args": [
+                "gprof.sh"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

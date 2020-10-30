@@ -1,8 +1,7 @@
 #!/bin/bash
 
-#NOTE: Run in ${CMAKE_SOURCE_DIR} or root project directory
 #NOTE: Run the script everytime you change it, to load it into cmake cache
-#NOTE: for vscode: you could also configure the settings.json file with these cmake parameters
+#NOTE: for vscode: you need configure the settings.json file with these cmake parameters
 
 cd ..
 
