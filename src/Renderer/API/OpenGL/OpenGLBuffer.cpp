@@ -6,7 +6,7 @@
 
 namespace Zyklon {
 
-GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+GLenum OpenGLHelperFunc::ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
 {
     switch (type)
     {   
@@ -49,16 +49,16 @@ void OpenGLVertexBuffer::Unbind() const
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
-void OpenGLVertexBuffer::SetLayout(BufferLayout &layout) 
+void OpenGLVertexBuffer::SetLayout(BufferLayout &layout)
 {
     uint32_t index = 0;
-    for (auto &element : layout) {
+    for (const auto &element : layout) {
         glEnableVertexAttribArray(index);
         glVertexAttribPointer(
             index, element.GetComponentCount(),
-            ShaderDataTypeToOpenGLBaseType(ShaderDataType::Float),
-            ShaderDataTypeToOpenGLBaseType(ShaderDataType::Bool),
-            element.Size, nullptr); 
+            OpenGLHelperFunc::ShaderDataTypeToOpenGLBaseType(element.Type),
+                element.Normalized ? GL_TRUE : GL_FALSE,
+            element.Size, (const void *)element.Offset);
         index++;
     }
 }

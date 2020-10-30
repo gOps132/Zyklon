@@ -24,13 +24,15 @@ enum class ShaderDataType : uint32_t {
 
 static uint32_t ShaderDataTypeSize(ShaderDataType pType);
 
+// Data Structure that holds vertex attributes. 
 struct BufferElement {
     std::string Name;
     ShaderDataType Type;
     uint32_t Offset;
     uint32_t Size;
+    bool Normalized;
 
-    BufferElement(ShaderDataType pType, const std::string &pName);
+    BufferElement(ShaderDataType pType, const std::string &pName, bool pNormalized);
     
     uint32_t GetComponentCount() const;
 };
@@ -51,6 +53,7 @@ class BufferLayout {
     std::vector<BufferElement> m_BufferElements;
     uint32_t m_Stride;
 };
+
 class VertexBuffer {
   public:
     virtual ~VertexBuffer() {}

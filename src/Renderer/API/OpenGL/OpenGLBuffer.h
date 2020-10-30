@@ -9,8 +9,11 @@
 
 namespace Zyklon {
 
-// Temporary helper function 
-GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type);
+union OpenGLHelperFunc {
+public:
+  // inlining may not work
+  inline static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type);
+};
 
 class OpenGLVertexBuffer : public VertexBuffer {
   public:

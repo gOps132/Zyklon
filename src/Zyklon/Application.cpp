@@ -13,8 +13,6 @@
 
 #include "Application.h"
 
-#include "Renderer/API/OpenGL/OpenGLBuffer.h"
-
 namespace Zyklon {
 
 Application *Application::s_Instance = nullptr;
@@ -39,7 +37,7 @@ Application::Application()
     m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
     BufferLayout layout{
-        {ShaderDataType::Float3, "a_Position"},
+        {ShaderDataType::Float3, "a_Position", false},
     };
 
     m_VertexBuffer->SetLayout(layout);
@@ -50,7 +48,7 @@ Application::Application()
 
     m_Shader.reset(Shader::Create("src/Shaders/BasicShader.shader"));
 }
-
+    
 Application::~Application() {}
 
 void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
@@ -78,7 +76,6 @@ void Application::Run()
 
         m_Shader->bind();
 
-        // m_VertexArray->bind();
         glBindVertexArray(m_VertexArray);
         glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT,
                        nullptr);

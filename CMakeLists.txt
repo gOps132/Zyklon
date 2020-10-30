@@ -124,8 +124,9 @@ if(MSVC)
     option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
 endif(MSVC)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-    
+# DEBUGGER FLAGS (not sure if this version provides it by default)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
+
 # If the runtime static linkage option is turned on, replace
 # compiler flag that selects runtime library variant.
 if(MSVC AND RUNTIME_STATIC_LINKAGE)

@@ -26,8 +26,8 @@ uint32_t ShaderDataTypeSize(ShaderDataType pType)
     return 0;
 }
 
-BufferElement::BufferElement(ShaderDataType pType, const std::string &pName)
-    : Name(pName), Type(pType), Offset(0), Size(0)
+BufferElement::BufferElement(ShaderDataType pType, const std::string &pName, bool pNormalized)
+    : Name(pName), Type(pType), Offset(0), Size(0), Normalized(pNormalized)
 {
 }
 

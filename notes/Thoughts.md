@@ -136,3 +136,10 @@ There is literally an option called SortIncludes, I just set it to false.
 There are a lot of problems with commit lately mostly because the commits are really vague, so
 drafted a simple solution. Every small change I make a small frequent commit, with the "fc" or the 
 "frequent_commit" prefix. If it seems like a large commit, I prefix it with "LC" or "Large Commit".
+
+## 10/30/2020
+
+it's extremely hard to write efficient and well documented code. I'm trying to follow as much best
+practices as I can but I just don't have the time. I'll try to document the code later with doxygen, I know it's 
+a bad idea, but it's my first real native application, come on.
+
