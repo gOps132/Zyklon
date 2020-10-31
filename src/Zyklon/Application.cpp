@@ -48,7 +48,7 @@ Application::Application()
 
     m_Shader.reset(Shader::Create("src/Shaders/BasicShader.shader"));
 }
-    
+
 Application::~Application() {}
 
 void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
@@ -98,4 +98,5 @@ bool Application::OnWindowClose(WindowCloseEvent &e)
     m_Running = false;
     return true;
 }
+
 } // namespace Zyklon

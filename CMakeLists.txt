@@ -21,6 +21,13 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 
+include(cmake/StaticAnalyzers.cmake)
+include(cmake/CompilerWarnings.cmake)
+
+set(ENABLE_CLANG_TIDY           ON)
+set(ENBALE_CPPCHECK             ON)
+set(ENABLE_INCLUDE_WHAT_YOU_USE ON)
+
 # ------------------------------------------
 # CHANGING GLOBAL CWD (MAY HAVE ERRORS)
 # ------------------------------------------
@@ -62,7 +69,6 @@ set(GRAPHICS_API
 )
 
 set(ZYKLON_SOURCE_FILES
-
     src/Zyklon/Application.cpp
     src/Zyklon/Log.cpp
     src/Zyklon/Layer.cpp
@@ -99,6 +105,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 
 # ------------------------------------------
+# EXTERNAL
+# ------------------------------------------
+# set_project_warnings(${PROJECT_NAME})
+
+# ------------------------------------------
 # GENERATING DLL VISIBILITY EXPORT HEADERS
 # ------------------------------------------
 include(GenerateExportHeader)
@@ -124,7 +135,6 @@ if(MSVC)
     option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
 endif(MSVC)
 
-# DEBUGGER FLAGS (not sure if this version provides it by default)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
 
 # If the runtime static linkage option is turned on, replace
