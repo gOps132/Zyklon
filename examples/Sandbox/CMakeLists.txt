@@ -8,6 +8,8 @@ cmake_minimum_required(VERSION 3.14)
 project(Sandbox C CXX)
 set(TARGET_NAME sandbox)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(SOURCE
    src/Sandbox.cpp
 )

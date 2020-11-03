@@ -28,11 +28,6 @@ set(ENABLE_CLANG_TIDY           ON)
 set(ENBALE_CPPCHECK             ON)
 set(ENABLE_INCLUDE_WHAT_YOU_USE ON)
 
-# ------------------------------------------
-# CHANGING GLOBAL CWD (MAY HAVE ERRORS)
-# ------------------------------------------
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
 # if(APPLE)
 #     set(PLATFORM_SOURCES 
 #         src/Zyklon/Platform/Macos/MacosWindow.cpp
@@ -82,11 +77,6 @@ set(ZYKLON_SOURCE_FILES
     ${PLATFORM_SOURCES}
 )
 
-# this may or may not cause some future problems
-if(NOT APPLE)
-    set(CMAKE_INSTALL_RPATH $ORIGIN)
-endif()
-
 set(CMAKE_CXX_VISIBILITY_PRESET         hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN     YES)
 
@@ -107,7 +97,8 @@ add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
 # ------------------------------------------
 # EXTERNAL
 # ------------------------------------------
-# set_project_warnings(${PROJECT_NAME})
+set(WARNINGS_AS_ERRORS OFF)
+set_project_warnings(${PROJECT_NAME})
 
 # ------------------------------------------
 # GENERATING DLL VISIBILITY EXPORT HEADERS
@@ -117,7 +108,7 @@ generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_D
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ------------------------------------------
-# BUILD TYPE FLAGS
+# BUILD FLAGS
 # ------------------------------------------
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     LINKER_LANGUAGE CXX
@@ -132,10 +123,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
     option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
-endif(MSVC)
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
+endif(MSVC) 
 
 # If the runtime static linkage option is turned on, replace
 # compiler flag that selects runtime library variant.
@@ -159,6 +149,21 @@ if(MSVC AND RUNTIME_STATIC_LINKAGE)
 endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 
 # ------------------------------------------
+# DEBUG FLAGS
+# ------------------------------------------
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+  # using Intel C++
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  # using Visual Studio C++
+endif()
+
+# ------------------------------------------
 # PLATFORM SPECIFIC MACRO DEFINITIONS
 # ------------------------------------------
 if(APPLE)
@@ -170,7 +175,6 @@ elseif(WIN32)
         PRIVATE     -DZYKLON_PLATFORM_WINDOWS
         PUBLIC      -DGLFW_INCLUDE_NONE
     )
-
 elseif(UNIX AND NOT APPLE)
     target_compile_definitions(${PROJECT_NAME} 
         PRIVATE     -DZYKLON_PLATFORM_LINUX
@@ -208,7 +212,6 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
 )
-
 
 # ------------------------------------------
 # BUILD EXAMPLE     DEFAULT ON 
