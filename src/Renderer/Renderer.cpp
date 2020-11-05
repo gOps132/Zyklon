@@ -4,6 +4,7 @@
 #include "Renderer/API/OpenGL/OpenGLBuffer.h"
 #include "Renderer/API/OpenGL/OpenGLContext.h"
 #include "Renderer/API/OpenGL/OpenGLShader.h"
+#include "Renderer/API/OpenGL/OpenGLVertexArray.h"
 
 #include "GraphicsContext.h"
 #include "Renderer.h"
@@ -38,19 +39,6 @@ VertexBuffer *VertexBuffer::Create(float *vertices, size_t size)
     return nullptr;
 }
 
-Shader *Shader::Create(const std::string &filepath)
-{
-    switch (Renderer::GetAPI()) {
-    case RendererAPI::None:
-        ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
-        return nullptr;
-    case RendererAPI::OpenGL:
-        return new OpenGLShader(filepath);
-    }
-    ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
-    return nullptr;
-}
-
 IndexBuffer *IndexBuffer::Create(uint32_t *indices, size_t size)
 {
     switch (Renderer::GetAPI()) {
@@ -61,6 +49,32 @@ IndexBuffer *IndexBuffer::Create(uint32_t *indices, size_t size)
         return new OpenGLIndexBuffer(indices, size);
     }
     ZYKLON_CORE_ASSERT(false, "Unknown RendererAPI!");
+    return nullptr;
+}
+
+VertexArray *VertexArray::Create()
+{
+    switch (Renderer::GetAPI()) {
+    case RendererAPI::None:
+        ZYKLON_CORE_ASSERT(false, "No Renderer API is supported!");
+        return nullptr;
+    case RendererAPI::OpenGL:
+        return ;
+    }
+    ZYKLON_CORE_ASSERT(false, "Unknown RendererAPI!");
+    return nullptr;
+}
+
+Shader *Shader::Create(const std::string &filepath)
+{
+    switch (Renderer::GetAPI()) {
+    case RendererAPI::None:
+        ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
+        return nullptr;
+    case RendererAPI::OpenGL:
+        return new OpenGLShader(filepath);
+    }
+    ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
     return nullptr;
 }
 

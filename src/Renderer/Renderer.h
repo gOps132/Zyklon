@@ -7,6 +7,7 @@ enum class RendererAPI { None = 0, OpenGL = 1 };
 
 class Renderer {
   public:
+     static SetRendererAPI(RendererAPI p_RendererAPI);
     inline static RendererAPI GetAPI() { return s_RendererAPI; }
 
   private:

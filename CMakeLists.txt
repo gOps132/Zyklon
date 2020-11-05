@@ -56,10 +56,12 @@ set(GRAPHICS_API
     src/Renderer/Renderer.cpp
     src/Renderer/Buffer.cpp
     src/Renderer/Shader.cpp
+    src/Renderer/VertexArray.cpp
 
     ${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLBuffer.cpp
+    ${RENDER_API_DIR}/OpenGL/OpenGLVertexArray.cpp
     ${RENDER_API_DIR}/OpenGL/OpenGLErrorManager.cpp
 )
 

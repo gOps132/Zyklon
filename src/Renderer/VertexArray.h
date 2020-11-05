@@ -1,18 +1,22 @@
 #ifndef __VERTEXARRAY_H__
 #define __VERTEXARRAY_H__
 
-#include "API/OpenGL/OpenGLVertexBufferLayout.h"
+#include "Buffer.h"
 
-class VertexArray
-{
-public:
-    VertexArray* Create();
-
-    virtual void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) = 0;
+namespace Zyklon {
+class VertexArray {
+  public:
+    virtual ~VertexArray();
+    
+    virtual void AddBuffer(const VertexBuffer &vb,
+                           const BufferLayout &layout) = 0;
 
     virtual void Bind() = 0;
     virtual void Unbind() = 0;
+
+    static VertexArray *Create();
 };
 
+} // namespace Zyklon
 
 #endif // __VERTEXARRAY_H__

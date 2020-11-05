@@ -143,3 +143,20 @@ it's extremely hard to write efficient and well documented code. I'm trying to f
 practices as I can but I just don't have the time. I'll try to document the code later with doxygen, I know it's 
 a bad idea, but it's my first real native application, come on.
 
+## 11/06/2020
+
+It's been a while since I made barely any progress at all...  
+
+I need to learn not to sweat the small stuff, I know that this code should run on good performance
+but if I want to have any progress I need to go back to it later.
+
+I having some decisions on what my new API should be, maybe I should make it into some functional APII don't like overriding things.
+Mayben instead of that I should make things more explicit similar to the Vulkan graphics API where we have some struct context and
+passing it into some functions. I want the client to have the control to configure many aspects of this application. Maybe I should
+build something unique like a GUI engine that you need to compile and build from source with the custom configurations made by the
+client.
+
+I'm getting stuck thinking about the API again.
+
+TODO: Is it possible to optimize the renderer API create functions at compile time? 
+    I think it's only possible during compile time so it cant hotswap graphics API's
