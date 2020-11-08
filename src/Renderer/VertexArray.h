@@ -7,12 +7,12 @@ namespace Zyklon {
 class VertexArray {
   public:
     virtual ~VertexArray();
-    
-    virtual void AddBuffer(const VertexBuffer &vb,
-                           const BufferLayout &layout) = 0;
 
     virtual void Bind() = 0;
     virtual void Unbind() = 0;
+    
+    virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer> p_vertex_bfr) = 0;
+    virtual void AddIndexBuffer(const std::shared_ptr<IndexBuffer> p_index_ptr) = 0;
 
     static VertexArray *Create();
 };

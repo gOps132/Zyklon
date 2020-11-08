@@ -1,18 +1,29 @@
 # Zyklon
 
+This project is based on the Hazel Game Engine
+
 right now I am just following the game engine series and trying to wrap my head around it.
 
-Currently scaling it into some serious hobby project.
+Currently trying scaling it into some serious hobby project.
 
-Some of the other code is implemented by a 14 year old (me).
+
+( if the other unfamiliar implemented code is rubbish there is a good chance it's made by 
+a 14 year old... )
 
 ## Citations
+
+### Mostly implemented
+
 https://github.com/TheCherno/Hazel
 
-Watch the Hazel Game Engine Series!!
+Watch the Hazel Game Engine Series
 https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
-## Libraries used
+Watch the OpenGL Series
+https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2
+
+
+### Libraries used
 * spdlog
 * glad
 * glfw
@@ -27,7 +38,7 @@ https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
 
 ### Initial Setup:
 
-Not tested on windows
+THIS IS NOT TESTED ON WINDOWS
 
 ```sh
     $ git clone https://github.com/gOps132/Zyklon
@@ -42,13 +53,12 @@ Not tested on windows
 
 ### NOTE:
 
-This project is made with teh visual studio code IDE.
+CMake Version <= 3.14
 
-It's hard to find a way for vscode extension: cmake-tools to run the output executable in the workspace directory where the about to be parsed files are needed, so I made a specific task to run the selected executable at the workspace directory. You need to have the extension cmake-tools installed in vscode tho.
+This project is made with the visual studio code IDE.
+I made a specific task to run the currently selected executable at the workspace directory using vscode cmake-tools.
+As long as you run the executable in the workspace directory, your fine.
 
-In CLion, you simply have to change the working-directory to the current workspace.
-
-I believe most of the IDE implementations I made is portable, not sure about
-windows tho :|
+I have not used windows in a long time.
 
 Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazingly useful content.

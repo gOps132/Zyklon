@@ -2,6 +2,8 @@
 
 #include "VertexArray.h"
 
+#include "Renderer/API/OpenGL/OpenGLVertexArray.h"
+
 namespace Zyklon {
 
 VertexArray *VertexArray::Create()
@@ -11,7 +13,7 @@ VertexArray *VertexArray::Create()
         ZYKLON_CORE_ASSERT(false, "No Vertex Array Available");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new VertexArray();
+        return new OpenGLVertexArray();
     }
 
     ZYKLON_CORE_ASSERT(false, "No Vertex Array Available");

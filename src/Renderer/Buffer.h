@@ -22,7 +22,7 @@ enum class ShaderDataType : uint32_t {
     Struct
 };
 
-static uint32_t ShaderDataTypeSize(ShaderDataType pType);
+static uint32_t ShaderDataTypeSize(ShaderDataType p_type);
 
 // Data Structure that holds vertex attributes. 
 struct BufferElement {
@@ -32,7 +32,7 @@ struct BufferElement {
     uint32_t Size;
     bool Normalized;
 
-    BufferElement(ShaderDataType pType, const std::string &pName, bool pNormalized);
+    BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized);
     
     uint32_t GetComponentCount() const;
 };

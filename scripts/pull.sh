@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# I know that some are redundant but this is personal
-
 cd ..
 git submodule update --init --recursive
 

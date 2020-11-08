@@ -6,9 +6,9 @@
 
 namespace Zyklon {
 
-uint32_t ShaderDataTypeSize(ShaderDataType pType)
+uint32_t ShaderDataTypeSize(ShaderDataType p_type)
 {
-    switch (pType) {
+    switch (p_type) {
         case ShaderDataType::Float:     return 4;
         case ShaderDataType::Float2:    return 4 * 2;
         case ShaderDataType::Float3:    return 4 * 3;
@@ -26,13 +26,13 @@ uint32_t ShaderDataTypeSize(ShaderDataType pType)
     return 0;
 }
 
-BufferElement::BufferElement(ShaderDataType pType, const std::string &pName, bool pNormalized)
-    : Name(pName), Type(pType), Offset(0), Size(0), Normalized(pNormalized)
+BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized)
+    : Name(p_name), Type(p_type), Offset(0), Size(0), Normalized(p_normalized)
 {
 }
 
-BufferLayout::BufferLayout(const std::initializer_list<BufferElement> &element)
-    : m_BufferElements(element)
+BufferLayout::BufferLayout(const std::initializer_list<BufferElement> &p_element)
+    : m_BufferElements(p_element)
 {
     calculateOffsetsAndStrides();
 }
@@ -60,12 +60,12 @@ uint32_t BufferElement::GetComponentCount() const
 
 void BufferLayout::calculateOffsetsAndStrides()
 {
-    uint32_t l_offset = 0;
+    uint32_t offset = 0;
     m_Stride = 0;
     for (auto &element : m_BufferElements) 
     {
-        element.Offset = l_offset;
-        l_offset += element.Size;
+        element.Offset = offset;
+        offset += element.Size;
         m_Stride += element.Size;
     }
 }

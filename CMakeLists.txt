@@ -1,7 +1,6 @@
 #
 #   Made by Epilan Gian Cedrick G.
 #
-
 cmake_minimum_required(VERSION 3.14)
 
 project(Zyklon 
@@ -51,7 +50,7 @@ set(PLATFORM_SOURCES
 )
 
 # TODO: add abstraction test for build time and runtime
-set(RENDER_API_DIR "src/Renderer/API")
+set(RENDER_API_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/API")
 set(GRAPHICS_API 
     src/Renderer/Renderer.cpp
     src/Renderer/Buffer.cpp
@@ -153,12 +152,14 @@ endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 # ------------------------------------------
 # DEBUG FLAGS
 # ------------------------------------------
+
+# Not sure if MSVC supports the g flag
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
   # using Intel C++
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -216,7 +217,9 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # ------------------------------------------
-# BUILD EXAMPLE     DEFAULT ON 
+# BUILD EXAMPLES
 # ------------------------------------------
-option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" ON)
-add_subdirectory(examples/Sandbox)
+option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" OFF)
+if(BUILD_ZYKLON_EXAMPLES)
+    add_subdirectory(examples/Sandbox)
+endif()
