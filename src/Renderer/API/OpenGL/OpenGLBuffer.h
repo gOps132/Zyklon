@@ -22,7 +22,7 @@ class OpenGLVertexBuffer : public VertexBuffer {
     virtual void bind() const override;
     virtual void unbind() const override;
 
-    virtual void set_layout(BufferLayout& p_layout) override { m_layout = p_layout; }
+    virtual void set_layout(const BufferLayout& p_layout) override { m_layout = p_layout; }
     virtual const BufferLayout& get_layout() const override { return m_layout; }
 
   private:
