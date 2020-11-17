@@ -11,37 +11,36 @@ namespace Zyklon {
 
 union OpenGLHelperFunc {
 public:
-  // inlining may not work
-  inline static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type);
+  inline static GLenum shader_type_to_opengl_typedef(ShaderDataType p_type);
 };
 
 class OpenGLVertexBuffer : public VertexBuffer {
   public:
-    OpenGLVertexBuffer(float *vertices, size_t size);
+    OpenGLVertexBuffer(float *p_vertices, size_t p_size);
     virtual ~OpenGLVertexBuffer();
 
-    virtual void Bind() const override;
-    virtual void Unbind() const override;
+    virtual void bind() const override;
+    virtual void unbind() const override;
 
-    virtual void SetLayout(BufferLayout& layout) override;
-    virtual const BufferLayout& GetLayout() const override { return m_BufferLayout; }
+    virtual void set_layout(BufferLayout& p_layout) override { m_layout = p_layout; }
+    virtual const BufferLayout& get_layout() const override { return m_layout; }
 
   private:
-    uint32_t m_RendererID;
-    BufferLayout m_BufferLayout;
+    uint32_t m_renderer_id;
+    BufferLayout m_layout;
 };
 
 class OpenGLIndexBuffer : public IndexBuffer {
   public:
-    OpenGLIndexBuffer(uint32_t *indices, uint32_t size);
+    OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_size);
     virtual ~OpenGLIndexBuffer();
 
-    virtual void Bind() const override;
-    virtual void Unbind() const override;
-    inline virtual uint32_t GetCount() const override;
+    virtual void bind() const override;
+    virtual void unbind() const override;
+    inline virtual uint32_t get_count() const override;
 
   private:
-    uint32_t m_RendererID;
+    uint32_t m_renderer_id;
     uint32_t m_Count;
 };
 } // namespace Zyklon

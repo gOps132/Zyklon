@@ -6,10 +6,10 @@
 namespace Zyklon {
 class GraphicsContext {
   public:
-    virtual void Init() = 0;
-    virtual void SwapBuffers() = 0;
+    virtual void init() = 0;
+    virtual void swap_buffers() = 0;
 
-    static GraphicsContext *Create(GLFWwindow *window);
+    static GraphicsContext *create(GLFWwindow *p_window);
 };
 
 } // namespace Zyklon

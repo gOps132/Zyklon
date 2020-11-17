@@ -90,6 +90,9 @@
         "memory_resource": "cpp",
         "shared_mutex": "cpp",
         "cinttypes": "cpp",
-        "*.cuh": "cpp"
+        "*.cuh": "cpp",
+        "__functional_base_03": "cpp",
+        "__functional_03": "cpp",
+        "__cxx_version": "cpp"
     },
 }

@@ -160,3 +160,17 @@ I'm getting stuck thinking about the API again.
 
 TODO: Is it possible to optimize the renderer API create functions at compile time? 
     I think it's only possible during compile time so it cant hotswap graphics API's
+
+## 11/14/2020
+
+There is a difference between dealing with code inside an API and calling the code
+outside the API abstraction. You don't always have to have to call the function you made 
+especially inside the library, there maybe some changes inside the function that that
+the other implementations may not need, so you just have to write the actual implementations
+inside the implementations in order to reduce redundancies and confusing errors.
+
+## 11/17/2020
+
+I am currently visiting another problem on the begin and end functions in the BufferLayout 
+for the private vertex array on BufferElements that are invoked in a range base for loop using
+"this" to access the class member variables.

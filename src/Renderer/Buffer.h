@@ -7,76 +7,76 @@
 namespace Zyklon {
 
 enum class ShaderDataType : uint32_t {
-    None = 0,
-    Float,
-    Float2,
-    Float3,
-    Float4,
-    Mat3,
-    Mat4,
-    Int,
-    Int2,
-    Int3,
-    Int4,
-    Bool,
-    Struct
+		None = 0,
+		Float,
+		Float2,
+		Float3,
+		Float4,
+		Mat3,
+		Mat4,
+		Int,
+		Int2,
+		Int3,
+		Int4,
+		Bool,
+		Struct
 };
 
-static uint32_t ShaderDataTypeSize(ShaderDataType p_type);
+static uint32_t shader_data_type_size(ShaderDataType p_type);
 
 // Data Structure that holds vertex attributes. 
 struct BufferElement {
-    std::string Name;
-    ShaderDataType Type;
-    uint32_t Offset;
-    uint32_t Size;
-    bool Normalized;
+		ShaderDataType type;
+		std::string name;
+		uint32_t offset;
+		uint32_t size;
+		bool normalized;
 
-    BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized);
-    
-    uint32_t GetComponentCount() const;
+		BufferElement() = default;
+		BufferElement(ShaderDataType p_type, const std::string &p_name);
+		
+		uint32_t get_component_count() const;
 };
 
 class BufferLayout {
-  public:
-    BufferLayout() = default;
-    BufferLayout(const std::initializer_list<BufferElement> &element);
+	public:
+		BufferLayout(const std::initializer_list<BufferElement> &p_element);
+		BufferLayout() = default;
 
-    inline const std::vector<BufferElement> &getBufferElements() const { return m_BufferElements; }
+		inline const std::vector<BufferElement> &get_elements() const { return m_elements; }
 
-    void calculateOffsetsAndStrides();
+		void calc_offsets_and_strides();
 
-    std::vector<BufferElement>::iterator begin() { return m_BufferElements.begin(); }
-    std::vector<BufferElement>::iterator end() { return m_BufferElements.end(); }
-
-  private:
-    std::vector<BufferElement> m_BufferElements;
-    uint32_t m_Stride;
+		std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
+		std::vector<BufferElement>::iterator end() { return m_elements.end(); }
+	private:
+		std::vector<BufferElement> m_elements;
+		uint32_t m_stride;
 };
 
 class VertexBuffer {
-  public:
-    virtual ~VertexBuffer() {}
+	public:
+		virtual ~VertexBuffer() {}
 
-    virtual void Bind() const = 0;
-    virtual void Unbind() const = 0;
+		virtual void bind() const = 0;
+		virtual void unbind() const = 0;
 
-    virtual void SetLayout(BufferLayout &layout) = 0;
-    virtual const BufferLayout &GetLayout() const = 0;
+		virtual void set_layout(BufferLayout &layout) = 0;
+		virtual const BufferLayout &get_layout() const = 0;
 
-    static VertexBuffer *Create(float *vertices, size_t size);
+		static VertexBuffer *create(float *vertices, size_t size);
 };
 
 class IndexBuffer {
-  public:
-    virtual ~IndexBuffer(){};
+	public:
+		virtual ~IndexBuffer(){};
 
-    virtual void Bind() const = 0;
-    virtual void Unbind() const = 0;
+		virtual void bind() const = 0;
+		virtual void unbind() const = 0;
 
-    inline virtual uint32_t GetCount() const = 0;
+		inline virtual uint32_t get_count() const = 0;
 
-    static IndexBuffer *Create(uint32_t *indices, size_t size);
+		static IndexBuffer *create(uint32_t *indices, size_t size);
 };
 
 } // namespace Zyklon

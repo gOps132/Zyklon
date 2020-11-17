@@ -6,9 +6,9 @@
 
 namespace Zyklon {
 
-GLenum OpenGLHelperFunc::ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+GLenum OpenGLHelperFunc::shader_type_to_opengl_typedef(ShaderDataType p_type)
 {
-    switch (type)
+    switch (p_type)
     {   
         case ShaderDataType::Float:     return GL_FLOAT;
         case ShaderDataType::Float2:    return GL_FLOAT;
@@ -27,66 +27,52 @@ GLenum OpenGLHelperFunc::ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
     return 0;
 }
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, size_t size)
+OpenGLVertexBuffer::OpenGLVertexBuffer(float *p_vertices, size_t p_size)
 {
-    GLCall(glGenBuffers(1, &m_RendererID));
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
-    GLCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+    GLCall(glGenBuffers(1, &m_renderer_id));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id));
+    GLCall(glBufferData(GL_ARRAY_BUFFER, p_size, p_vertices, GL_STATIC_DRAW));
 }
 
 OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
-    GLCall(glDeleteBuffers(1, &m_RendererID));
+    GLCall(glDeleteBuffers(1, &m_renderer_id));
 }
 
-void OpenGLVertexBuffer::Bind() const
+void OpenGLVertexBuffer::bind() const
 {
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id));
 }
 
-void OpenGLVertexBuffer::Unbind() const
+void OpenGLVertexBuffer::unbind() const
 {
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
-void OpenGLVertexBuffer::SetLayout(BufferLayout &layout)
+OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_count)
+    : m_Count(p_count)
 {
-    uint32_t index = 0;
-    for (const auto &element : layout) {
-        glEnableVertexAttribArray(index);
-        glVertexAttribPointer(
-            index, element.GetComponentCount(),
-            OpenGLHelperFunc::ShaderDataTypeToOpenGLBaseType(element.Type),
-                element.Normalized ? GL_TRUE : GL_FALSE,
-            element.Size, (const void *)element.Offset);
-        index++;
-    }
-}
-
-OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *indices, uint32_t count)
-    : m_Count(count)
-{
-    GLCall(glGenBuffers(1, &m_RendererID));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
-    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t),
-                        indices, GL_STATIC_DRAW));
+    GLCall(glGenBuffers(1, &m_renderer_id));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_renderer_id));
+    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, p_count * sizeof(uint32_t),
+                        p_indices, GL_STATIC_DRAW));
 }
 
 OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
-    GLCall(glDeleteBuffers(1, &m_RendererID));
+    GLCall(glDeleteBuffers(1, &m_renderer_id));
 }
 
-void OpenGLIndexBuffer::Bind() const
+void OpenGLIndexBuffer::bind() const
 {
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_renderer_id));
 }
 
-void OpenGLIndexBuffer::Unbind() const
+void OpenGLIndexBuffer::unbind() const
 {
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
-uint32_t OpenGLIndexBuffer::GetCount() const { return m_Count; }
+uint32_t OpenGLIndexBuffer::get_count() const { return m_Count; }
 
 } // namespace Zyklon

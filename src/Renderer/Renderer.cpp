@@ -12,67 +12,54 @@
 namespace Zyklon {
 RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
 
-GraphicsContext *GraphicsContext::Create(GLFWwindow *window)
+GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)
 {
-    switch (Renderer::GetAPI()) {
+    switch (Renderer::get_api()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Graphics Context Available ");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new OpenGLContext(window);
+        return new OpenGLContext(p_window);
     }
 
     ZYKLON_CORE_ASSERT(false, "No Graphics Context Available");
     return nullptr;
 }
 
-VertexBuffer *VertexBuffer::Create(float *vertices, size_t size)
+VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 {
-    switch (Renderer::GetAPI()) {
+    switch (Renderer::get_api()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Renderer API is supported. !");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new OpenGLVertexBuffer(vertices, size);
+        return new OpenGLVertexBuffer(p_vertices, p_size);
     }
     ZYKLON_CORE_ASSERT(false, "Unknown RendererAPI!");
     return nullptr;
 }
 
-IndexBuffer *IndexBuffer::Create(uint32_t *indices, size_t size)
+IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
 {
-    switch (Renderer::GetAPI()) {
+    switch (Renderer::get_api()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Renderer API is supported!");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new OpenGLIndexBuffer(indices, size);
+        return new OpenGLIndexBuffer(p_indices, p_size);
     }
     ZYKLON_CORE_ASSERT(false, "Unknown RendererAPI!");
     return nullptr;
 }
 
-VertexArray *VertexArray::Create()
+Shader *Shader::create(const std::string &p_filepath)
 {
-    switch (Renderer::GetAPI()) {
-    case RendererAPI::None:
-        ZYKLON_CORE_ASSERT(false, "No Renderer API is supported!");
-        return nullptr;
-    case RendererAPI::OpenGL:
-        return ;
-    }
-    ZYKLON_CORE_ASSERT(false, "Unknown RendererAPI!");
-    return nullptr;
-}
-
-Shader *Shader::Create(const std::string &filepath)
-{
-    switch (Renderer::GetAPI()) {
+    switch (Renderer::get_api()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
         return nullptr;
     case RendererAPI::OpenGL:
-        return new OpenGLShader(filepath);
+        return new OpenGLShader(p_filepath);
     }
     ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
     return nullptr;

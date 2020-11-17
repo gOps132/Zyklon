@@ -13,10 +13,10 @@ class ZYKLON_EXPORT WindowResizeEvent : public Event {
     {
     }
 
-    inline unsigned int GetWidth() const { return m_Width; }
-    inline unsigned int GetHeight() const { return m_Height; }
+    inline unsigned int get_width() const { return m_Width; }
+    inline unsigned int get_height() const { return m_Height; }
 
-    virtual std::string ToString() const override
+    virtual std::string to_string() const override
     {
         std::stringstream ss;
         ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;

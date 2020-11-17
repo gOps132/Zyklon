@@ -16,6 +16,6 @@
 
 void GLClearError();
 
-int GLLogCall(const char *function, const char *file, int line);
+int GLLogCall(const char *p_function, const char *p_file, int p_line);
 
 #endif // __ERRORMANAGER_H__

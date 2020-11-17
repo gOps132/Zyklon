@@ -6,9 +6,9 @@
 
 namespace Zyklon {
 
-VertexArray *VertexArray::Create()
+VertexArray *VertexArray::create()
 {
-    switch (Renderer::GetAPI()) {
+    switch (Renderer::get_api()) {
     case RendererAPI::None:
         ZYKLON_CORE_ASSERT(false, "No Vertex Array Available");
         return nullptr;

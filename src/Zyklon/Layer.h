@@ -10,21 +10,21 @@ namespace Zyklon {
 
 class ZYKLON_EXPORT Layer {
   public:
-    Layer(const std::string &name = "Layer");
+    Layer(const std::string &p_debug_name = "Layer");
     virtual ~Layer();
 
-    virtual void OnAttach() {}
-    virtual void OnDetach() {}
+    virtual void on_attach() {}
+    virtual void on_detach() {}
 
-    virtual void OnUpdate() {}
-    virtual void OnEvent(Event &event) {}
+    virtual void on_update() {}
+    virtual void on_event(Event &event) {}
 
-    virtual void OnImGuiRender() {}
+    virtual void on_imgui_render() {}
 
-    inline const std::string &GetName() const { return m_DebugName; }
+    inline const std::string &get_name() const { return m_debug_name; }
 
   protected:
-    std::string m_DebugName;
+    std::string m_debug_name;
 };
 
 } // namespace Zyklon

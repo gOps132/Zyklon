@@ -11,67 +11,67 @@
 namespace Zyklon {
 
 //  Initialized GLFW once, but we might initialize more than one window
-static bool s_GLFWInitialized = false;
+static bool s_glfw_initialized = false;
 
-static void GLFWErrorCallback(int error, const char *description)
+static void glfw_error_callback(int error, const char *description)
 {
     ZYKLON_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-Window *Window::Create(const WindowProps &props)
+Window *Window::create(const WindowProps &props)
 {
     return new LinuxWindow(props);
 }
 
 LinuxWindow::LinuxWindow(const WindowProps &props)
 {
-    m_Data.Title = props.Title;
-    m_Data.Width = props.Width;
-    m_Data.Height = props.Height;
+    m_Data.title = props.title;
+    m_Data.width = props.width;
+    m_Data.height = props.height;
 
-    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
-                     props.Height);
-    if (!s_GLFWInitialized) {
+    ZYKLON_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width,
+                     props.height);   
+    if (!s_glfw_initialized) {
         // TODO: glfwTerminate on system shutdown
         int success = glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        glfwSetErrorCallback(GLFWErrorCallback);
+        glfwSetErrorCallback(glfw_error_callback);
 
         ZYKLON_CORE_ASSERT(success, "Could not intialize GLFW!");
 
-        s_GLFWInitialized = true;
+        s_glfw_initialized = true;
     }
 
-    m_Window = glfwCreateWindow((int)props.Width, (int)props.Height,
-                                m_Data.Title.c_str(), nullptr, nullptr);
+    m_window = glfwCreateWindow((int)props.width, (int)props.height,
+                                m_Data.title.c_str(), nullptr, nullptr);
 
-    m_Context = GraphicsContext::Create(m_Window);
-    m_Context->Init();
+    m_Context = GraphicsContext::create(m_window);
+    m_Context->init();
 
-    glfwSetWindowUserPointer(m_Window, &m_Data);
-    SetVsync(true);
+    glfwSetWindowUserPointer(m_window, &m_Data);
+    set_vsync(true);
 
     // Set GLFW callback
     glfwSetWindowSizeCallback(
-        m_Window, [](GLFWwindow *window, int width, int height) {
+        m_window, [](GLFWwindow *window, int width, int height) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
-            data.Width = width;
-            data.Height = height;
+            data.width = width;
+            data.height = height;
 
             WindowResizeEvent event(width, height);
             data.EventCallback(event);
         });
 
-    glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
+    glfwSetWindowCloseCallback(m_window, [](GLFWwindow *window) {
         WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
         WindowCloseEvent event;
         data.EventCallback(event);
     });
 
-    glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode,
+    glfwSetKeyCallback(m_window, [](GLFWwindow *window, int key, int scancode,
                                     int action, int mods) {
         WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
         switch (action) {
@@ -93,14 +93,14 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         }
     });
 
-    glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int keycode) {
+    glfwSetCharCallback(m_window, [](GLFWwindow *window, unsigned int keycode) {
         WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
         KeyTypedEvent event(keycode);
         data.EventCallback(event);
     });
 
     glfwSetMouseButtonCallback(
-        m_Window, [](GLFWwindow *window, int button, int action, int mode) {
+        m_window, [](GLFWwindow *window, int button, int action, int mode) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             switch (action) {
@@ -118,7 +118,7 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         });
 
     glfwSetScrollCallback(
-        m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
+        m_window, [](GLFWwindow *window, double xOffset, double yOffset) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             MouseScrolledEvent event((float)xOffset, (float)yOffset);
@@ -126,7 +126,7 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         });
 
     glfwSetCursorPosCallback(
-        m_Window, [](GLFWwindow *window, double xPos, double yPos) {
+        m_window, [](GLFWwindow *window, double xPos, double yPos) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             MouseMovedEvent event((float)xPos, (float)yPos);
@@ -134,19 +134,19 @@ LinuxWindow::LinuxWindow(const WindowProps &props)
         });
 }
 
-void LinuxWindow::SetVsync(bool enabled)
+void LinuxWindow::set_vsync(bool enabled)
 {
     glfwSwapInterval(enabled);
-    m_Data.VSync = enabled;
+    m_Data.vsync = enabled;
 }
 
-bool LinuxWindow::IsVsync() const { return m_Data.VSync; }
+bool LinuxWindow::is_vsync() const { return m_Data.vsync; }
 
-LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_Window); }
+LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_window); }
 
-void LinuxWindow::OnUpdate()
+void LinuxWindow::on_update()
 {
     glfwPollEvents();
-    m_Context->SwapBuffers();
+    m_Context->swap_buffers();
 }
 } // namespace Zyklon

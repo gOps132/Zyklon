@@ -10,15 +10,15 @@ namespace Zyklon {
 // shader.
 class OpenGLShader : public Shader {
   public:
-    OpenGLShader(const std::string &filepath);
+    OpenGLShader(const std::string &p_filepath);
     ~OpenGLShader();
 
     virtual void bind() override;
     virtual void unbind() override;
 
   private:
-    ShaderProgramSource m_ShaderSource;
-    uint32_t m_RendererID;
+    ShaderProgramSource m_shader_source;
+    uint32_t m_renderer_id;
 };
 
 } // namespace Zyklon

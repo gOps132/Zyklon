@@ -4,7 +4,7 @@
 
 namespace Zyklon {
 
-Layer::Layer(const std::string &debugName) : m_DebugName(debugName) {}
+Layer::Layer(const std::string &p_debug_name) : m_debug_name(p_debug_name) {}
 
 Layer::~Layer() {}
 

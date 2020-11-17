@@ -26,7 +26,7 @@ class ZYKLON_EXPORT KeyPressedEvent : public KeyEvent {
 
     inline int GetRepeatCount() const { return m_RepeatCount; }
 
-    virtual std::string ToString() const override
+    virtual std::string to_string() const override
     {
         std::stringstream ss;
         ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount
@@ -43,7 +43,7 @@ class ZYKLON_EXPORT KeyTypedEvent : public KeyEvent {
   public:
     KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
 
-    virtual std::string ToString() const override
+    virtual std::string to_string() const override
     {
         std::stringstream ss;
         ss << "KeyTypedEvent: " << m_KeyCode << std::endl;
@@ -57,7 +57,7 @@ class ZYKLON_EXPORT KeyReleasedEvent : public KeyEvent {
   public:
     KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
 
-    virtual std::string ToString() const override
+    virtual std::string to_string() const override
     {
         std::stringstream ss;
         ss << "KeyReleasedEvent: " << m_KeyCode;

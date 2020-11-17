@@ -13,6 +13,7 @@
 
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 
 namespace Zyklon {
 
@@ -22,36 +23,34 @@ class ZYKLON_EXPORT Application {
     Application();
     virtual ~Application();
 
-    static Application *CreateApplication();
+    static Application *create_application();
 
-    /* Main Run Loop */
-    void Run();
+    /* Main run Loop */
+    void run();
 
-    void OnEvent(Event &e);
+    void on_event(Event &e);
 
-    void PushLayer(Layer *layer);
-    void PushOverlay(Layer *layer);
+    void push_layer(Layer *p_layer);
+    void push_overlay(Layer *p_layer);
 
-    inline Window &GetWindow() { return *m_Window; }
+    inline Window &get_window() { return *m_window; }
 
-    inline static Application &Get() { return *s_Instance; }
+    inline static Application &get() { return *s_instance; }
   private:
-    bool OnWindowClose(WindowCloseEvent &e);
+    bool on_window_close(WindowCloseEvent &e);
 
-    std::unique_ptr<Window> m_Window;
-    ImGuiLayer *m_ImGuiLayer;
+    std::unique_ptr<Window> m_window;
+    ImGuiLayer *m_imgui_layer;
 
-    bool m_Running = true;
-    LayerStack m_LayerStack;
+    bool m_running = true;
+    LayerStack m_layer_stack;
 
-    unsigned int m_VertexArray;
-
-    std::unique_ptr<Shader> m_Shader;
-    std::unique_ptr<VertexBuffer> m_VertexBuffer;
-    std::unique_ptr<IndexBuffer> m_IndexBuffer;
-
+    std::shared_ptr<Shader> m_shader;
+    std::shared_ptr<VertexBuffer> m_vertex_bfr;
+    std::shared_ptr<IndexBuffer> m_index_bfr;
+    std::shared_ptr<VertexArray> m_vertex_array;
   private:
-    static Application *s_Instance;
+    static Application *s_instance;
 };
 
 } // namespace Zyklon

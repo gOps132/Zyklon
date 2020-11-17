@@ -14,10 +14,10 @@ class ZYKLON_EXPORT LayerStack {
     LayerStack();
     ~LayerStack();
 
-    void PushLayer(Layer *layer);
-    void PushOverlay(Layer *overlay);
-    void PopLayer(Layer *layer);
-    void PopOverlay(Layer *overlay);
+    void push_layer(Layer *p_layer);
+    void push_overlay(Layer *p_overlay);
+    void pop_layer(Layer *p_layer);
+    void pop_overlay(Layer *p_overlay);
 
     std::vector<Layer *>::iterator begin() { return m_layers.begin(); }
     std::vector<Layer *>::iterator end() { return m_layers.end(); }

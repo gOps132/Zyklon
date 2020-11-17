@@ -10,8 +10,8 @@ int main(int argc, char **argv)
     ZYKLON_CORE_WARN("Initialized Log");
     ZYKLON_CORE_INFO("Welcome To Zyklon Game Engine");
 
-    auto app = Zyklon::Application::CreateApplication();
-    app->Run();
+    auto app = Zyklon::Application::create_application();
+    app->run();
     delete app;
 
     return 1;

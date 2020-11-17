@@ -9,15 +9,16 @@ class OpenGLVertexArray : public VertexArray {
     OpenGLVertexArray();
     virtual ~OpenGLVertexArray() override;
 
-    virtual void Bind() override;
-    virtual void Unbind() override;
+    virtual void bind() override;
+    virtual void unbind() override;
 
-    virtual void
-    AddVertexBuffer(const std::shared_ptr<VertexBuffer> p_vertex_bfr) override;
-    virtual void
-    AddIndexBuffer(const std::shared_ptr<IndexBuffer> p_index_ptr) override;
+    virtual void add_vertex_bfr(const std::shared_ptr<VertexBuffer> p_vertex_bfr) override;
+    virtual void add_index_bfr(const std::shared_ptr<IndexBuffer> p_index_bfr) override;
 
   private:
+    std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
+    std::shared_ptr<IndexBuffer> m_IndexBuffers;
+
     unsigned int m_RendererId;
 };
 

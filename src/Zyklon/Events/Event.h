@@ -45,34 +45,32 @@ enum EventCategory {
     EventCategoryButton = BIT(4)
 };
 
-// if MSVC compiler replace return EventType::type with return Event::##type
-#define EVENT_CLASS_TYPE(type)                                                 \
-    static EventType GetStaticType() { return EventType::type; }               \
-    virtual EventType GetEventType() const override                            \
-    {                                                                          \
-        return GetStaticType();                                                \
-    }                                                                          \
-    virtual const char *GetName() const override { return #type; }
+// TODO: Verify this
+/* Event subclass helper macros for overriding member functions */
+#define EVENT_CLASS_TYPE(type) \
+    static EventType get_static_type() { return EventType::type; } \
+    virtual EventType get_event_type() const override { return get_static_type(); } \
+    virtual const char *get_name() const override { return #type; } 
 
 #define EVENT_CLASS_CATEGORY(category)                                         \
-    virtual int GetCategoryFlags() const override { return category; }
+    virtual int get_category_flags() const override { return category; }
 
 /* Base Class For Events */
 class ZYKLON_EXPORT Event {
     friend class EventDispatcher;
 
   public:
-    bool Handled = false;
+    bool handled = false;
 
-    virtual EventType GetEventType() const = 0;
-    virtual const char *GetName() const = 0;
-    virtual int GetCategoryFlags() const = 0;
+    virtual EventType get_event_type() const = 0;
+    virtual const char *get_name() const = 0;
+    virtual int get_category_flags() const = 0;
 
-    virtual std::string ToString() const { return GetName(); }
+    virtual std::string to_string() const { return get_name(); }
 
-    inline bool IsInCategory(EventCategory category)
+    inline bool is_in_category(EventCategory category)
     {
-        return GetCategoryFlags() & category;
+        return get_category_flags() & category;
     }
 };
 
@@ -88,8 +86,8 @@ class EventDispatcher {
 
     template <typename T> bool Dispatch(EventFn<T> func)
     {
-        if (m_Event.GetEventType() == T::GetStaticType()) {
-            m_Event.Handled = func(*(T *)&m_Event);
+        if (m_Event.get_event_type() == T::get_static_type()) {
+            m_Event.handled = func(*(T *)&m_Event);
             return true;
         }
         return false;
@@ -98,7 +96,7 @@ class EventDispatcher {
 
 inline std::ostream &operator<<(std::ostream &os, const Event &e)
 {
-    return os << e.ToString();
+    return os << e.to_string();
 }
 
 } // namespace Zyklon

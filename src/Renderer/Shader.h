@@ -18,12 +18,14 @@ class Shader {
     virtual void bind() = 0;
     virtual void unbind() = 0;
 
-    static Shader *Create(const std::string &filepath);
+    static Shader *create(const std::string &p_filepath);
 
-    static ShaderProgramSource parseShader(const std::string &filePath);
+    static ShaderProgramSource parse_shader(const std::string &p_filePath);
+
+    // UNIFORMS
 
   private:
-    uint32_t m_RendererID;
+    uint32_t m_renderer_id;
 };
 
 } // namespace Zyklon

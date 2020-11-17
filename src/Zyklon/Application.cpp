@@ -15,87 +15,93 @@
 
 namespace Zyklon {
 
-Application *Application::s_Instance = nullptr;
+Application *Application::s_instance = nullptr;
 
 Application::Application()
 {
-    ZYKLON_CORE_ASSERT(!s_Instance, "Application already exists!");
-    s_Instance = this;
+    ZYKLON_CORE_ASSERT(!s_instance, "Application already exists!");
+    s_instance = this;
 
-    m_Window = std::unique_ptr<Window>(Window::Create());
-    m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+    m_window = std::unique_ptr<Window>(Window::create());
+    m_window->set_event_callback(BIND_EVENT_FN(Application::on_event));
 
-    m_ImGuiLayer = new ImGuiLayer;
-    PushOverlay(m_ImGuiLayer);
+    m_imgui_layer = new ImGuiLayer;
+    push_overlay(m_imgui_layer);
 
-    glGenVertexArrays(1, &m_VertexArray);
-    glBindVertexArray(m_VertexArray);
+    m_vertex_array.reset(VertexArray::create());
 
-    float vertices[3 * 3] = {0.5f, -0.5f, 0.0f, -0.5f, -0.5f,
-                             0.0f, 0.0f,  0.5f, 0.0f};
-
-    m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-    BufferLayout layout{
-        {ShaderDataType::Float3, "a_Position", false},
+    float vertices[] = {
+        0.5f,  -0.5f, 0.0f,  0.8f, 0.2f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.0f,  0.2f, 0.3f, 0.8f, 1.0f,
+        0.0f,  0.5f,  0.0f,  0.8f, 0.8f, 0.2f, 1.0f
     };
 
-    m_VertexBuffer->SetLayout(layout);
-    
-    unsigned int indices[3] = {0, 1, 2};
-    m_IndexBuffer.reset(
-        IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+    m_vertex_bfr.reset(VertexBuffer::create(vertices, sizeof(vertices)));
+    BufferLayout layout = {
+        { ShaderDataType::Float3, "a_Position" },
+        { ShaderDataType::Float4, "a_Color" }
+    };
 
-    m_Shader.reset(Shader::Create("src/Shaders/BasicShader.shader"));
+    m_vertex_bfr->set_layout(layout);
+    m_vertex_array->add_vertex_bfr(m_vertex_bfr);
+
+    unsigned int indices[] = {0, 1, 2};
+    m_index_bfr.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
+    m_vertex_array->add_index_bfr(m_index_bfr);
+
+    m_shader.reset(Shader::create("src/Shaders/BasicShader.shader"));
 }
 
 Application::~Application() {}
 
-void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
+void Application::push_layer(Layer *layer) { m_layer_stack.push_layer(layer); }
 
-void Application::PushOverlay(Layer *layer) { m_LayerStack.PushOverlay(layer); }
+void Application::push_overlay(Layer *layer)
+{
+    m_layer_stack.push_overlay(layer);
+}
 
-void Application::OnEvent(Event &e)
+void Application::on_event(Event &e)
 {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(
-        BIND_EVENT_FN(Application::OnWindowClose));
+        BIND_EVENT_FN(Application::on_window_close));
 
-    for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-        (*--it)->OnEvent(e);
-        if (e.Handled)
+    for (auto it = m_layer_stack.end(); it != m_layer_stack.begin();) {
+        (*--it)->on_event(e);
+        if (e.handled)
             break;
     }
 }
 
-void Application::Run()
+void Application::run()
 {
-    while (m_Running) {
+    while (m_running) {
         glClearColor(0.1f, 0.1f, 0.1f, 1);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        m_Shader->bind();
+        m_shader->bind();
+        m_vertex_array->bind();
 
-        glBindVertexArray(m_VertexArray);
-        glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT,
+        glDrawElements(GL_TRIANGLES, m_index_bfr->get_count(), GL_UNSIGNED_INT,
                        nullptr);
 
-        for (Layer *layer : m_LayerStack)
-            layer->OnUpdate();
+        for (Layer *layer : m_layer_stack)
+            layer->on_update();
 
         // TODO: Putting this on a seperate render thread
-        m_ImGuiLayer->Begin();
-        for (Layer *layer : m_LayerStack)
-            layer->OnImGuiRender();
-        m_ImGuiLayer->End();
+        m_imgui_layer->begin();
+        for (Layer *layer : m_layer_stack)
+            layer->on_imgui_render();
+        m_imgui_layer->end();
 
-        m_Window->OnUpdate();
+        m_window->on_update();
     }
 }
 
-bool Application::OnWindowClose(WindowCloseEvent &e)
+bool Application::on_window_close(WindowCloseEvent &e)
 {
-    m_Running = false;
+    m_running = false;
     return true;
 }
 

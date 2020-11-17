@@ -6,7 +6,7 @@
 
 namespace Zyklon {
 
-uint32_t ShaderDataTypeSize(ShaderDataType p_type)
+uint32_t shader_data_type_size(ShaderDataType p_type)
 {
     switch (p_type) {
         case ShaderDataType::Float:     return 4;
@@ -22,24 +22,24 @@ uint32_t ShaderDataTypeSize(ShaderDataType p_type)
         case ShaderDataType::Bool:      return 1;
     }
 
-    ZYKLON_CORE_ASSERT(false, "Unkown shader data Type");
+    ZYKLON_CORE_ASSERT(false, "Unkown shader data type");
     return 0;
 }
 
-BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized)
-    : Name(p_name), Type(p_type), Offset(0), Size(0), Normalized(p_normalized)
+BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name)
+    : name(p_name), type(p_type), offset(0), size(0), normalized(false)
 {
 }
 
 BufferLayout::BufferLayout(const std::initializer_list<BufferElement> &p_element)
-    : m_BufferElements(p_element)
+    : m_elements(p_element)
 {
-    calculateOffsetsAndStrides();
+    calc_offsets_and_strides();
 }
 
-uint32_t BufferElement::GetComponentCount() const
+uint32_t BufferElement::get_component_count() const
 {
-    switch (Type) 
+    switch (type) 
     {
         case ShaderDataType::Float:     return 1;
         case ShaderDataType::Float2:    return 2;
@@ -57,17 +57,22 @@ uint32_t BufferElement::GetComponentCount() const
     return 0;
 }
 
-
-void BufferLayout::calculateOffsetsAndStrides()
+void BufferLayout::calc_offsets_and_strides()
 {
     uint32_t offset = 0;
-    m_Stride = 0;
-    for (auto &element : m_BufferElements) 
+    m_stride = 0;
+    for (auto &element : m_elements) 
     {
-        element.Offset = offset;
-        offset += element.Size;
-        m_Stride += element.Size;
+        element.offset = offset;
+        offset += element.size;
+        m_stride += element.size;
     }
+
+    // m_stride = 0;
+    // for (const BufferElement& element : m_elements) {
+    //     element.offset = m_stride;
+    //     m_stride += element.size;
+    // }
 }
 
 } // namespace Zyklon

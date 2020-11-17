@@ -23,7 +23,7 @@ ImGuiLayer::ImGuiLayer() : Layer("Imgui Layer") {}
 
 ImGuiLayer::~ImGuiLayer() {}
 
-void ImGuiLayer::OnAttach() {
+void ImGuiLayer::on_attach() {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -51,9 +51,9 @@ void ImGuiLayer::OnAttach() {
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-    Application &app = Application::Get();
+    Application &app = Application::get();
     GLFWwindow *window =
-        static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
+        static_cast<GLFWwindow *>(app.get_window().get_native_window());
 
     // Setup Platform/Renderer bindingss
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -66,24 +66,24 @@ void ImGuiLayer::OnAttach() {
 #endif
 }
 
-void ImGuiLayer::OnDetach() {
+void ImGuiLayer::on_detach() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
 
-void ImGuiLayer::Begin() {
+void ImGuiLayer::begin() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 }
 
-void ImGuiLayer::End() {
+void ImGuiLayer::end() {
     ImGuiIO &io = ImGui::GetIO();
 
-    Application &app = Application::Get();
+    Application &app = Application::get();
     io.DisplaySize =
-        ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetWidth());
+        ImVec2(app.get_window().get_width(), app.get_window().get_width());
 
     // Rendering
     ImGui::Render();
@@ -97,7 +97,7 @@ void ImGuiLayer::End() {
     }
 }
 
-void ImGuiLayer::OnImGuiRender() {
+void ImGuiLayer::on_imgui_render() {
     static bool show = true;
     ImGui::ShowDemoWindow(&show);
 }

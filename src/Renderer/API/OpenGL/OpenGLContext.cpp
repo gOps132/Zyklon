@@ -9,14 +9,14 @@
 #include "OpenGLContext.h"
 
 namespace Zyklon {
-OpenGLContext::OpenGLContext(GLFWwindow *window) : m_WindowHandler(window)
+OpenGLContext::OpenGLContext(GLFWwindow *p_glfw_window) : m_window_handler(p_glfw_window)
 {
-    ZYKLON_CORE_ASSERT(m_WindowHandler, "m_WindowHandler is null");
+    ZYKLON_CORE_ASSERT(m_window_handler, "m_window_handler is null");
 }
 
-void OpenGLContext::Init()
+void OpenGLContext::init()
 {
-    glfwMakeContextCurrent(m_WindowHandler);
+    glfwMakeContextCurrent(m_window_handler);
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     ZYKLON_CORE_ASSERT(status, "failed to initialize glad");
 
@@ -26,6 +26,6 @@ void OpenGLContext::Init()
     ZYKLON_CORE_INFO("  VERSION: {0}", glGetString(GL_VERSION));
 }
 
-void OpenGLContext::SwapBuffers() { glfwSwapBuffers(m_WindowHandler); }
+void OpenGLContext::swap_buffers() { glfwSwapBuffers(m_window_handler); }
 
 } // namespace Zyklon

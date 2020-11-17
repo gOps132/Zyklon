@@ -2,11 +2,12 @@
 #include "Zyklon/zyklon_pch.h"
 
 namespace Zyklon {
-ShaderProgramSource Shader::parseShader(const std::string &filepath)
+    
+ShaderProgramSource Shader::parse_shader(const std::string &p_filepath)
 {
     enum class ShaderType { NONE = -1, VERTEX = 0, FRAGMENT = 1 };
 
-    std::ifstream stream(filepath); // opens the file
+    std::ifstream stream(p_filepath); // opens the file
     std::string line;
     std::stringstream ss[2];
     ShaderType type = ShaderType::NONE;
