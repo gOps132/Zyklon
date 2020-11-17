@@ -30,8 +30,8 @@ namespace Zyklon
         p_vertex_bfr->bind();
 
         uint32_t index = 0;
-        const auto &layout = p_vertex_bfr->get_layout();
-        for (const auto &element : layout) {
+        const BufferLayout &layout = p_vertex_bfr->get_layout();
+        for (const BufferElement &element : layout.get_elements()) {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(
                 index, element.get_component_count(),
