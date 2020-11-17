@@ -39,8 +39,8 @@ struct BufferElement {
 
 class BufferLayout {
 	public:
-		BufferLayout(const std::initializer_list<BufferElement> &p_element);
 		BufferLayout() = default;
+		BufferLayout(const std::initializer_list<BufferElement> &p_element);
 
 		inline const std::vector<BufferElement> &get_elements() const { return m_elements; }
 
