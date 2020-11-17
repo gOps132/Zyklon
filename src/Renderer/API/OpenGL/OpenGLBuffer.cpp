@@ -21,7 +21,7 @@ GLenum OpenGLHelperFunc::shader_type_to_opengl_typedef(ShaderDataType p_type)
         case ShaderDataType::Int3:      return GL_INT;
         case ShaderDataType::Int4:      return GL_INT;
         case ShaderDataType::Bool:      return GL_BOOL; 
-    } 
+    }
 
     ZYKLON_CORE_ASSERT(false, "Unkown Shader type");
     return 0;

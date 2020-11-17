@@ -76,18 +76,18 @@ class ZYKLON_EXPORT Event {
 
 class EventDispatcher {
   private:
-    Event &m_Event;
+    Event &m_event;
 
   private:
     template <typename T> using EventFn = std::function<bool(T &)>;
 
   public:
-    EventDispatcher(Event &event) : m_Event(event) {}
+    EventDispatcher(Event &event) : m_event(event) {}
 
     template <typename T> bool Dispatch(EventFn<T> func)
     {
-        if (m_Event.get_event_type() == T::get_static_type()) {
-            m_Event.handled = func(*(T *)&m_Event);
+        if (m_event.get_event_type() == T::get_static_type()) {
+            m_event.handled = func(*(T *)&m_event);
             return true;
         }
         return false;

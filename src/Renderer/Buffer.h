@@ -55,7 +55,7 @@ class BufferLayout {
 
 class VertexBuffer {
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer(){}
 
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;

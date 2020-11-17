@@ -7,7 +7,7 @@ namespace Zyklon {
 class OpenGLVertexArray : public VertexArray {
   public:
     OpenGLVertexArray();
-    virtual ~OpenGLVertexArray() override;
+    virtual ~OpenGLVertexArray() {}
 
     virtual void bind() override;
     virtual void unbind() override;
@@ -16,10 +16,10 @@ class OpenGLVertexArray : public VertexArray {
     virtual void add_index_bfr(const std::shared_ptr<IndexBuffer> p_index_bfr) override;
 
   private:
-    std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
-    std::shared_ptr<IndexBuffer> m_IndexBuffers;
+    std::vector<std::shared_ptr<VertexBuffer>> m_vertex_bfr;
+    std::shared_ptr<IndexBuffer> m_index_bfr;
 
-    unsigned int m_RendererId;
+    unsigned int m_renderer_id;
 };
 
 } // namespace Zyklon

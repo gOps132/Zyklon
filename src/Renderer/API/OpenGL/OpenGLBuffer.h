@@ -11,7 +11,7 @@ namespace Zyklon {
 
 union OpenGLHelperFunc {
 public:
-  inline static GLenum shader_type_to_opengl_typedef(ShaderDataType p_type);
+  static GLenum shader_type_to_opengl_typedef(ShaderDataType p_type);
 };
 
 class OpenGLVertexBuffer : public VertexBuffer {

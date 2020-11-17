@@ -6,7 +6,7 @@
 namespace Zyklon {
 class VertexArray {
   public:
-    virtual ~VertexArray();
+    virtual ~VertexArray() {}
 
     virtual void bind() = 0;
     virtual void unbind() = 0;
