@@ -7,7 +7,7 @@ namespace Zyklon {
 class OpenGLVertexArray : public VertexArray {
   public:
     OpenGLVertexArray();
-    virtual ~OpenGLVertexArray() {}
+    virtual ~OpenGLVertexArray();
 
     virtual void bind() override;
     virtual void unbind() override;

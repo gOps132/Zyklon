@@ -67,12 +67,6 @@ void BufferLayout::calc_offsets_and_strides()
         offset += element.size;
         m_stride += element.size;
     }
-
-    // m_stride = 0;
-    // for (const BufferElement& element : m_elements) {
-    //     element.offset = m_stride;
-    //     m_stride += element.size;
-    // }
 }
 
 } // namespace Zyklon

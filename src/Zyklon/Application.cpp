@@ -45,7 +45,7 @@ Application::Application()
     m_vertex_bfr->set_layout(layout);
     m_vertex_array->add_vertex_bfr(m_vertex_bfr);
 
-    unsigned int indices[] = {0, 1, 2};
+    unsigned int indices[] = {0, 1, 2}; 
     m_index_bfr.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
     m_vertex_array->add_index_bfr(m_index_bfr);
 
@@ -64,8 +64,7 @@ void Application::push_overlay(Layer *layer)
 void Application::on_event(Event &e)
 {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>(
-        BIND_EVENT_FN(Application::on_window_close));
+    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::on_window_close));
 
     for (auto it = m_layer_stack.end(); it != m_layer_stack.begin();) {
         (*--it)->on_event(e);
@@ -83,8 +82,7 @@ void Application::run()
         m_shader->bind();
         m_vertex_array->bind();
 
-        glDrawElements(GL_TRIANGLES, m_index_bfr->get_count(), GL_UNSIGNED_INT,
-                       nullptr);
+        glDrawElements(GL_TRIANGLES, m_index_bfr->get_count(), GL_UNSIGNED_INT, nullptr);
 
         for (Layer *layer : m_layer_stack)
             layer->on_update();

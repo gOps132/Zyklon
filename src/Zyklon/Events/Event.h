@@ -47,10 +47,13 @@ enum EventCategory {
 
 // TODO: Verify this
 /* Event subclass helper macros for overriding member functions */
-#define EVENT_CLASS_TYPE(type) \
-    static EventType get_static_type() { return EventType::type; } \
-    virtual EventType get_event_type() const override { return get_static_type(); } \
-    virtual const char *get_name() const override { return #type; } 
+#define EVENT_CLASS_TYPE(type)                                                 \
+    static EventType get_static_type() { return EventType::type; }             \
+    virtual EventType get_event_type() const override                          \
+    {                                                                          \
+        return get_static_type();                                              \
+    }                                                                          \
+    virtual const char *get_name() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category)                                         \
     virtual int get_category_flags() const override { return category; }
@@ -60,6 +63,8 @@ class ZYKLON_EXPORT Event {
     friend class EventDispatcher;
 
   public:
+    virtual ~Event() {};
+    
     bool handled = false;
 
     virtual EventType get_event_type() const = 0;
@@ -100,4 +105,5 @@ inline std::ostream &operator<<(std::ostream &os, const Event &e)
 }
 
 } // namespace Zyklon
+
 #endif // __EVENT_H__

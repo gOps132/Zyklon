@@ -174,3 +174,23 @@ inside the implementations in order to reduce redundancies and confusing errors.
 I am currently visiting another problem on the begin and end functions in the BufferLayout 
 for the private vertex array on BufferElements that are invoked in a range base for loop using
 "this" to access the class member variables.
+
+It is one thing to make an software and it is another thing to make a good optimized software
+Someday, I'll get to the point where I need to reformat the whole code base for an optimized
+data structure for it's native platform or hardware. I may even have to rewrite the whole API
+just to save some memory. I need to layout my options here, because refractoring is much more
+effective at early times.
+
+## 11/18/2020
+
+#! Some useful comment from renderer flow and submission video
+From my experience when you need multiple/crossplatform implementation for some classes like renderer it is 
+better to use pImpl idiom instead of virtual classes to nullify all overheads on function calls every frame. 
+Also if you need virtualization always set final keyword on implementation class to allow compiler to optimize 
+some things.
+
+!# reminder
+the window interface implementations have to be at compile time which makes sense, there are some static_casts
+needed, it's not like you have the same build for every platform. The create function which returns the platform
+implemented of the window is implemented from the platform which means it's never going to be implemented at 
+runtime.

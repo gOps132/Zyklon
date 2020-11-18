@@ -31,8 +31,7 @@ void LayerStack::push_overlay(Layer *p_overlay)
 
 void LayerStack::pop_layer(Layer *p_layer)
 {
-    auto it = std::find(m_layers.begin(), m_layers.begin() + m_layer_insert_index,
-                        p_layer);
+    auto it = std::find(m_layers.begin(), m_layers.begin() + m_layer_insert_index, p_layer);
     if (it != m_layers.begin() + m_layer_insert_index) {
         p_layer->on_detach();
         m_layers.erase(it);
@@ -42,8 +41,7 @@ void LayerStack::pop_layer(Layer *p_layer)
 
 void LayerStack::pop_overlay(Layer *p_overlay)
 {
-    auto it = std::find(m_layers.begin() + m_layer_insert_index, m_layers.end(),
-                        p_overlay);
+    auto it = std::find(m_layers.begin() + m_layer_insert_index, m_layers.end(), p_overlay);
     if (it != m_layers.end())
         p_overlay->on_detach();
     m_layers.erase(it);

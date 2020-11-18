@@ -11,6 +11,11 @@ namespace Zyklon
     {
         glGenVertexArrays(1, &m_renderer_id);
     }
+    
+    OpenGLVertexArray::~OpenGLVertexArray() 
+    {
+        glDeleteVertexArrays(1, &m_renderer_id);
+    }
 
     void OpenGLVertexArray::bind() 
     {
