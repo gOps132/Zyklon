@@ -10,11 +10,11 @@ if [ ! -d "build" ]; then
 fi
 cd build
 cmake \
-    
+    -DBUILD_ZYKLON_EXAMPLES=ON \  
     ..
 
 # TODO: if os is linux
-    make -j $(nproc)
+    # make -j $(nproc)
 
 # TODO: if os is macOS
-    # make -j $(sysctl -n hw.ncpu)
+    make -j $(sysctl -n hw.ncpu)

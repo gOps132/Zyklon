@@ -1,7 +1,7 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureArgs": [
-        "BUILD_ZYKLON_EXAMPLES=ON",
+        "-DBUILD_ZYKLON_EXAMPLES=ON",
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
     ],
     "cmake.debugConfig": {

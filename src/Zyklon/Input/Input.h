@@ -7,32 +7,32 @@ namespace Zyklon {
 
 class ZYKLON_EXPORT Input {
   public:
-    inline static bool IsKeyIsPressed(int keycode)
+    inline static bool key_pressed(int keycode)
     {
-        return s_Instance->IsKeyPressedImpl(keycode);
+        return s_instance->key_pressed_impl(keycode);
     }
 
-    inline static bool IsMouseButtonPressed(int button)
+    inline static bool mouse_btn_pressed(int button)
     {
-        return s_Instance->IsMouseButtonPressedImpl(button);
+        return s_instance->mouse_btn_pressed_impl(button);
     }
-    inline static std::pair<float, float> GetMousePosition()
+    inline static std::pair<float, float> get_mouse_pos()
     {
-        return s_Instance->GetMousePositionImpl();
+        return s_instance->get_mouse_pos_impl();
     };
-    inline static float GetMouseX() { return s_Instance->GetMouseXImpl(); }
-    inline static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
+    inline static float get_mouse_x() { return s_instance->get_mouse_x_impl(); }
+    inline static float get_mouse_y() { return s_instance->get_mouse_y_impl(); }
 
   protected:
-    virtual bool IsKeyPressedImpl(int keycode) = 0;
+    virtual bool key_pressed_impl(int keycode) = 0;
 
-    virtual bool IsMouseButtonPressedImpl(int button) = 0;
-    virtual std::pair<float, float> GetMousePositionImpl() = 0;
-    virtual float GetMouseXImpl() = 0;
-    virtual float GetMouseYImpl() = 0;
+    virtual bool mouse_btn_pressed_impl(int button) = 0;
+    virtual std::pair<float, float> get_mouse_pos_impl() = 0;
+    virtual float get_mouse_x_impl() = 0;
+    virtual float get_mouse_y_impl() = 0;
 
   private:
-    static Input *s_Instance;
+    static Input *s_instance;
 };
 
 } // namespace Zyklon

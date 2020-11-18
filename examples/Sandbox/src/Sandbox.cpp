@@ -11,7 +11,7 @@ class ExampleLayer : public Zyklon::Layer {
 
     virtual void on_update() override
     {
-        // if (Zyklon::Input::IsKeyIsPressed(ZYKLON_KEY_TAB))
+        // if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
         //     ZYKLON_INFO("Tab Key is Pressed");
     }
 

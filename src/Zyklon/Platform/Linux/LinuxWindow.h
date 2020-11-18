@@ -20,38 +20,38 @@ class LinuxWindow : public Window {
 
     inline virtual unsigned int get_width() const override
     {
-        return m_Data.width;
+        return m_data.width;
     }
     inline virtual unsigned int get_height() const override
     {
-        return m_Data.height;
+        return m_data.height;
     }
 
     // Window attributes
     inline virtual void
-    set_event_callback(const EventCallbackFn &callback) override
+    set_event_callback(const EventCallbackFn &p_callback) override
     {
-        m_Data.EventCallback = callback;
+        m_data.event_callback = p_callback;
     }
-    virtual void set_vsync(bool enabled) override;
-    virtual bool is_vsync() const override;
+    virtual void set_vsync(bool p_enabled) override;
+    virtual bool vsync() const override;
 
     /* Returns the GLFW window pointer */
     inline virtual void *get_native_window() const override { return m_window; }
 
   private:  
     GLFWwindow *m_window;
-    GraphicsContext *m_Context;
+    GraphicsContext *m_context;
 
     struct WindowData {
         std::string title;
         unsigned int width, height;
         bool vsync;
 
-        EventCallbackFn EventCallback;
+        EventCallbackFn event_callback;
     };
 
-    WindowData m_Data;
+    WindowData m_data;
 };
 
 } // namespace Zyklon
