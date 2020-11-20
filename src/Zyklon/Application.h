@@ -45,10 +45,17 @@ class ZYKLON_EXPORT Application {
     bool m_running = true;
     LayerStack m_layer_stack;
 
-    std::shared_ptr<Shader> m_shader;
-    std::shared_ptr<VertexBuffer> m_vertex_bfr;
-    std::shared_ptr<IndexBuffer> m_index_bfr;
-    std::shared_ptr<VertexArray> m_vertex_array;
+    std::shared_ptr<Shader> m_triangle_shader;
+    std::shared_ptr<Shader> m_square_shader;
+
+    std::shared_ptr<VertexBuffer> m_triangle_vertex_bfr;
+    std::shared_ptr<VertexBuffer> m_square_vertex_bfr;
+    
+    std::shared_ptr<IndexBuffer> m_triangle_index_bfr;
+    std::shared_ptr<IndexBuffer> m_square_index_bfr;
+
+    std::shared_ptr<VertexArray> m_triangle_vertex_array;
+    std::shared_ptr<VertexArray> m_square_vertex_array;
   private:
     static Application *s_instance;
 };

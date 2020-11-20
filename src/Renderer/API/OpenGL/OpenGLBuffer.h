@@ -37,11 +37,11 @@ class OpenGLIndexBuffer : public IndexBuffer {
 
     virtual void bind() const override;
     virtual void unbind() const override;
-    inline virtual uint32_t get_count() const override;
+    inline virtual uint32_t get_count() const override { return m_count; }
 
   private:
     uint32_t m_renderer_id;
-    uint32_t m_Count;
+    uint32_t m_count;
 };
 } // namespace Zyklon
 

@@ -194,3 +194,7 @@ the window interface implementations have to be at compile time which makes sens
 needed, it's not like you have the same build for every platform. The create function which returns the platform
 implemented of the window is implemented from the platform which means it's never going to be implemented at 
 runtime.
+
+## 11/20/20
+
+How do I refractor my code in an data oriented manner? ( I think it's too soon for that )

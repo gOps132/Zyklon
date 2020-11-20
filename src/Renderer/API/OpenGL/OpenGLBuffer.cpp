@@ -50,7 +50,7 @@ void OpenGLVertexBuffer::unbind() const
 }
 
 OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_count)
-    : m_Count(p_count)
+    : m_count(p_count)
 {
     GLCall(glGenBuffers(1, &m_renderer_id));
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_renderer_id));
@@ -72,7 +72,5 @@ void OpenGLIndexBuffer::unbind() const
 {
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
-
-uint32_t OpenGLIndexBuffer::get_count() const { return m_Count; }
 
 } // namespace Zyklon

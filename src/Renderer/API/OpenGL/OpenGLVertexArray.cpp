@@ -49,7 +49,7 @@ namespace Zyklon
         m_vertex_bfr.push_back(p_vertex_bfr);
     }
     
-    void OpenGLVertexArray::add_index_bfr(const std::shared_ptr<IndexBuffer> p_index_bfr) 
+    void OpenGLVertexArray::set_index_bfr(const std::shared_ptr<IndexBuffer> p_index_bfr) 
     {
         glBindVertexArray(m_renderer_id);
         p_index_bfr->bind();
