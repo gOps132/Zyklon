@@ -27,7 +27,7 @@ namespace Zyklon
         glBindVertexArray(0);
     }
     
-    void OpenGLVertexArray::add_vertex_bfr(const std::shared_ptr<VertexBuffer> p_vertex_bfr) 
+    void OpenGLVertexArray::add_vertex_bfr(const std::shared_ptr<VertexBuffer> &p_vertex_bfr) 
     {
         ZYKLON_CORE_ASSERT(p_vertex_bfr->get_layout().get_elements().size(), "VertexBuffer has no layout!");
 
@@ -49,7 +49,7 @@ namespace Zyklon
         m_vertex_bfr.push_back(p_vertex_bfr);
     }
     
-    void OpenGLVertexArray::set_index_bfr(const std::shared_ptr<IndexBuffer> p_index_bfr) 
+    void OpenGLVertexArray::set_index_bfr(const std::shared_ptr<IndexBuffer> &p_index_bfr) 
     {
         glBindVertexArray(m_renderer_id);
         p_index_bfr->bind();

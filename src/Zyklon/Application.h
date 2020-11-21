@@ -21,7 +21,7 @@ namespace Zyklon {
 class ZYKLON_EXPORT Application {
   public:
     Application();
-    virtual ~Application();
+    virtual ~Application() {}
 
     static Application *create_application();
 

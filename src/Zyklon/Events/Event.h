@@ -45,7 +45,6 @@ enum EventCategory {
     EventCategoryButton = BIT(4)
 };
 
-// TODO: Verify this
 /* Event subclass helper macros for overriding member functions */
 #define EVENT_CLASS_TYPE(type)                                                 \
     static EventType get_static_type() { return EventType::type; }             \
@@ -92,7 +91,7 @@ class EventDispatcher {
     template <typename T> bool Dispatch(EventFn<T> func)
     {
         if (m_event.get_event_type() == T::get_static_type()) {
-            m_event.handled = func(*(T *)&m_event);
+            m_event.handled = func(*static_cast<T*>(&m_event));
             return true;
         }
         return false;

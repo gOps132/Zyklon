@@ -46,6 +46,7 @@ class BufferLayout {
 
 		void calc_offsets_and_strides();
 
+		// FIXME: range loop error
 		std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
 		std::vector<BufferElement>::iterator end() { return m_elements.end(); }
 	private:

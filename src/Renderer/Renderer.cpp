@@ -52,6 +52,20 @@ IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
     return nullptr;
 }
 
+VertexArray *VertexArray::create()
+{
+    switch (Renderer::get_api()) {
+    case RendererAPI::None:
+        ZYKLON_CORE_ASSERT(false, "No Vertex Array Available");
+        return nullptr;
+    case RendererAPI::OpenGL:
+        return new OpenGLVertexArray();
+    }
+
+    ZYKLON_CORE_ASSERT(false, "No Vertex Array Available");
+    return nullptr;
+}
+
 Shader *Shader::create(const std::string &p_filepath)
 {
     switch (Renderer::get_api()) {

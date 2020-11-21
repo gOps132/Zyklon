@@ -11,7 +11,7 @@ namespace Zyklon {
 class ZYKLON_EXPORT Layer {
   public:
     Layer(const std::string &p_debug_name = "Layer");
-    virtual ~Layer();
+    virtual ~Layer() {}
 
     virtual void on_attach() {}
     virtual void on_detach() {}

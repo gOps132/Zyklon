@@ -6,8 +6,6 @@
 #include "Renderer/Shader.h"
 
 namespace Zyklon {
-// TODO: this should be an openGL specific file andn should be renamed to
-// shader.
 class OpenGLShader : public Shader {
   public:
     OpenGLShader(const std::string &p_filepath);

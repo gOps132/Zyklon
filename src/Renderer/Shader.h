@@ -12,7 +12,6 @@ struct ShaderProgramSource {
 
 class Shader {
   public:
-    Shader() {}
     virtual ~Shader() {}
 
     virtual void bind() = 0;
