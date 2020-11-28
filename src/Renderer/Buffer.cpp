@@ -26,8 +26,8 @@ uint32_t shader_data_type_size(ShaderDataType p_type)
     return 0;
 }
 
-BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name)
-    : name(p_name), type(p_type), offset(0), size(0), normalized(true)
+BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized = false)
+    : name(p_name), type(p_type), offset(0), size(shader_data_type_size(p_type)), normalized(p_normalized)
 {
 }
 
@@ -61,7 +61,7 @@ void BufferLayout::calc_offsets_and_strides()
 {
     uint32_t offset = 0;
     m_stride = 0;
-    for (auto &element : m_elements) 
+    for (BufferElement &element : m_elements) 
     {
         element.offset = offset;
         offset += element.size;

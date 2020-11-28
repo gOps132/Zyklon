@@ -25,7 +25,7 @@ struct BufferElement {
 		uint32_t size;
 		bool normalized;
 
-		BufferElement(ShaderDataType p_type, const std::string &p_name);
+		BufferElement(ShaderDataType p_type, const std::string &p_name, bool p_normalized);
 		
 		uint32_t get_component_count() const;
 };

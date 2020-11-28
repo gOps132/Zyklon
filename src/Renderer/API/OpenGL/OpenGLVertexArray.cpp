@@ -40,9 +40,11 @@ namespace Zyklon
         for (const BufferElement &element : layout) {
             GLCall(glEnableVertexAttribArray(index));
             GLCall(glVertexAttribPointer(
-                index, element.get_component_count(),
+                index, 
+                element.get_component_count(),
                 OpenGLHelperFunc::shader_type_to_opengl_typedef(element.type),
-                element.normalized ? GL_TRUE : GL_FALSE, layout.get_stride(),
+                element.normalized ? GL_TRUE : GL_FALSE, 
+                layout.get_stride(),
                 (const void *)element.offset));
             index++;
         }

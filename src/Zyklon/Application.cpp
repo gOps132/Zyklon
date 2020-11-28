@@ -40,8 +40,8 @@ Application::Application()
 
     m_triangle_vertex_bfr.reset(VertexBuffer::create(triangle_vertices, sizeof(triangle_vertices)));
     m_triangle_vertex_bfr->set_layout({
-        { ShaderDataType::Float3, "a_Position"},
-        { ShaderDataType::Float4, "a_Color" }
+        { ShaderDataType::Float3, "a_Position", false},
+        { ShaderDataType::Float4, "a_Color", false}
     });
     m_triangle_vertex_array->add_vertex_bfr(m_triangle_vertex_bfr);
 
@@ -62,7 +62,7 @@ Application::Application()
 
     m_square_vertex_bfr.reset(VertexBuffer::create(square_vertices, sizeof(square_vertices)));
     m_square_vertex_bfr->set_layout({
-        { ShaderDataType::Float3, "a_Position" }
+        { ShaderDataType::Float3, "a_Position", false }
     });
     m_square_vertex_array->add_vertex_bfr(m_square_vertex_bfr);
 

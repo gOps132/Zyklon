@@ -14,9 +14,8 @@ void main()
 #shader fragment
 #version 330 core
 
-in vec3 v_Position;   
-
 layout(location = 0) out vec4 color;
+in vec3 v_Position;   
 
 void main() 
 {
