@@ -9,6 +9,8 @@
 #include "Input/Input.h"
 #include "Window.h"
 
+#include "Renderer/Renderer.h"
+
 #include <glad/glad.h>
 
 #include "Application.h"
@@ -21,9 +23,9 @@ Application::Application()
 {
     ZYKLON_CORE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
-
-    Renderer::set_renderer_api();
     
+    Renderer::set_renderer_api();
+
     m_window = std::unique_ptr<Window>(Window::create());
 
     m_window->set_event_callback(BIND_EVENT_FN(Application::on_event));
