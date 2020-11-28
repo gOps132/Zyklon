@@ -11,6 +11,13 @@
 
 namespace Zyklon {
 
+RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
+
+void Renderer::set_renderer_api(RendererAPI p_renderer_api) 
+{
+    Renderer::s_RendererAPI = p_renderer_api;        
+}
+
 GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)
 {
     switch (Renderer::get_api()) {
