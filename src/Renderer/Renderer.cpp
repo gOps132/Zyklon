@@ -10,7 +10,6 @@
 #include "Renderer.h"
 
 namespace Zyklon {
-RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
 
 GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)
 {

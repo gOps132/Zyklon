@@ -7,6 +7,8 @@ namespace Zyklon {
 
 class ZYKLON_EXPORT Input {
   public:
+    virtual ~Input() {}
+
     inline static bool key_pressed(int keycode)
     {
         return s_instance->key_pressed_impl(keycode);

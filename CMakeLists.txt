@@ -156,15 +156,15 @@ endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 # Not sure if MSVC supports the g flag
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-  # using Intel C++
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  # using Visual Studio C++
-endif()
+# if(MSVC)
+#   # using Visual Studio C++
+# elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+#     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
+# elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+#     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+# else()
+#     message(AUTHOR_WARNING "No compiler debug set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+# endif()
 
 # ------------------------------------------
 # PLATFORM SPECIFIC MACRO DEFINITIONS

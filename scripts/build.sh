@@ -13,8 +13,25 @@ cmake \
     -DBUILD_ZYKLON_EXAMPLES=ON \  
     ..
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    make -j $(nproc)
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    make -j $(sysctl -n hw.ncpu)
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+    make
+elif [[ "$OSTYPE" == "msys" ]]; then
+    make
+elif [[ "$OSTYPE" == "win32" ]]; then
+    echo "I'm not sure this can happen."
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+    make
+else
+    echo "My God."
+fi
+
+
 # TODO: if os is linux
-    # make -j $(nproc)
+    # 
 
 # TODO: if os is macOS
-    make -j $(sysctl -n hw.ncpu)
+    

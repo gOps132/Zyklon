@@ -22,6 +22,8 @@ Application::Application()
     ZYKLON_CORE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
 
+    Renderer::set_renderer_api();
+    
     m_window = std::unique_ptr<Window>(Window::create());
 
     m_window->set_event_callback(BIND_EVENT_FN(Application::on_event));
@@ -32,15 +34,15 @@ Application::Application()
 // triangle
     m_triangle_vertex_array.reset(VertexArray::create());
 
-    float triangle_vertices[3 * 7] = {
-	     0.5f, 0.5f, 0.0f,      0.8f, 0.2f, 0.8f, 1.0f,
-	 	 0.5f, -0.5f, 0.0f,     0.2f, 0.3f, 0.8f, 1.0f,
-	    -0.5f, 0.5f, 0.0f,      0.8f, 0.8f, 0.2f, 1.0f
+    float triangle_vertices[] = {
+		-0.5f, -0.5f, 0.0f,     0.8f, 0.2f, 0.8f, 1.0f,
+		 0.5f, -0.5f, 0.0f,     0.2f, 0.3f, 0.8f, 1.0f,
+		 0.0f,  0.5f, 0.0f,     0.8f, 0.8f, 0.2f, 1.0f
     };
 
-    m_triangle_vertex_bfr.reset(VertexBuffer::create(triangle_vertices, sizeof(triangle_vertices) * sizeof(float)));
+    m_triangle_vertex_bfr.reset(VertexBuffer::create(triangle_vertices, sizeof(triangle_vertices)));
     m_triangle_vertex_bfr->set_layout({
-        { ShaderDataType::Float3, "a_Position" },
+        { ShaderDataType::Float3, "a_Position"},
         { ShaderDataType::Float4, "a_Color" }
     });
     m_triangle_vertex_array->add_vertex_bfr(m_triangle_vertex_bfr);
@@ -54,13 +56,13 @@ Application::Application()
     m_square_vertex_array.reset(VertexArray::create());
 
     float square_vertices[4 * 3] = {
-		-0.5f, -0.5f, 0.0f,
-	 	 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
+		-0.75f, -0.75f, 0.0f,
+		 0.75f, -0.75f, 0.0f,
+		 0.75f,  0.75f, 0.0f,
+	    -0.75f,  0.75f, 0.0f
     };
 
-    m_square_vertex_bfr.reset(VertexBuffer::create(square_vertices, sizeof(square_vertices) * sizeof(float)));
+    m_square_vertex_bfr.reset(VertexBuffer::create(square_vertices, sizeof(square_vertices)));
     m_square_vertex_bfr->set_layout({
         { ShaderDataType::Float3, "a_Position" }
     });
@@ -74,8 +76,8 @@ Application::Application()
     m_square_index_bfr.reset(IndexBuffer::create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
     m_square_vertex_array->set_index_bfr(m_square_index_bfr);
 
-    m_triangle_shader.reset(Shader::create("src/Shaders/Triangle.shader"));
     m_square_shader.reset(Shader::create("src/Shaders/Square.shader"));
+    m_triangle_shader.reset(Shader::create("src/Shaders/Triangle.shader"));
 }
 
 void Application::push_layer(Layer *layer) { m_layer_stack.push_layer(layer); }
@@ -102,6 +104,9 @@ void Application::run()
     while (m_running) {
         glClearColor(0.1f, 0.1f, 0.1f, 1);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Dispatch Contain all information on the scene */
+        // Renderer::begin_scene(struct SceneSetup);
 
         m_square_shader->bind();
         m_square_vertex_array->bind();
