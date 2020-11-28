@@ -14,11 +14,11 @@ class Renderer {
 	 *  Static Function to set the renderer API 
 	 *  Default RendererAPI::OpenGL 
 	 */
-    static void set_renderer_api(RendererAPI p_renderer_api = OpenGL)
+    static void set_renderer_api(RendererAPI p_renderer_api)
     {
         s_RendererAPI = p_renderer_api;
     }
-	
+
     inline static RendererAPI get_api() { return s_RendererAPI; }
 
   private:
