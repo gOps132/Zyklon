@@ -59,7 +59,7 @@ Application::Application()
 		 0.75f,  0.75f, 0.0f,
 	    -0.75f,  0.75f, 0.0f
     };
-
+ 
     m_square_vertex_bfr.reset(VertexBuffer::create(square_vertices, sizeof(square_vertices)));
     m_square_vertex_bfr->set_layout({
         { ShaderDataType::Float3, "a_Position", false }

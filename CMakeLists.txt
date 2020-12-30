@@ -52,7 +52,7 @@ set(PLATFORM_SOURCES
 # TODO: add abstraction test for build time and runtime
 set(RENDER_API_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/API")
 set(GRAPHICS_API 
-    src/Renderer/Renderer.cpp
+    src/Renderer/RendererAPI.cpp
     src/Renderer/Buffer.cpp
     src/Renderer/Shader.cpp
     src/Renderer/VertexArray.cpp
