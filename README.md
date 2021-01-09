@@ -36,9 +36,9 @@ https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GG
 * cmake modules from Jason Turners cpp_starter_project
     * https://github.com/lefticus/cpp_starter_project
 
-### Initial Setup:
+### Initial Setup (Terminal):
 
-THIS IS NOT TESTED ON WINDOWS
+NOT TESTED ON WINDOWS
 
 ```sh
     $ git clone https://github.com/gOps132/Zyklon
@@ -51,14 +51,28 @@ THIS IS NOT TESTED ON WINDOWS
     $ bash build.sh 
 ```
 
+### Initial Setup (VSCode):
+
+```sh
+    $ git clone https://github.com/gOps132/Zyklon
+    
+    $ cd Zyklon
+    $ code .
+    
+    // Build root CMakefile
+    shortcut: cmd + shift + b
+    // click on "Build_And_Run_Selected_CMake_Target"
+```
+
 ### NOTE:
 
 CMake Version <= 3.14
 
-This project is made with the visual studio code IDE.
+This project is made with the visual studio code IDE on a MacOSX and Linux machine.
 I made a specific task to run the currently selected executable at the workspace directory using vscode cmake-tools.
-As long as you run the executable in the workspace directory, your fine.
 
-I have not used windows in a long time.
+Make sure to run the executable at the workspace directory.
+
+Not guranteed to work on windows, I don't even know what batch files are.
 
 Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazingly useful content.
