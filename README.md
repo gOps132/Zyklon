@@ -6,10 +6,6 @@ right now I am just following the game engine series and trying to wrap my head 
 
 Currently trying scaling it into some serious hobby project.
 
-
-( if the other unfamiliar implemented code is rubbish there is a good chance it's made by 
-a 14 year old... )
-
 ## Citations
 
 ### Mostly implemented
@@ -68,7 +64,8 @@ NOT TESTED ON WINDOWS
 
 CMake Version <= 3.14
 
-This project is made with the visual studio code IDE on a MacOSX and Linux machine.
+This project is made with the visual studio code IDE in a Unix machine.
+
 I made a specific task to run the currently selected executable at the workspace directory using vscode cmake-tools.
 
 Make sure to run the executable at the workspace directory.
