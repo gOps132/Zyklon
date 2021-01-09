@@ -156,6 +156,7 @@ endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 # Not sure if MSVC supports the g flag
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
+# Other debugger flags
 # if(MSVC)
 #   # using Visual Studio C++
 # elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
