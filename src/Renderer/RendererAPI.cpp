@@ -9,5 +9,4 @@ namespace Zyklon
         RendererAPI::s_api = p_api;
     }
 
-
 } // namespace Zyklon
