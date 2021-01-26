@@ -7,14 +7,14 @@ class GLFWwindow;
 
 namespace Zyklon {
 class OpenGLContext : public GraphicsContext {
-  public:
-    OpenGLContext(GLFWwindow *p_glfw_window);
+public:
+	OpenGLContext(GLFWwindow *p_glfw_window);
 
-    virtual void init() override;
-    virtual void swap_buffers() override;
+	virtual void init() override;
+	virtual void swap_buffers() override;
 
-  private:
-    GLFWwindow *m_window_handler;
+private:
+	GLFWwindow *m_window_handler;
 };
 
 } // namespace Zyklon

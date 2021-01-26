@@ -4,9 +4,9 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(Zyklon 
-        VERSION 1.0.0
-        DESCRIPTION "Zyklon Game Engine Demo"
-        LANGUAGES CXX)
+		VERSION 1.0.0
+		DESCRIPTION "Zyklon Game Engine Demo"
+		LANGUAGES CXX)
 
 set(HEADER_DIR "src/header")
 set(VENDOR_DIR "src/vendor")
@@ -45,37 +45,41 @@ set(ENABLE_INCLUDE_WHAT_YOU_USE ON)
 # endif()
 
 set(PLATFORM_SOURCES 
-    src/Zyklon/Platform/Linux/LinuxWindow.cpp
-    src/Zyklon/Platform/Linux/LinuxInput.cpp
+	src/Zyklon/Platform/Linux/LinuxWindow.cpp
+	src/Zyklon/Platform/Linux/LinuxInput.cpp
 )
 
 # TODO: add abstraction test for build time and runtime
 set(RENDER_API_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/API")
 set(GRAPHICS_API 
-    src/Renderer/RendererAPI.cpp
-    src/Renderer/Buffer.cpp
-    src/Renderer/Shader.cpp
-    src/Renderer/VertexArray.cpp
+	src/Renderer/GraphicsContext.cpp
+	src/Renderer/RendererAPI.cpp
+	src/Renderer/Renderer.cpp
+	src/Renderer/Buffer.cpp
+	src/Renderer/Shader.cpp
+	src/Renderer/VertexArray.cpp
+	src/Renderer/RenderCommand.cpp
 
-    ${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
-    ${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
-    ${RENDER_API_DIR}/OpenGL/OpenGLBuffer.cpp
-    ${RENDER_API_DIR}/OpenGL/OpenGLVertexArray.cpp
-    ${RENDER_API_DIR}/OpenGL/OpenGLErrorManager.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLBuffer.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLVertexArray.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLErrorManager.cpp
+	${RENDER_API_DIR}/OpenGL/OpenGLRendererAPI.cpp
 )
 
 set(ZYKLON_SOURCE_FILES
-    src/Zyklon/Application.cpp
-    src/Zyklon/Log.cpp
-    src/Zyklon/Layer.cpp
-    src/Zyklon/LayerStack.cpp
-    src/Zyklon/zyklon_pch.cpp
+	src/Zyklon/Application.cpp
+	src/Zyklon/Log.cpp
+	src/Zyklon/Layer.cpp
+	src/Zyklon/LayerStack.cpp
+	src/Zyklon/zyklon_pch.cpp
 
-    src/Imgui/ImguiLayer.cpp
-    src/Imgui/ImguiBuild.cpp
+	src/Imgui/ImguiLayer.cpp
+	src/Imgui/ImguiBuild.cpp
 
-    ${GRAPHICS_API}
-    ${PLATFORM_SOURCES}
+	${GRAPHICS_API}
+	${PLATFORM_SOURCES}
 )
 
 set(CMAKE_CXX_VISIBILITY_PRESET         hidden)
@@ -86,7 +90,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN     YES)
 # ------------------------------------------
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG
-    "-Dzyklon_ENABLE_ASSERTS"
+	"-Dzyklon_ENABLE_ASSERTS"
 )
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
@@ -112,41 +116,41 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # BUILD FLAGS
 # ------------------------------------------
 set_target_properties(${PROJECT_NAME} PROPERTIES 
-    LINKER_LANGUAGE CXX
+	LINKER_LANGUAGE CXX
 
-    SOVERSION   ${PROJECT_VERSION_MAJOR}
-    VERSION     ${PROJECT_VERSION}
+	SOVERSION	${PROJECT_VERSION_MAJOR}
+	VERSION		${PROJECT_VERSION}
 
-    LIBRARY_OUTPUT_DIRECTORY        "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
-    ARCHIVE_OUTPUT_DIRECTORY        "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+	LIBRARY_OUTPUT_DIRECTORY	"${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+	ARCHIVE_OUTPUT_DIRECTORY	"${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
 
-    DEFINITIONS -Dzyklon_EXPORTS
+	DEFINITIONS -Dzyklon_EXPORTS
 )
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-    option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+	option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
 endif(MSVC) 
 
 # If the runtime static linkage option is turned on, replace
 # compiler flag that selects runtime library variant.
 if(MSVC AND RUNTIME_STATIC_LINKAGE)
-    foreach(flag
-        CMAKE_C_FLAGS
-        CMAKE_CXX_FLAGS
-        CMAKE_C_FLAGS_DEBUG
-        CMAKE_CXX_FLAGS_DEBUG
-        CMAKE_C_FLAGS_RELEASE
-        CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_C_FLAGS_MINSIZEREL
-        CMAKE_CXX_FLAGS_MINSIZEREL
-        CMAKE_C_FLAGS_RELWITHDEBINFO
-        CMAKE_CXX_FLAGS_RELWITHDEBINFO
-    )
-        if(${flag} MATCHES "/MD")
-            string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
-        endif(${flag} MATCHES "/MD")
-    endforeach(flag)
+	foreach(flag
+		CMAKE_C_FLAGS
+		CMAKE_CXX_FLAGS
+		CMAKE_C_FLAGS_DEBUG
+		CMAKE_CXX_FLAGS_DEBUG
+		CMAKE_C_FLAGS_RELEASE
+		CMAKE_CXX_FLAGS_RELEASE
+		CMAKE_C_FLAGS_MINSIZEREL
+		CMAKE_CXX_FLAGS_MINSIZEREL
+		CMAKE_C_FLAGS_RELWITHDEBINFO
+		CMAKE_CXX_FLAGS_RELWITHDEBINFO
+	)
+		if(${flag} MATCHES "/MD")
+			string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+		endif(${flag} MATCHES "/MD")
+	endforeach(flag)
 endif(MSVC AND RUNTIME_STATIC_LINKAGE)
 
 # ------------------------------------------
@@ -171,50 +175,50 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 # PLATFORM SPECIFIC MACRO DEFINITIONS
 # ------------------------------------------
 if(APPLE)
-    target_compile_definitions(${PROJECT_NAME} 
-        PRIVATE     -DZYKLON_PLATFORM_MACOS
-    )
+	target_compile_definitions(${PROJECT_NAME} 
+		PRIVATE		-DZYKLON_PLATFORM_MACOS
+	)
 elseif(WIN32)
-    target_compile_definitions(${PROJECT_NAME} 
-        PRIVATE     -DZYKLON_PLATFORM_WINDOWS
-        PUBLIC      -DGLFW_INCLUDE_NONE
-    )
+	target_compile_definitions(${PROJECT_NAME} 
+		PRIVATE		-DZYKLON_PLATFORM_WINDOWS
+		PUBLIC		-DGLFW_INCLUDE_NONE
+	)
 elseif(UNIX AND NOT APPLE)
-    target_compile_definitions(${PROJECT_NAME} 
-        PRIVATE     -DZYKLON_PLATFORM_LINUX
-    )
+	target_compile_definitions(${PROJECT_NAME} 
+		PRIVATE		-DZYKLON_PLATFORM_LINUX
+	)
 endif()
 
 if (APPLE)
-    list (APPEND EXTRA_LIBS "-framework OpenGL")
+	list (APPEND EXTRA_LIBS "-framework OpenGL")
 elseif(WIN32)
-    list (APPEND EXTRA_LIBS "-lgu32 -lopengl32")
-    set(CMAKE_EXE_LINKER_FLAGS "-std=gnu99 -static -static-libgcc -static-libstdc++ -mwindows")
+	list (APPEND EXTRA_LIBS "-lgu32 -lopengl32")
+	set(CMAKE_EXE_LINKER_FLAGS "-std=gnu99 -static -static-libgcc -static-libstdc++ -mwindows")
 elseif(UNIX AND NOT APPLE)
-    list(APPEND EXTRA_LIBS "-lGL -lGLU -lX11")
+	list(APPEND EXTRA_LIBS "-lGL -lGLU -lX11")
 endif()
 
 set(IMGUI_EXAMPLES OFF)
 set(IMGUI_IMPL_SDL OFF)
 target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE     ${EXTRA_LIBS}
-        PUBLIC      zyklon_profiler_header_only
-        PRIVATE     glfw
-        PRIVATE     glad
-        PUBLIC      glm
-        PUBLIC      imgui-test
-        PUBLIC      spdlog
+		${PROJECT_NAME}
+		PRIVATE		${EXTRA_LIBS}
+		PUBLIC		zyklon_profiler_header_only
+		PRIVATE		glfw
+		PRIVATE		glad
+		PUBLIC		glm
+		PUBLIC		imgui-test
+		PUBLIC		spdlog
 )
 
 target_precompile_headers(
-    ${PROJECT_NAME}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_pch.h
+	${PROJECT_NAME}
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_pch.h
 )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/src
-    PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
+	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/src
+	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/vendor
 )
 
 # ------------------------------------------
@@ -222,5 +226,5 @@ target_include_directories(${PROJECT_NAME}
 # ------------------------------------------
 option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" OFF)
 if(BUILD_ZYKLON_EXAMPLES)
-    add_subdirectory(examples/Sandbox)
+	add_subdirectory(examples/Sandbox)
 endif()

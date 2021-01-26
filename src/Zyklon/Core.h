@@ -3,19 +3,19 @@
 
 #ifdef zyklon_ENABLE_ASSERTS
 #define ZYKLON_ASSERT(x, ...)                                                  \
-    {                                                                          \
-        if (!(x)) {                                                            \
-            ZYKLON_ERROR("Assertion Failed: {0}", __VA_ARGS__);                \
-            debug_break();                                                     \
-        }                                                                      \
-    }
+	{                                                                          \
+		if (!(x)) {                                                            \
+			ZYKLON_ERROR("Assertion Failed: {0}", __VA_ARGS__);                \
+			debug_break();                                                     \
+		}                                                                      \
+	}
 #define ZYKLON_CORE_ASSERT(x, ...)                                             \
-    {                                                                          \
-        if (!(x)) {                                                            \
-            ZYKLON_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);           \
-            debug_break();                                                     \
-        }                                                                      \
-    }
+	{                                                                          \
+		if (!(x)) {                                                            \
+			ZYKLON_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);           \
+			debug_break();                                                     \
+		}                                                                      \
+	}
 #else
 #define ZYKLON_ASSERT(x, ...)
 #define ZYKLON_CORE_ASSERT(x, ...)

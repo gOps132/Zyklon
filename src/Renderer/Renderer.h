@@ -1,25 +1,21 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
+#include "Zyklon/zyklon_pch.h"
+
+#include "RendererAPI.h"
+
 namespace Zyklon {
 
-enum RendererAPI {
-   None = 0, 
-   OpenGL = 1 
-};
-
 class Renderer {
-  public:
-	/**
-	 *  Static Function to set the renderer API 
-	 *  Default RendererAPI::OpenGL 
-	 */
-    static void set_renderer_api(RendererAPI p_renderer_api);
-    
-    inline static RendererAPI get_api() { return s_RendererAPI; }
+public:
+	static void begin_scene();
+	static void end_scene();
 
-  private:
-    static RendererAPI s_RendererAPI;
+	static void submit(const std::shared_ptr<VertexArray> &p_vertex_array);
+
+	/* Wrapper for definitions */
+	inline static RendererAPI::API get_api() { return RendererAPI::get_api(); }
 };
 
 } // namespace Zyklon

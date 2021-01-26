@@ -12,7 +12,7 @@
 
 #include <memory>
 
-#include <utility>  
+#include <utility>
 
 #include <algorithm>
 

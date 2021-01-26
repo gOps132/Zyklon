@@ -7,51 +7,50 @@
 #include <GLFW/glfw3.h>
 
 #include "Renderer/API/OpenGL/OpenGLContext.h"
-
 namespace Zyklon {
 
 class LinuxWindow : public Window {
   public:
-    /* Initialize glfw glad etc. */
-    LinuxWindow(const WindowProps &props);
-    virtual ~LinuxWindow();
+	/* Initialize glfw glad etc. */
+	LinuxWindow(const WindowProps &props);
+	virtual ~LinuxWindow();
 
-    virtual void on_update() override;
+	virtual void on_update() override;
 
-    inline virtual unsigned int get_width() const override
-    {
-        return m_data.width;
-    }
-    inline virtual unsigned int get_height() const override
-    {
-        return m_data.height;
-    }
+	inline virtual unsigned int get_width() const override
+	{
+		return m_data.width;
+	}
+	inline virtual unsigned int get_height() const override
+	{
+		return m_data.height;
+	}
 
-    // Window attributes
-    inline virtual void
-    set_event_callback(const EventCallbackFn &p_callback) override
-    {
-        m_data.event_callback = p_callback;
-    }
-    virtual void set_vsync(bool p_enabled) override;
-    virtual bool vsync() const override;
+	// Window attributes
+	inline virtual void
+	set_event_callback(const EventCallbackFn &p_callback) override
+	{
+		m_data.event_callback = p_callback;
+	}
+	virtual void set_vsync(bool p_enabled) override;
+	virtual bool vsync() const override;
 
-    /* Returns the GLFW window pointer */
-    inline virtual void *get_native_window() const override { return m_window; }
+	/* Returns the GLFW window pointer */
+	inline virtual void *get_native_window() const override { return m_window; }
 
   private:  
-    GLFWwindow *m_window;
-    GraphicsContext *m_context;
+	GLFWwindow *m_window;
+	GraphicsContext *m_context;
 
-    struct WindowData {
-        std::string title;
-        unsigned int width, height;
-        bool vsync;
+	struct WindowData {
+		std::string title;
+		unsigned int width, height;
+		bool vsync;
 
-        EventCallbackFn event_callback;
-    };
+		EventCallbackFn event_callback;
+	};
 
-    WindowData m_data;
+	WindowData m_data;
 };
 
 } // namespace Zyklon

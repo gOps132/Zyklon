@@ -6,57 +6,51 @@
 #include "OpenGLErrorManager.h"
 #include "OpenGLBuffer.h"
 
-namespace Zyklon
+namespace Zyklon {
+OpenGLVertexArray::OpenGLVertexArray()
 {
-    OpenGLVertexArray::OpenGLVertexArray() 
-    {
-        GLCall(glGenVertexArrays(1, &m_renderer_id));
-    }
-    
-    OpenGLVertexArray::~OpenGLVertexArray() 
-    {
-        GLCall(glDeleteVertexArrays(1, &m_renderer_id));
-    }
+	GLCall(glGenVertexArrays(1, &m_renderer_id));
+}
 
-    void OpenGLVertexArray::bind() 
-    {
-        GLCall(glBindVertexArray(m_renderer_id)) ;
-    }
-    
-    void OpenGLVertexArray::unbind() 
-    {
-        GLCall(glBindVertexArray(0));
-    }
-    
-    void OpenGLVertexArray::add_vertex_bfr(const std::shared_ptr<VertexBuffer> &p_vertex_bfr) 
-    {
-        ZYKLON_CORE_ASSERT(p_vertex_bfr->get_layout().get_elements().size(), "VertexBuffer has no layout!");
+OpenGLVertexArray::~OpenGLVertexArray()
+{
+	GLCall(glDeleteVertexArrays(1, &m_renderer_id));
+}
 
-        GLCall(glBindVertexArray(m_renderer_id));
-        p_vertex_bfr->bind();
+void OpenGLVertexArray::bind() { GLCall(glBindVertexArray(m_renderer_id)); }
 
-        uint32_t index = 0;
-        const BufferLayout &layout = p_vertex_bfr->get_layout();
-        for (const BufferElement &element : layout) {
-            GLCall(glEnableVertexAttribArray(index));
-            GLCall(glVertexAttribPointer(
-                index, 
-                element.get_component_count(),
-                OpenGLHelperFunc::shader_type_to_opengl_typedef(element.type),
-                element.normalized ? GL_TRUE : GL_FALSE, 
-                layout.get_stride(),
-                (const void *)element.offset));
-            index++;
-        }
+void OpenGLVertexArray::unbind() { GLCall(glBindVertexArray(0)); }
 
-        m_vertex_bfr.push_back(p_vertex_bfr);
-    }
-    
-    void OpenGLVertexArray::set_index_bfr(const std::shared_ptr<IndexBuffer> &p_index_bfr) 
-    {
-        GLCall(glBindVertexArray(m_renderer_id));
-        p_index_bfr->bind();
+void OpenGLVertexArray::add_vertex_bfr(
+	const std::shared_ptr<VertexBuffer> &p_vertex_bfr)
+{
+	ZYKLON_CORE_ASSERT(p_vertex_bfr->get_layout().get_elements().size(),
+					   "VertexBuffer has no layout!");
 
-        m_index_bfr = p_index_bfr;
-    }    
+	GLCall(glBindVertexArray(m_renderer_id));
+	p_vertex_bfr->bind();
+
+	uint32_t index = 0;
+	const BufferLayout &layout = p_vertex_bfr->get_layout();
+	for (const BufferElement &element : layout) {
+		GLCall(glEnableVertexAttribArray(index));
+		GLCall(glVertexAttribPointer(
+			index, element.get_component_count(),
+			OpenGLHelperFunc::shader_type_to_opengl_typedef(element.type),
+			element.normalized ? GL_TRUE : GL_FALSE, layout.get_stride(),
+			(const void *)element.offset));
+		index++;
+	}
+
+	m_vertex_bfr.push_back(p_vertex_bfr);
+}
+
+void OpenGLVertexArray::set_index_bfr(
+	const std::shared_ptr<IndexBuffer> &p_index_bfr)
+{
+	GLCall(glBindVertexArray(m_renderer_id));
+	p_index_bfr->bind();
+
+	m_index_bfr = p_index_bfr;
+}
 } // namespace Zyklon

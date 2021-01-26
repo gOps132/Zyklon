@@ -19,45 +19,47 @@ namespace Zyklon {
 
 /* Single Application class */
 class ZYKLON_EXPORT Application {
-  public:
-    Application();
-    virtual ~Application() {}
+public:
+	Application();
+	virtual ~Application() {}
 
-    static Application *create_application();
+	static Application *create_application();
 
-    /* Main run Loop */
-    void run();
+	/* Main run Loop */
+	void run();
 
-    void on_event(Event &e);
+	void on_event(Event &e);
 
-    void push_layer(Layer *p_layer);
-    void push_overlay(Layer *p_layer);
+	void push_layer(Layer *p_layer);
+	void push_overlay(Layer *p_layer);
 
-    inline Window &get_window() { return *m_window; }
+	inline Window &get_window() { return *m_window; }
 
-    inline static Application &get() { return *s_instance; }
-  private:
-    bool on_window_close(WindowCloseEvent &e);
+	inline static Application &get() { return *s_instance; }
 
-    std::unique_ptr<Window> m_window;
-    ImGuiLayer *m_imgui_layer;
+private:
+	bool on_window_close(WindowCloseEvent &e);
 
-    bool m_running = true;
-    LayerStack m_layer_stack;
+	std::unique_ptr<Window> m_window;
+	ImGuiLayer *m_imgui_layer;
 
-    std::shared_ptr<Shader> m_triangle_shader;
-    std::shared_ptr<Shader> m_square_shader;
+	bool m_running = true;
+	LayerStack m_layer_stack;
 
-    std::shared_ptr<VertexBuffer> m_triangle_vertex_bfr;
-    std::shared_ptr<VertexBuffer> m_square_vertex_bfr;
-    
-    std::shared_ptr<IndexBuffer> m_triangle_index_bfr;
-    std::shared_ptr<IndexBuffer> m_square_index_bfr;
+	std::shared_ptr<Shader> m_triangle_shader;
+	std::shared_ptr<Shader> m_square_shader;
 
-    std::shared_ptr<VertexArray> m_triangle_vertex_array;
-    std::shared_ptr<VertexArray> m_square_vertex_array;
-  private:
-    static Application *s_instance;
+	std::shared_ptr<VertexBuffer> m_triangle_vertex_bfr;
+	std::shared_ptr<VertexBuffer> m_square_vertex_bfr;
+
+	std::shared_ptr<IndexBuffer> m_triangle_index_bfr;
+	std::shared_ptr<IndexBuffer> m_square_index_bfr;
+
+	std::shared_ptr<VertexArray> m_triangle_vertex_array;
+	std::shared_ptr<VertexArray> m_square_vertex_array;
+
+private:
+	static Application *s_instance;
 };
 
 } // namespace Zyklon

@@ -5,16 +5,16 @@
 
 int main(int argc, char **argv)
 {
-    Zyklon::Log::init("APP");
+	Zyklon::Log::init("APP");
 
-    ZYKLON_CORE_WARN("Initialized Log");
-    ZYKLON_CORE_INFO("Welcome To Zyklon Game Engine");
+	ZYKLON_CORE_WARN("Initialized Log");
+	ZYKLON_CORE_INFO("Welcome To Zyklon Game Engine");
 
-    auto app = Zyklon::Application::create_application();
-    app->run();
-    delete app;
+	auto app = Zyklon::Application::create_application();
+	app->run();
+	delete app;
 
-    return 1;
+	return 1;
 }
 
 #endif

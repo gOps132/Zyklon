@@ -1,8 +1,26 @@
-#include "Shader.h"
+#include "Zyklon/Core.h"
 #include "Zyklon/zyklon_pch.h"
 
+#include "Shader.h"
+
+#include "Renderer/Renderer.h"
+#include "Renderer/API/OpenGL/OpenGLShader.h"
+
 namespace Zyklon {
-    
+
+Shader *Shader::create(const std::string &p_filepath)
+{
+	switch (Renderer::get_api()) {
+	case RendererAPI::API::None:
+		ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
+		return nullptr;
+	case RendererAPI::API::OpenGL:
+		return new OpenGLShader(p_filepath);
+	}
+	ZYKLON_CORE_ASSERT(false, "Unknown Shader!");
+	return nullptr;
+}
+
 ShaderProgramSource Shader::parse_shader(const std::string &p_filepath)
 {
     enum class ShaderType { NONE = -1, VERTEX = 0, FRAGMENT = 1 };
