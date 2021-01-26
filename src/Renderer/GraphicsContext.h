@@ -3,15 +3,19 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Renderer.h"
+
 namespace Zyklon {
+
 class GraphicsContext {
-  public:
-    virtual void init() = 0;
-    virtual void swap_buffers() = 0;
+public:
+	virtual ~GraphicsContext() {}
 
-    static GraphicsContext *create(GLFWwindow *p_window);
+	virtual void init() = 0;
+	virtual void swap_buffers() = 0;
+
+	static GraphicsContext *create(GLFWwindow *p_window);
 };
-
 } // namespace Zyklon
 
 #endif // __GRAPHICSCONTEXT_H__

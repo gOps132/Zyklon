@@ -11,22 +11,22 @@
 namespace Zyklon {
 
 class ZYKLON_EXPORT ImGuiLayer : public Layer {
-  public:
-    ImGuiLayer();
-    ~ImGuiLayer();
+public:
+	ImGuiLayer();
+	~ImGuiLayer();
 
-    virtual void on_attach() override;
-    virtual void on_detach() override;
+	virtual void on_attach() override;
+	virtual void on_detach() override;
 
-    virtual void on_imgui_render() override;
+	virtual void on_imgui_render() override;
 
-    /* Layers to do their own Imgui Rendering */
-    /* Begin a new frame */
-    void begin();
-    void end();
+	/* Layers to do their own Imgui Rendering */
+	/* Begin a new frame */
+	void begin();
+	void end();
 
-  private:
-    float m_Time = 0.0f;
+private:
+	float m_Time = 0.0f;
 };
 
 } // namespace Zyklon
