@@ -8,8 +8,8 @@ project(Zyklon
 		DESCRIPTION "Zyklon Game Engine Demo"
 		LANGUAGES CXX)
 
-set(HEADER_DIR "src/header")
-set(VENDOR_DIR "src/vendor")
+set(HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/header)
+set(VENDOR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor)
 
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
@@ -27,6 +27,7 @@ set(ENABLE_CLANG_TIDY           ON)
 set(ENBALE_CPPCHECK             ON)
 set(ENABLE_INCLUDE_WHAT_YOU_USE ON)
 
+option(ZYKLON_ENABLE_OPENGL ON)
 # if(APPLE)
 #     set(PLATFORM_SOURCES 
 #         src/Zyklon/Platform/Macos/MacosWindow.cpp
@@ -175,18 +176,20 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 # PLATFORM SPECIFIC MACRO DEFINITIONS
 # ------------------------------------------
 if(APPLE)
-	target_compile_definitions(${PROJECT_NAME} 
-		PRIVATE		-DZYKLON_PLATFORM_MACOS
-	)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE -DZYKLON_PLATFORM_MACOS)
 elseif(WIN32)
 	target_compile_definitions(${PROJECT_NAME} 
 		PRIVATE		-DZYKLON_PLATFORM_WINDOWS
 		PUBLIC		-DGLFW_INCLUDE_NONE
 	)
 elseif(UNIX AND NOT APPLE)
-	target_compile_definitions(${PROJECT_NAME} 
-		PRIVATE		-DZYKLON_PLATFORM_LINUX
-	)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE -DZYKLON_PLATFORM_LINUX )
+endif()
+
+if(ZYKLON_ENABLE_OPENGL)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE -DZYKLON_ENABLE_OPENGL)
+else()
+	target_compile_definitions(${PROJECT_NAME} PRIVATE -DZYKLON_ENABLE_OPENGL)
 endif()
 
 if (APPLE)

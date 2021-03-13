@@ -103,7 +103,6 @@ LinuxWindow::LinuxWindow(const WindowProps &p_props)
 	glfwSetMouseButtonCallback(m_window, [](GLFWwindow *p_window, int p_button,
 											int p_action, int p_mode) {
 		WindowData &data = *(WindowData *)glfwGetWindowUserPointer(p_window);
-
 		switch (p_action) {
 		case GLFW_PRESS: {
 			MouseButtonPressedEvent event(p_button);

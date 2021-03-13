@@ -2,11 +2,11 @@
 #define __OPENGLCONTEXT_H__
 
 #include "Renderer/GraphicsContext.h"
+#include "Zyklon/Core.h"
 
 class GLFWwindow;
-
 namespace Zyklon {
-class OpenGLContext : public GraphicsContext {
+class OpenGLContext ZYKLON_OPENGL_FINAL : public GraphicsContext {
 public:
 	OpenGLContext(GLFWwindow *p_glfw_window);
 

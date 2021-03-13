@@ -4,9 +4,10 @@
 #include "Zyklon/zyklon_pch.h"
 
 #include "Renderer/Shader.h"
+#include "Zyklon/Core.h"
 
 namespace Zyklon {
-class OpenGLShader : public Shader {
+class OpenGLShader ZYKLON_OPENGL_FINAL : public Shader {
 public:
 	OpenGLShader(const std::string &p_filepath);
 	~OpenGLShader();

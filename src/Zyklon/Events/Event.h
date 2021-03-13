@@ -14,93 +14,93 @@ namespace Zyklon {
 
 /* Class that describes the event type */
 enum class EventType {
-    NONE = 0,
+	NONE = 0,
 
-    WindowClose,
-    WindowResize,
-    WindowFocus,
-    WindowLostFocus,
-    WindowMoved,
+	WindowClose,
+	WindowResize,
+	WindowFocus,
+	WindowLostFocus,
+	WindowMoved,
 
-    AppTick,
-    AppUpdate,
-    AppRender,
+	AppTick,
+	AppUpdate,
+	AppRender,
 
-    KeyPressed,
-    KeyRelease,
-    KeyTyped,
+	KeyPressed,
+	KeyRelease,
+	KeyTyped,
 
-    MouseButtonPressed,
-    MouseButtonRelease,
-    MouseMoved,
-    MouseScrolled
+	MouseButtonPressed,
+	MouseButtonRelease,
+	MouseMoved,
+	MouseScrolled
 };
 
 enum EventCategory {
-    NONE = 0,
-    EventCategoryApplication = BIT(0),
-    EventCategoryInput = BIT(1),
-    EventCategoryKeyboard = BIT(2),
-    EventCategoryMouse = BIT(3),
-    EventCategoryButton = BIT(4)
+	NONE = 0,
+	EventCategoryApplication = BIT(0),
+	EventCategoryInput = BIT(1),
+	EventCategoryKeyboard = BIT(2),
+	EventCategoryMouse = BIT(3),
+	EventCategoryButton = BIT(4)
 };
 
 /* Event subclass helper macros for overriding member functions */
 #define EVENT_CLASS_TYPE(type)                                                 \
-    static EventType get_static_type() { return EventType::type; }             \
-    virtual EventType get_event_type() const override                          \
-    {                                                                          \
-        return get_static_type();                                              \
-    }                                                                          \
-    virtual const char *get_name() const override { return #type; }
+	static EventType get_static_type() { return EventType::type; }             \
+	virtual EventType get_event_type() const override                          \
+	{                                                                          \
+		return get_static_type();                                              \
+	}                                                                          \
+	virtual const char *get_name() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category)                                         \
-    virtual int get_category_flags() const override { return category; }
+	virtual int get_category_flags() const override { return category; }
 
 /* Base Class For Events */
 class ZYKLON_EXPORT Event {
-    friend class EventDispatcher;
+	friend class EventDispatcher;
 
-  public:
-    virtual ~Event() {};
-    
-    bool handled = false;
+public:
+	virtual ~Event(){};
 
-    virtual EventType get_event_type() const = 0;
-    virtual const char *get_name() const = 0;
-    virtual int get_category_flags() const = 0;
+	bool handled = false;
 
-    virtual std::string to_string() const { return get_name(); }
+	virtual EventType get_event_type() const = 0;
+	virtual const char *get_name() const = 0;
+	virtual int get_category_flags() const = 0;
 
-    inline bool is_in_category(EventCategory category)
-    {
-        return get_category_flags() & category;
-    }
+	virtual std::string to_string() const { return get_name(); }
+
+	inline bool is_in_category(EventCategory category)
+	{
+		return get_category_flags() & category;
+	}
 };
 
 class EventDispatcher {
-  private:
-    Event &m_event;
+private:
+	Event &m_event;
 
-  private:
-    template <typename T> using EventFn = std::function<bool(T &)>;
+private:
+	template <typename T> using EventFn = std::function<bool(T &)>;
 
-  public:
-    EventDispatcher(Event &event) : m_event(event) {}
+public:
+	EventDispatcher(Event &event) : m_event(event) {}
 
-    template <typename T> bool Dispatch(EventFn<T> func)
-    {
-        if (m_event.get_event_type() == T::get_static_type()) {
-            m_event.handled = func(*static_cast<T*>(&m_event));
-            return true;
-        }
-        return false;
-    }
+	template <typename T> bool Dispatch(EventFn<T> func)
+	{
+		if (m_event.get_event_type() == T::get_static_type()) {
+			m_event.handled = func(*static_cast<T *>(&m_event));
+			return true;
+		}
+		return false;
+	}
 };
 
 inline std::ostream &operator<<(std::ostream &os, const Event &e)
 {
-    return os << e.to_string();
+	return os << e.to_string();
 }
 
 } // namespace Zyklon

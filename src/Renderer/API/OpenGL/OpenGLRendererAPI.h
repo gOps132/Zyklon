@@ -2,9 +2,10 @@
 #define __OPENGLRENDERERAPI_H__
 
 #include "Renderer/RendererAPI.h"
+#include "Zyklon/Core.h"
 
 namespace Zyklon {
-class OpenGLRendererAPI : public RendererAPI {
+class OpenGLRendererAPI ZYKLON_OPENGL_FINAL : public RendererAPI {
 public:
 	virtual void set_clear_color(const glm::vec4 &color) override;
 	virtual void clear() override;

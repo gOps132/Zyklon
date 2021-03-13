@@ -7,6 +7,8 @@
 
 #include <glad/glad.h>
 
+#include "Zyklon/Core.h"
+
 namespace Zyklon {
 
 union OpenGLHelperFunc {
@@ -14,7 +16,7 @@ public:
 	static GLenum shader_type_to_opengl_typedef(ShaderDataType p_type);
 };
 
-class OpenGLVertexBuffer : public VertexBuffer {
+class OpenGLVertexBuffer ZYKLON_OPENGL_FINAL : public VertexBuffer {
 public:
 	OpenGLVertexBuffer(float *p_vertices, size_t p_size);
 	virtual ~OpenGLVertexBuffer();
@@ -33,7 +35,7 @@ private:
 	BufferLayout m_layout;
 };
 
-class OpenGLIndexBuffer : public IndexBuffer {
+class OpenGLIndexBuffer ZYKLON_OPENGL_FINAL : public IndexBuffer {
 public:
 	OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_size);
 	virtual ~OpenGLIndexBuffer();
