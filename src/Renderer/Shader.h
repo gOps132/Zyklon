@@ -17,6 +17,8 @@ public:
 	virtual void bind() = 0;
 	virtual void unbind() = 0;
 
+	virtual void set_uniform() = 0;
+
 	static Shader *create(const std::string &p_filepath);
 
 	static ShaderProgramSource parse_shader(const std::string &p_filePath);

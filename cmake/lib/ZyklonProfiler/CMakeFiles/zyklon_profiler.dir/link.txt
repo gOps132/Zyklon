@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libzyklon_profiler.a CMakeFiles/zyklon_profiler.dir/src/Timer.cpp.o CMakeFiles/zyklon_profiler.dir/src/Track.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libzyklon_profiler.a

@@ -12,7 +12,7 @@ public:
 	virtual void on_update() override
 	{
 		// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
-		//     ZYKLON_INFO("Tab Key is Pressed");
+		// 	ZYKLON_INFO("Tab Key is Pressed");
 	}
 
 	virtual void on_event(Zyklon::Event &event) override

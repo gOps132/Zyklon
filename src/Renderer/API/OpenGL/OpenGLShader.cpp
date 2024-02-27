@@ -25,7 +25,7 @@ OpenGLShader::OpenGLShader(const std::string &p_filepath)
 
 	// Compile the vertex shader
 	GLCall(glCompileShader(vertexShader));
-
+ 
 	int isCompiled = 0;
 	GLCall(glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled));
 	if (isCompiled == GL_FALSE) {
@@ -125,4 +125,6 @@ void OpenGLShader::bind() { GLCall(glUseProgram(m_renderer_id)); }
 
 void OpenGLShader::unbind() { GLCall(glUseProgram(0)); }
 
+// Utilize an enum of types
+void OpenGLShader::set_uniform() { };
 } // namespace Zyklon

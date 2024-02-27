@@ -59,12 +59,14 @@ void ImGuiLayer::on_attach()
 	// Setup Platform/Renderer bindingss
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 
-// Higher version later support
+// local developement machine debug
+//TODO: 
 #ifdef __APPLE__
 	ImGui_ImplOpenGL3_Init("#version 330");
 #else
 	ImGui_ImplOpenGL3_Init("#version 450 core");
 #endif
+
 }
 
 void ImGuiLayer::on_detach()

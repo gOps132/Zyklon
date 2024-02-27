@@ -15,6 +15,7 @@ public:
 	virtual void bind() override;
 	virtual void unbind() override;
 
+	virtual void set_uniform() override;
 private:
 	ShaderProgramSource m_shader_source;
 	uint32_t m_renderer_id;
