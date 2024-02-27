@@ -12,11 +12,13 @@ public:
 	OpenGLShader(const std::string &p_filepath);
 	~OpenGLShader();
 
+	virtual void set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer) override;
+
 	virtual void bind() override;
 	virtual void unbind() override;
 
-	virtual void set_uniform() override;
 private:
+	// std::vector<ShaderUniform> m_shader_uniforms;
 	ShaderProgramSource m_shader_source;
 	uint32_t m_renderer_id;
 };

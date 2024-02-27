@@ -46,4 +46,6 @@ ShaderProgramSource Shader::parse_shader(const std::string &p_filepath)
     return {ss[0].str(), ss[1].str()};
 }
 
+
+
 } // namespace Zyklon

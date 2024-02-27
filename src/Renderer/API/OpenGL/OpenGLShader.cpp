@@ -9,7 +9,17 @@
 #include "OpenGLErrorManager.h"
 #include "OpenGLShader.h"
 
+#include "glm/gtc/type_ptr.hpp"
+
 namespace Zyklon {
+
+void OpenGLShader::set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer)
+{
+	GLCall(glUseProgram(m_renderer_id));
+	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
+	if (location != -1)
+		GLCall(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(buffer)));
+}
 
 OpenGLShader::OpenGLShader(const std::string &p_filepath)
 {
@@ -125,6 +135,4 @@ void OpenGLShader::bind() { GLCall(glUseProgram(m_renderer_id)); }
 
 void OpenGLShader::unbind() { GLCall(glUseProgram(0)); }
 
-// Utilize an enum of types
-void OpenGLShader::set_uniform() { };
 } // namespace Zyklon

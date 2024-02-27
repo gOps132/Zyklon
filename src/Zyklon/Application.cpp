@@ -135,7 +135,6 @@ Application::Application()
 	// TODO: Find a way to accept uniforms
 	// Define model matrix (initially identity)
 	glm::mat4 model = glm::mat4(1.0f);
-
 	// Set up view and projection matrices (adjust based on your camera/viewport)
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
@@ -153,6 +152,11 @@ Application::Application()
 	m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);
 
 	m_cube_shader.reset(Shader::create("src/Shaders/Cube.shader"));
+
+	m_cube_shader->set_uniform_matrix_4fv("model", model);
+	m_cube_shader->set_uniform_matrix_4fv("view", view);
+	m_cube_shader->set_uniform_matrix_4fv("model", projection);
+
 	// m_square_shader.reset(Shader::create("src/Shaders/Square.shader"));
 	// m_triangle_shader.reset(Shader::create("src/Shaders/Triangle.shader"));
 }
