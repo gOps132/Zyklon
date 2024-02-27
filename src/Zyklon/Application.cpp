@@ -132,13 +132,20 @@ Application::Application()
 		20, 21, 22, 22, 23, 20  // Left face
 	};
 
+	// 1080x720p aspect ratio:
+	float aspectRatio = 1080.0f / 720.0f; // 1.5
+
+	// Recommended defaults based on common usage:
+	float fovY = glm::radians(45.0f); // Field of view in the vertical direction
+	float nearPlane = 0.1f;          // Near clipping plane distance
+	float farPlane = 100.0f;         // Far clipping plane distance
+
 	// TODO: Find a way to accept uniforms
 	// Define model matrix (initially identity)
 	glm::mat4 model = glm::mat4(1.0f);
 	// Set up view and projection matrices (adjust based on your camera/viewport)
 	glm::mat4 view = glm::mat4(1.0f);
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-
+	glm::mat4 projection = glm::perspective(fovY, aspectRatio, nearPlane, farPlane);
 
 	m_cube_vertex_bfr.reset(
 		VertexBuffer::create(cube_vertices, sizeof(cube_vertices)));
