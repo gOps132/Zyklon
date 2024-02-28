@@ -13,6 +13,15 @@
 
 namespace Zyklon {
 
+void OpenGLShader::set_uniform_vec_3(const std::string &name, const glm::vec3 &buffer)
+{
+	GLCall(glUseProgram(m_renderer_id));
+	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
+	if (location != -1)
+		GLCall(glUniform3f(location, buffer.x, buffer.y, buffer.z));
+}
+
+
 void OpenGLShader::set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer)
 {
 	GLCall(glUseProgram(m_renderer_id));

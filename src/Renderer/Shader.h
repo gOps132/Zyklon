@@ -29,6 +29,7 @@ public:
 	virtual void bind() = 0;
 	virtual void unbind() = 0;
 
+	virtual void set_uniform_vec_3(const std::string &name, const glm::vec3 &buffer) = 0;
 	virtual void set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer) = 0;
 
 	static Shader *create(const std::string &p_filepath);

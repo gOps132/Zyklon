@@ -74,91 +74,92 @@ Application::Application()
 	m_cube_vertex_array.reset(VertexArray::create());
 
 	// vertices 3, normals 3
-	float cube_vertices[] = {
-		// Front face (position, normal)
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	float cube_vertices[36 * 5] = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-		// Back face (position, normal)
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-		// Top face (position, normal)
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		// Bottom face (position, normal)
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		// Right face (position, normal)
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-		// Left face (position, normal)
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
-	float cube_tex_coordinates[8 * 2] = {
-		0.0, 1.0, // 1  left                  First Strip
-		1.0, 1.0, // 3
-		0.0, 0.0, // 0
-		1.0, 0.0, // 2
-		0.0, 1.0, // 4  back
-		1.0, 1.0, // 6
-		0.0, 0.0, // 5  right
-		1.0, 0.0  // 7
-	};
-
-	uint32_t cube_indices[6 * 6] = {
-		0, 1, 2, 2, 3, 0, // Front face
-		4, 5, 6, 6, 7, 4, // Back face
-		8, 9, 10, 10, 11, 8, // Top face
-		12, 13, 14, 14, 15, 12, // Bottom face
-		16, 17, 18, 18, 19, 16, // Right face
-		20, 21, 22, 22, 23, 20  // Left face
-	};
+	// uint32_t cube_indices[6 * 6] = {
+	// 	0, 1, 2, 2, 3, 0, // Front face
+	// 	4, 5, 6, 6, 7, 4, // Back face
+	// 	8, 9, 10, 10, 11, 8, // Top face
+	// 	12, 13, 14, 14, 15, 12, // Bottom face
+	// 	16, 17, 18, 18, 19, 16, // Right face
+	// 	20, 21, 22, 22, 23, 20  // Left face
+	// };
 
 	// 1080x720p aspect ratio:
-	float aspectRatio = 1080.0f / 720.0f; // 1.5
+	float aspectRatio = 1280.0f / 720.0f; // 1.5
 
 	// Recommended defaults based on common usage:
 	float fovY = glm::radians(45.0f); // Field of view in the vertical direction
 	float nearPlane = 0.1f;          // Near clipping plane distance
 	float farPlane = 100.0f;         // Far clipping plane distance
 
+	m_cube_shader.reset(Shader::create("src/Shaders/Cube.shader"));
+
 	// TODO: Find a way to accept uniforms
 	// Define model matrix (initially identity)
-	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 model;
+	model = glm::rotate(model, -55.0f, glm::vec3(1.0f,0.5f,0.0f));
+	// Next we need to create a view matrix. We want to move slightly backwards in the scene so
+	// the object becomes visible
 	// Set up view and projection matrices (adjust based on your camera/viewport)
-	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 view;
+	view = glm::translate(view, glm::vec3(0.0f,0.0f,-3.0f));
 	glm::mat4 projection = glm::perspective(fovY, aspectRatio, nearPlane, farPlane);
 
 	m_cube_vertex_bfr.reset(
 		VertexBuffer::create(cube_vertices, sizeof(cube_vertices)));
 	m_cube_vertex_bfr->set_layout({
 		{ShaderDataType::Float3, "a_Position", false},
-		{ShaderDataType::Float3, "a_Normal", false}
+		{ShaderDataType::Float2, "a_Normal", false}
 	});
 	m_cube_vertex_array->add_vertex_bfr(m_cube_vertex_bfr);
 
-	m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
-	m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);
+	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
+	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);
 
-	m_cube_shader.reset(Shader::create("src/Shaders/Cube.shader"));
+	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
 
 	m_cube_shader->set_uniform_matrix_4fv("model", model);
 	m_cube_shader->set_uniform_matrix_4fv("view", view);
@@ -203,7 +204,7 @@ void Application::run()
 		// Renderer::submit(m_triangle_vertex_array);
 
 		m_cube_shader->bind();
-		Renderer::submit(m_cube_vertex_array);
+		Renderer::submit_vertex(m_cube_vertex_array);
 
 		Renderer::end_scene();
 

@@ -61,7 +61,7 @@ private:
 	std::shared_ptr<Shader> m_cube_shader;
 
 	std::shared_ptr<VertexBuffer> m_cube_vertex_bfr;
-	std::shared_ptr<IndexBuffer> m_cube_index_bfr;
+	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
 	std::shared_ptr<VertexArray> m_cube_vertex_array;
 
 private:

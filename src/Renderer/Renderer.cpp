@@ -13,7 +13,14 @@ void Renderer::end_scene() {}
 void Renderer::submit(const std::shared_ptr<VertexArray> &p_vertex_array)
 {
 	p_vertex_array->bind();
+
 	RenderCommand::draw_indexed(p_vertex_array);
+}
+
+void Renderer::submit_vertex(const std::shared_ptr<VertexArray> &p_vertex_array)
+{
+	p_vertex_array->bind();
+	RenderCommand::draw_arrays(p_vertex_array);
 }
 
 } // namespace Zyklon
