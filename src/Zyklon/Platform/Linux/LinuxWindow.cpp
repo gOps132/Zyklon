@@ -149,4 +149,9 @@ void LinuxWindow::on_update()
 	glfwPollEvents();
 	m_context->swap_buffers();
 }
+
+const float LinuxWindow::get_time() const 
+{
+	return glfwGetTime();
+}
 } // namespace Zyklon

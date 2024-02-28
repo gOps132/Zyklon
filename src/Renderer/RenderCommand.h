@@ -18,9 +18,9 @@ public:
 		s_renderer_api->draw_indexed(vertexArray);
 	}
 
-	inline static void draw_arrays(const std::shared_ptr<VertexArray> &vertexArray)
+	inline static void draw_arrays(const std::shared_ptr<VertexArray> &vertexArray, uint32_t indices)
 	{
-		s_renderer_api->draw_arrays(vertexArray);
+		s_renderer_api->draw_arrays(vertexArray, indices);
 	}
 private:
 	static RendererAPI *s_renderer_api;

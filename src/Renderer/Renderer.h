@@ -13,7 +13,7 @@ public:
 	static void end_scene();
 
 	static void submit(const std::shared_ptr<VertexArray> &p_vertex_array);
-	static void submit_vertex(const std::shared_ptr<VertexArray> &p_vertex_array);
+	static void submit_vertex(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices);
 
 	/* Wrapper for definitions */
 	inline static RendererAPI::API get_api() { return RendererAPI::get_api(); }

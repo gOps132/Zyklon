@@ -21,10 +21,10 @@ void OpenGLRendererAPI::draw_indexed(
 				   GL_UNSIGNED_INT, nullptr);
 }
 
-void OpenGLRendererAPI::draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array)
+void OpenGLRendererAPI::draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices)
 {
 	// FIXME: FIX FIXED VALUE 
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDrawArrays(GL_TRIANGLES, 0, p_indices);
 }
 
 } // namespace Zyklon

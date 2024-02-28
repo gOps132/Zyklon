@@ -11,7 +11,7 @@ public:
 	virtual void clear() override;
 
 	virtual void draw_indexed(const std::shared_ptr<VertexArray> &vertexArray) override;
-	virtual void draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array) override;
+	virtual void draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices) override;
 };
 
 } // namespace Zyklon

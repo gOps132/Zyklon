@@ -25,6 +25,7 @@ class LinuxWindow : public Window {
 	{
 		return m_data.height;
 	}
+	virtual const float get_time() const override;
 
 	// Window attributes
 	inline virtual void

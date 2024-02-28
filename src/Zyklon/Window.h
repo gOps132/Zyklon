@@ -30,6 +30,7 @@ public:
 
 	virtual unsigned int get_width() const = 0;
 	virtual unsigned int get_height() const = 0;
+	virtual const float get_time() const = 0;
 
 	/* Window attributes */
 	virtual void set_event_callback(const EventCallbackFn &callback) = 0;

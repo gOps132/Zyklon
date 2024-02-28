@@ -16,7 +16,7 @@ public:
 	virtual void clear() = 0;
 
 	virtual void draw_indexed(const std::shared_ptr<VertexArray> &p_vertex_array) = 0;
-	virtual void draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array) = 0;
+	virtual void draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t indices) = 0;
 
 	inline static const API get_api() { return s_api; }
 
