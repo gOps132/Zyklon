@@ -23,7 +23,6 @@ void OpenGLRendererAPI::draw_indexed(
 
 void OpenGLRendererAPI::draw_arrays(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices)
 {
-	// FIXME: FIX FIXED VALUE 
 	glDrawArrays(GL_TRIANGLES, 0, p_indices);
 }
 

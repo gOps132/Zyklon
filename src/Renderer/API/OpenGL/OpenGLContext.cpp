@@ -25,6 +25,8 @@ void OpenGLContext::init()
 	ZYKLON_CORE_INFO("  VENDOR: {0}", glGetString(GL_VENDOR));
 	ZYKLON_CORE_INFO("  RENDERER: {0}", glGetString(GL_RENDERER));
 	ZYKLON_CORE_INFO("  VERSION: {0}", glGetString(GL_VERSION));
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void OpenGLContext::swap_buffers() { glfwSwapBuffers(m_window_handler); }
