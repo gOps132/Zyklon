@@ -37,27 +37,16 @@ public:
 
 	inline static Application &get() { return *s_instance; }
 
-private:
 	bool on_window_close(WindowCloseEvent &e);
 
+private:
 	std::unique_ptr<Window> m_window;
+	static Application *s_instance;
+
 	ImGuiLayer *m_imgui_layer;
 
 	bool m_running = true;
 	LayerStack m_layer_stack;
-
-	std::shared_ptr<Shader> m_cube_shader;
-
-	std::shared_ptr<VertexBuffer> m_cube_vertex_bfr;
-	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
-	std::shared_ptr<VertexArray> m_cube_vertex_array;
-
-private:
-	glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	glm::mat4 view          = glm::mat4(1.0f);
-	glm::mat4 projection    = glm::mat4(1.0f);
-
-	static Application *s_instance;
 };
 
 } // namespace Zyklon

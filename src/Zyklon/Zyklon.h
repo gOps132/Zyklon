@@ -21,7 +21,20 @@
 #include "Imgui/ImguiLayer.h"
 //-------------------------------
 
+
+//-----------RENDERER------------
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
+
+#include "Renderer/Buffer.h"
+#include "Renderer/Shader.h"
+
+#include "Renderer/VertexArray.h"
+//-------------------------------
+
 //----------Entry Point----------
 #include "EntryPoint.h"
 //-------------------------------
+
+
 #endif // __ZYKLON_H__

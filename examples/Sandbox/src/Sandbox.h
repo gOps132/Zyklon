@@ -1,0 +1,32 @@
+#ifndef __SANDBOX_H__
+#define __SANDBOX_H__
+
+#include <Zyklon/Zyklon.h>
+
+class ExampleLayer : public Zyklon::Layer {
+public:
+	ExampleLayer();
+
+	virtual void on_update() override;
+	virtual void on_event(Zyklon::Event &event) override;
+	virtual void on_imgui_render() override;
+private:
+	std::shared_ptr<Zyklon::Shader> m_cube_shader;
+	std::shared_ptr<Zyklon::VertexBuffer> m_cube_vertex_bfr;
+	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
+	std::shared_ptr<Zyklon::VertexArray> m_cube_vertex_array;
+
+	glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	glm::mat4 view          = glm::mat4(1.0f);
+	glm::mat4 projection    = glm::mat4(1.0f);
+};
+
+class Sandbox : public Zyklon::Application {
+public:
+	Sandbox() { push_layer(new ExampleLayer()); }
+
+	virtual ~Sandbox() override { ZYKLON_INFO("Stopped sandbox application"); }
+};
+
+
+#endif // __SANDBOX_H__
