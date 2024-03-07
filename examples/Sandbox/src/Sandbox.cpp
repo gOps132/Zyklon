@@ -14,7 +14,7 @@ Zyklon::Application *Zyklon::Application::create_application()
 }
 
 ExampleLayer::ExampleLayer()
-	: Layer("Example")
+	: Layer("Example"), m_camera(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane)
 {
 	m_cube_vertex_array.reset(Zyklon::VertexArray::create());
 
@@ -83,24 +83,10 @@ ExampleLayer::ExampleLayer()
 	});
 	m_cube_vertex_array->add_vertex_bfr(m_cube_vertex_bfr);
 
-	float aspectRatio = 
-		Zyklon::Application::get().get_window().get_width() / 
-		Zyklon::Application::get().get_window().get_height(); // 1.5
-
-	// Recommended defaults based on common usage:
-	float fovY = glm::radians(45.0f); // Field of view in the vertical direction
-	float nearPlane = 0.1f;          // Near clipping plane distance
-	float farPlane = 100.0f;         // Far clipping plane distance
-
-	view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-	projection = glm::perspective(fovY, aspectRatio, nearPlane, farPlane);
 	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
 
-	m_cube_shader->set_uniform_matrix_4fv("view", view);
-	m_cube_shader->set_uniform_matrix_4fv("projection", projection);
-
+	m_camera.set_position(glm::vec3(0.0f,0.0f,3.0f));
+	
 	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
 	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);	
 }
@@ -115,7 +101,7 @@ void ExampleLayer::on_update()
 	{
 		model = glm::rotate(
 			model, (glm::radians(-10.0f)),
-			glm::vec3(0.5f, 0.0f, 0.0f)
+			glm::vec3(0.1f, 0.0f, 0.0f)
 		);
 	}
 
@@ -123,7 +109,7 @@ void ExampleLayer::on_update()
 	{
 		model = glm::rotate(
 			model, (glm::radians(10.0f)),
-			glm::vec3(0.5f, 0.0f, 0.0f)
+			glm::vec3(0.1f, 0.0f, 0.0f)
 		);
 	}
 
@@ -131,7 +117,7 @@ void ExampleLayer::on_update()
 	{
 		model = glm::rotate(
 			model, (glm::radians(-10.0f)),
-			glm::vec3(0.0f, -0.5f, 0.0f)
+			glm::vec3(0.0f, -0.1f, 0.0f)
 		);
 	}
 
@@ -139,12 +125,34 @@ void ExampleLayer::on_update()
 	{
 		model = glm::rotate(
 			model, (glm::radians(-10.0f)),
-			glm::vec3(0.0f, 0.5f, 0.0f)
+			glm::vec3(0.0f, 0.1f, 0.0f)
 		);
 	}
 
 
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
+	{
+		m_camera.set_position(m_camera.get_position() + glm::vec3(0.0f,0.05f,0.0f));
+
+	}
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
+	{
+		m_camera.set_position(m_camera.get_position() + glm::vec3(0.0f,-0.05f,0.0f));
+	}
+
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+	{
+		m_camera.set_position(m_camera.get_position() + glm::vec3(0.05f,0.0f,0.0f));
+
+	}
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
+	{
+		m_camera.set_position(m_camera.get_position() + glm::vec3(-0.05f,0.0f,0.0f));
+	}
+
 	m_cube_shader->set_uniform_matrix_4fv("model", model);
+	m_cube_shader->set_uniform_matrix_4fv("view_projection", m_camera.get_view_projection_matrix());
+
 	m_cube_shader->set_uniform_1f("deltaTime", Zyklon::Application::get().get_window().get_time());
 
 	m_cube_shader->bind();

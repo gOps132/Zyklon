@@ -28,8 +28,10 @@
 
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
-
 #include "Renderer/VertexArray.h"
+
+#include "Renderer/OrthographicCamera.h"
+#include "Renderer/PerspectiveCamera.h"
 //-------------------------------
 
 //----------Entry Point----------

@@ -8,9 +8,11 @@ out vec3 fragPos;
 out vec2 TexCoord;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
 
+// uniform mat4 view;
+// uniform mat4 projection;
+
+uniform mat4 view_projection;
 
 void main()
 {
@@ -19,7 +21,7 @@ void main()
 	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
 	fragPos = aPos;
 
-	gl_Position = projection * view * world_space;
+	gl_Position = view_projection * world_space;
 }
 
 #shader fragment
