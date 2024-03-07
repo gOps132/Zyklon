@@ -105,18 +105,46 @@ ExampleLayer::ExampleLayer()
 	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);	
 }
 
+// GAMELOOP
 void ExampleLayer::on_update()
 {
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
 	// 	ZYKLON_INFO("Tab Key is Pressed");
 
-	model = glm::rotate(
-		model, (glm::radians(-10.0f) * std::sin(Zyklon::Application::get().get_window().get_time())),
-		glm::vec3(0.5f, 0.5f, 0.0f)
-	);
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
+	{
+		model = glm::rotate(
+			model, (glm::radians(-10.0f)),
+			glm::vec3(0.5f, 0.0f, 0.0f)
+		);
+	}
+
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
+	{
+		model = glm::rotate(
+			model, (glm::radians(10.0f)),
+			glm::vec3(0.5f, 0.0f, 0.0f)
+		);
+	}
+
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
+	{
+		model = glm::rotate(
+			model, (glm::radians(-10.0f)),
+			glm::vec3(0.0f, -0.5f, 0.0f)
+		);
+	}
+
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
+	{
+		model = glm::rotate(
+			model, (glm::radians(-10.0f)),
+			glm::vec3(0.0f, 0.5f, 0.0f)
+		);
+	}
+
 
 	m_cube_shader->set_uniform_matrix_4fv("model", model);
-
 	m_cube_shader->set_uniform_1f("deltaTime", Zyklon::Application::get().get_window().get_time());
 
 	m_cube_shader->bind();
@@ -125,7 +153,7 @@ void ExampleLayer::on_update()
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
-	ZYKLON_TRACE("{0}", event);
+	// ZYKLON_TRACE("{0}", event);
 }
 
 void ExampleLayer::on_imgui_render()
