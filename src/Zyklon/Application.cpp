@@ -100,6 +100,22 @@ Application::Application()
 	});
 	m_cube_vertex_array->add_vertex_bfr(m_cube_vertex_bfr);
 
+	float aspectRatio = (float)m_window->get_width() / (float)m_window->get_height(); // 1.5
+
+	// Recommended defaults based on common usage:
+	float fovY = glm::radians(45.0f); // Field of view in the vertical direction
+	float nearPlane = 0.1f;          // Near clipping plane distance
+	float farPlane = 100.0f;         // Far clipping plane distance
+
+	view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+	projection = glm::perspective(fovY, aspectRatio, nearPlane, farPlane);
+	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
+
+	m_cube_shader->set_uniform_matrix_4fv("view", view);
+	m_cube_shader->set_uniform_matrix_4fv("projection", projection);
+
 	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
 	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);
 }
@@ -132,24 +148,11 @@ void Application::run()
 
 		Renderer::begin_scene();
 
-// FIXME: find out why, cube wont render after multiplying the MVP uniforms
-		// 1080x720p aspect ratio:
-		float aspectRatio = (float)m_window->get_width() / (float)m_window->get_height(); // 1.5
-
-		// Recommended defaults based on common usage:
-		float fovY = glm::radians(45.0f); // Field of view in the vertical direction
-		float nearPlane = 0.1f;          // Near clipping plane distance
-		float farPlane = 100.0f;         // Far clipping plane distance
-
-		model = glm::rotate(model, m_window->get_time(), glm::vec3(0.5f, 1.0f, 0.0f));
-		view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(fovY, aspectRatio, nearPlane, farPlane);
-
-		m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
+		model = glm::rotate(model, (glm::radians(-10.0f) * std::sin(m_window->get_time())), glm::vec3(0.5f, 0.5f, 0.0f));
 
 		m_cube_shader->set_uniform_matrix_4fv("model", model);
-		m_cube_shader->set_uniform_matrix_4fv("view", view);
-		m_cube_shader->set_uniform_matrix_4fv("model", projection);
+
+		m_cube_shader->set_uniform_1f("deltaTime", m_window->get_time());
 
 		m_cube_shader->bind();
 		Renderer::submit_vertex(m_cube_vertex_array, 36);

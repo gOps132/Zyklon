@@ -73,3 +73,7 @@ Make sure to run the executable at the workspace directory.
 Not guranteed to work on windows, I don't even know what batch files are.
 
 Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazingly useful content.``
+
+### TODOS:
+
+[ ] Add uniform optimizations to openGL API

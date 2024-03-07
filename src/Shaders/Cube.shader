@@ -1,35 +1,44 @@
 #shader vertex
 #version 330 core
 
-layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec3 a_texcoords;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoord;
+
+out vec3 fragPos;
+out vec2 TexCoord;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec3 v_frag_position;
-out vec3 v_normal;
 
-void main() 
+void main()
 {
-	v_frag_position = a_position;
-	// multiply vertex coordinates a_position to model matrix to
-	// transform vertex coordinates into world space
+	vec4 world_space = model * vec4(aPos, 1.0f);
+	
+	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
+	fragPos = aPos;
 
-	// gl_Position = projection * view * model * vec4(a_position, 1.0f);
-	gl_Position = vec4(a_position, 1.0);
+	gl_Position = projection * view * world_space;
 }
 
 #shader fragment
 #version 330 core
 
-layout(location = 0) out vec4 color;
-in vec3 v_frag_position;
+out vec4 FragColor;
 
-uniform vec3 light_color; // Sample light color
+in vec3 fragPos;
+in vec2 TexCoord;
 
-void main() 
+uniform float deltaTime;
+
+// texture samplers
+// uniform sampler2D texture1;
+// uniform sampler2D texture2;
+
+void main()
 {
-  color = vec4(v_frag_position, 1.0); // Use the calculated diffuse color
+	FragColor = vec4(fragPos.x * sin(deltaTime),fragPos.y * sin(deltaTime),fragPos.z * sin(deltaTime), 1.0);
+	// linearly interpolate between both textures (80% container, 20% awesomeface)
+	// FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);
 }

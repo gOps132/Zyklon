@@ -150,7 +150,7 @@ void LinuxWindow::on_update()
 	m_context->swap_buffers();
 }
 
-const float LinuxWindow::get_time() const 
+const float LinuxWindow::get_time() 
 {
 	return glfwGetTime();
 }
