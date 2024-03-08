@@ -7,7 +7,7 @@ class ExampleLayer : public Zyklon::Layer {
 public:
 	ExampleLayer();
 
-	virtual void on_update() override;
+	virtual void on_update(Zyklon::Timestep ts) override;
 	virtual void on_event(Zyklon::Event &event) override;
 	virtual void on_imgui_render() override;
 private:
@@ -16,6 +16,9 @@ private:
 	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
 	std::shared_ptr<Zyklon::VertexArray> m_cube_vertex_array;
 
+	glm::vec3 m_camera_position;
+	float m_camera_rotation = 0.0f;
+	
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
 		Zyklon::Application::get().get_window().get_width() / 

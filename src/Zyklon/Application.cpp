@@ -21,11 +21,12 @@ Application *Application::s_instance = nullptr;
 Application::Application()
 {
 	ZYKLON_CORE_ASSERT(!s_instance, "Application already exists!");
-	
+
 	s_instance = this;
 	m_window = std::unique_ptr<Window>(Window::create());
 
 	m_window->set_event_callback(BIND_EVENT_FN(Application::on_event));
+	m_window->set_vsync(false);
 
 	m_imgui_layer = new ImGuiLayer;
 	push_overlay(m_imgui_layer);
@@ -54,16 +55,21 @@ void Application::on_event(Event &e)
 void Application::run()
 {
 	while (m_running) {
+		float time = m_window->get_time();
+		// calculate delta Time
+		Timestep m_timestep = time - m_last_frame_time;
+		m_last_frame_time = time;
+		
+
 		RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1});
 		RenderCommand::clear();
 
 		Renderer::begin_scene();
 
-
 		Renderer::end_scene();
 
 		for (Layer *layer : m_layer_stack)
-			layer->on_update();
+			layer->on_update(m_timestep);
 
 		// TODO: Putting this on a seperate render thread
 		m_imgui_layer->begin();

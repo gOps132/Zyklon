@@ -2,9 +2,10 @@
 #define __LAYER_H__
 
 #include "Events/Event.h"
-#include "Zyklon/Core.h"
 
+#include "Zyklon/Core.h"
 #include "zyklon_exports.h"
+#include "Core/Timestep.h"
 
 namespace Zyklon {
 
@@ -16,7 +17,7 @@ public:
 	virtual void on_attach() {}
 	virtual void on_detach() {}
 
-	virtual void on_update() {}
+	virtual void on_update(Timestep ts) {}
 	virtual void on_event(Event &event) {}
 
 	virtual void on_imgui_render() {}

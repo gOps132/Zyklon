@@ -85,74 +85,74 @@ ExampleLayer::ExampleLayer()
 
 	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
 
-	m_camera.set_position(glm::vec3(0.0f,0.0f,3.0f));
+	m_camera_position = glm::vec3(0.0f,0.0f,3.0f);
 	
 	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
 	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);	
 }
 
 // GAMELOOP
-void ExampleLayer::on_update()
+void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
+	ZYKLON_TRACE("DELTA TIME, {0}, {1}ms", ts.get_seconds(), ts.get_milliseconds());
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
 	// 	ZYKLON_INFO("Tab Key is Pressed");
 
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
-	{
-		model = glm::rotate(
-			model, (glm::radians(-10.0f)),
-			glm::vec3(0.1f, 0.0f, 0.0f)
-		);
-	}
+	// float model_rotation_speed = 5.0f;
+	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
+	// {
+	// 	model = glm::rotate(
+	// 		model, (glm::radians(model_rotation_speed)),
+	// 		glm::vec3(0.1f, 0.0f, 0.0f)
+	// 	);
+	// }
 
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
-	{
-		model = glm::rotate(
-			model, (glm::radians(10.0f)),
-			glm::vec3(0.1f, 0.0f, 0.0f)
-		);
-	}
+	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
+	// {
+	// 	model = glm::rotate(
+	// 		model, (glm::radians(10.0f)),
+	// 		glm::vec3(0.1f, 0.0f, 0.0f)
+	// 	);
+	// }
+
+	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
+	// {
+	// 	model = glm::rotate(
+	// 		model, (glm::radians(model_rotation_speed)),
+	// 		glm::vec3(0.0f, -0.1f, 0.0f)
+	// 	);
+	// }
+
+	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
+	// {
+	// 	model = glm::rotate(
+	// 		model, (glm::radians(model_rotation_speed)),
+	// 		glm::vec3(0.0f, 0.1f, 0.0f)
+	// 	);
+	// }
+	
+	float camera_speed = 1.5f;
+	float camera_rotation_speed = 1.5f;
+// by default timesteps are always gonna be seconds then the typecast floats return seconds
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
+		m_camera_position.z += camera_speed * ts;
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
+		m_camera_position.z -= camera_speed * ts;
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+		m_camera_position.x -= camera_speed * ts;
+	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
+		m_camera_position.x += camera_speed * ts;
 
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
-	{
-		model = glm::rotate(
-			model, (glm::radians(-10.0f)),
-			glm::vec3(0.0f, -0.1f, 0.0f)
-		);
-	}
-
+		m_camera_rotation -= camera_rotation_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
-	{
-		model = glm::rotate(
-			model, (glm::radians(-10.0f)),
-			glm::vec3(0.0f, 0.1f, 0.0f)
-		);
-	}
+		m_camera_rotation += camera_rotation_speed * ts;
 
-
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
-	{
-		m_camera.set_position(m_camera.get_position() + glm::vec3(0.0f,0.05f,0.0f));
-
-	}
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
-	{
-		m_camera.set_position(m_camera.get_position() + glm::vec3(0.0f,-0.05f,0.0f));
-	}
-
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
-	{
-		m_camera.set_position(m_camera.get_position() + glm::vec3(0.05f,0.0f,0.0f));
-
-	}
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
-	{
-		m_camera.set_position(m_camera.get_position() + glm::vec3(-0.05f,0.0f,0.0f));
-	}
+	m_camera.set_position(m_camera_position);
+	m_camera.set_rotation(m_camera_rotation);
 
 	m_cube_shader->set_uniform_matrix_4fv("model", model);
 	m_cube_shader->set_uniform_matrix_4fv("view_projection", m_camera.get_view_projection_matrix());
-
 	m_cube_shader->set_uniform_1f("deltaTime", Zyklon::Application::get().get_window().get_time());
 
 	m_cube_shader->bind();
@@ -161,6 +161,9 @@ void ExampleLayer::on_update()
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
+	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
+	// {
+	// }
 	// ZYKLON_TRACE("{0}", event);
 }
 
