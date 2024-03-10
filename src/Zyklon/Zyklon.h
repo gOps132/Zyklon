@@ -33,6 +33,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
 
+#include "Renderer/Camera.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/PerspectiveCamera.h"
 //-------------------------------

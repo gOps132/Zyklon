@@ -18,18 +18,20 @@ private:
 
 	glm::vec3 m_camera_position;
 	float m_camera_rotation = 0.0f;
-	
+
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
 		Zyklon::Application::get().get_window().get_width() / 
 		Zyklon::Application::get().get_window().get_height(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
-	Zyklon::PerspectiveCamera m_camera;
 
-	glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	glm::mat4 view          = glm::mat4(1.0f);
-	glm::mat4 projection    = glm::mat4(1.0f);
+	Zyklon::Camera* m_camera;
+
+	glm::mat4 m_model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	glm::vec3 m_model_position;
+	// glm::mat4 view          = glm::mat4(1.0f);
+	// glm::mat4 projection    = glm::mat4(1.0f);
 };
 
 class Sandbox : public Zyklon::Application {

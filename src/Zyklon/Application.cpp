@@ -60,14 +60,6 @@ void Application::run()
 		Timestep m_timestep = time - m_last_frame_time;
 		m_last_frame_time = time;
 		
-
-		RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1});
-		RenderCommand::clear();
-
-		Renderer::begin_scene();
-
-		Renderer::end_scene();
-
 		for (Layer *layer : m_layer_stack)
 			layer->on_update(m_timestep);
 

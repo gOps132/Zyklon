@@ -7,8 +7,9 @@
 namespace Zyklon {
 
 PerspectiveCamera::PerspectiveCamera(float p_fovy, float p_aspect_ratio, float p_near_plane, float p_far_plane)
-	: m_projection_matrix(glm::perspective(p_fovy, p_aspect_ratio, p_near_plane, p_far_plane)), m_view_matrix(1.0f)
 {
+	m_projection_matrix = glm::perspective(p_fovy, p_aspect_ratio, p_near_plane, p_far_plane);
+	m_view_matrix = glm::mat4(1.0f);
 	m_view_projection_matrix = m_projection_matrix * m_view_matrix;
 }
 
