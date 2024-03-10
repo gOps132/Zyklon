@@ -86,7 +86,7 @@ ExampleLayer::ExampleLayer()
 	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
 
 	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
-	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
+	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
 
 	m_camera->set_position(m_camera_position);
 	
@@ -122,7 +122,6 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	float camera_speed = 10.0f;
 	float camera_rotation_speed = 1.5f;
-// by default timesteps are always gonna be seconds then the typecast floats return seconds
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
 		m_camera_position.y -= camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
@@ -144,20 +143,28 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	m_camera->set_position(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
-	// m_cube_shader->set_uniform_matrix_4fv("model", model);
-	// m_cube_shader->set_uniform_matrix_4fv("view_projection", m_camera->get_view_projection_matrix());
 	m_cube_shader->set_uniform_1f("u_time", Zyklon::Application::get().get_window().get_time());
 
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
 
+	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
 	Zyklon::Renderer::begin_scene(*m_camera);
+		for (int i = 0; i < 5; i++)
+		{
+			for (int y = 0; y < 5; y++)
+			{
+				glm::vec3 offset(i * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(m_model, offset) * scale;
+				Zyklon::Renderer::submit_vertex(m_cube_shader, m_cube_vertex_array, 36, transform);
+			}
+		}
 		// ZYKLON_TRACE("camera {0},{1},{2}", 
 		// 	m_camera->get_position().x,
 		// 	m_camera->get_position().y,
 		// 	m_camera->get_position().z
 		// );
-		Zyklon::Renderer::submit_vertex(m_cube_shader, m_cube_vertex_array, 36, m_model);
 	Zyklon::Renderer::end_scene();
 
 	// m_cube_shader->bind();
