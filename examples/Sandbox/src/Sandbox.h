@@ -10,6 +10,7 @@ public:
 	virtual void on_update(Zyklon::Timestep ts) override;
 	virtual void on_event(Zyklon::Event &event) override;
 	virtual void on_imgui_render() override;
+	void reset_state();
 private:
 	std::shared_ptr<Zyklon::Shader> m_cube_shader;
 	std::shared_ptr<Zyklon::VertexBuffer> m_cube_vertex_bfr;

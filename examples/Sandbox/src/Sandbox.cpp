@@ -16,7 +16,15 @@ Zyklon::Application *Zyklon::Application::create_application()
 ExampleLayer::ExampleLayer()
 	: Layer("Example"), m_camera(new Zyklon::PerspectiveCamera(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane))
 {
+	reset_state();
+}
+
+void ExampleLayer::reset_state()
+{
 	m_cube_vertex_array.reset(Zyklon::VertexArray::create());
+
+	// TODO: include issues may arrive later
+	m_cube_shader.reset(Zyklon::Shader::create("examples/Sandbox/src/Shaders/Cube.shader"));
 
 	// vertices 3, normals 3
 	float cube_vertices[36 * 5] = {
@@ -72,9 +80,6 @@ ExampleLayer::ExampleLayer()
 	// 	20, 21, 22, 22, 23, 20   // Left face
 	// };
 
-// TODO: include issues may arrive later
-	m_cube_shader.reset(Zyklon::Shader::create("examples/Sandbox/src/Shaders/Cube.shader"));
-
 	m_cube_vertex_bfr.reset(
 		Zyklon::VertexBuffer::create(cube_vertices, sizeof(cube_vertices)));
 	m_cube_vertex_bfr->set_layout({
@@ -89,7 +94,7 @@ ExampleLayer::ExampleLayer()
 	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
 
 	m_camera->set_position(m_camera_position);
-	
+
 	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
 	// m_cube_vertex_array->set_index_bfr(m_cube_index_bfr);	
 }
@@ -101,8 +106,8 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
 	// 	ZYKLON_INFO("Tab Key is Pressed");
 
-	float frequency = 1.0; // Adjust for desired oscillation speed (higher = faster)
-    float amplitude = 0.2; // Adjust for desired oscillation range
+	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
+    float amplitude = 0.2f; // Adjust for desired oscillation range
 
 	float model_rotation_speed = 15.0f;
 
@@ -180,7 +185,9 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 
 void ExampleLayer::on_imgui_render()
 {
-	ImGui::Begin("Test");
+	ImGui::Begin("Shader Uniforms");
 	ImGui::Text("Hello World!");
+	if (ImGui::Button("reset"))
+		reset_state();
 	ImGui::End();
 }
