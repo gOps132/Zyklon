@@ -232,4 +232,5 @@ target_include_directories(${PROJECT_NAME}
 option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" OFF)
 if(BUILD_ZYKLON_EXAMPLES)
 	add_subdirectory(examples/Sandbox)
+	add_subdirectory(examples/Grid)
 endif()

@@ -88,7 +88,7 @@ void ExampleLayer::reset_state()
 	});
 	m_cube_vertex_array->add_vertex_bfr(m_cube_vertex_bfr);
 
-	m_cube_shader->set_uniform_vec_3("light_color", glm::vec3(0.5,1.0,1.0));
+	m_cube_shader->set_uniform_3fv("light_color", glm::vec3(0.5,1.0,1.0));
 
 	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);

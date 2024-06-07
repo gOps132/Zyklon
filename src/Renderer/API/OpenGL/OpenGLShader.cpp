@@ -21,8 +21,16 @@ void OpenGLShader::set_uniform_1f(const std::string &name, const float value)
 		GLCall(glUniform1f(location, value));
 }
 
+void OpenGLShader::set_uniform_2f(const std::string &name, const float v0, const float v1)
+{
+	GLCall(glUseProgram(m_renderer_id));
+	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
+	if (location != -1)
+		GLCall(glUniform2f(location, v0, v1));
+}
 
-void OpenGLShader::set_uniform_vec_3(const std::string &name, const glm::vec3 &buffer)
+
+void OpenGLShader::set_uniform_3fv(const std::string &name, const glm::vec3 &buffer)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
