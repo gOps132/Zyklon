@@ -22,8 +22,8 @@ private:
 
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
-		Zyklon::Application::get().get_window().get_width() / 
-		Zyklon::Application::get().get_window().get_height(); // 1.5
+		(float)Zyklon::Application::get().get_window().get_width() / 
+		(float)Zyklon::Application::get().get_window().get_height(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 

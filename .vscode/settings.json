@@ -100,4 +100,5 @@
 		"__functional_03": "cpp",
 		"__cxx_version": "cpp"
 	},
+	"dotnet.defaultSolution": "lib/imgui-test/examples/imgui_examples.sln",
 }

@@ -70,6 +70,8 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// 	ts.get_seconds(),
 	// 	(cos(frequency * Zyklon::Application::get().get_window().get_time())));
 
+	// ZYKLON_TRACE("Timestep: {0}", (float)ts);
+	
 	float camera_speed = 10.0f;
 	float camera_rotation_speed = 1.5f;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
@@ -84,7 +86,7 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 		m_camera_position.z -= camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z += camera_speed * ts;
-
+	
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
 		m_camera_rotation -= camera_rotation_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))

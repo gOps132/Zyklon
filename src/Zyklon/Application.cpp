@@ -59,7 +59,7 @@ void Application::run()
 		// calculate delta Time
 		Timestep m_timestep = time - m_last_frame_time;
 		m_last_frame_time = time;
-		
+
 		for (Layer *layer : m_layer_stack)
 			layer->on_update(m_timestep);
 
