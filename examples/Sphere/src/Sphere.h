@@ -12,10 +12,10 @@ public:
 	virtual void on_imgui_render() override;
 	void reset_state();
 private:
-	std::shared_ptr<Zyklon::Shader> m_cube_shader;
-	std::shared_ptr<Zyklon::VertexBuffer> m_cube_vertex_bfr;
+	std::shared_ptr<Zyklon::Shader> m_shader;
+	std::shared_ptr<Zyklon::VertexBuffer> m_vertex_buffer;
 	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
-	std::shared_ptr<Zyklon::VertexArray> m_cube_vertex_array;
+	std::shared_ptr<Zyklon::VertexArray> m_vertex_array;
 
 	glm::vec3 m_camera_position;
 	float m_camera_rotation = 0.0f;
@@ -30,9 +30,10 @@ private:
 	Zyklon::Camera* m_camera;
 
 	glm::mat4 m_model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	glm::vec3 m_model_position;
-	// glm::mat4 view          = glm::mat4(1.0f);
-	// glm::mat4 projection    = glm::mat4(1.0f);
+	glm::vec3 m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	float m_color[3];
+	float m_model_pos[3];
 };
 
 class Sphere : public Zyklon::Application {

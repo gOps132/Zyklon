@@ -92,6 +92,10 @@ void ExampleLayer::reset_state()
 
 	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
+	m_camera_rotation = 0.0f;
+
+	m_camera->set_position(m_camera_position);
+	m_camera->set_rotation(m_camera_rotation);
 
 	m_camera->set_position(m_camera_position);
 
