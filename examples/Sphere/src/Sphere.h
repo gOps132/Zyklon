@@ -42,11 +42,12 @@ private:
 
 	glm::mat4 m_model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	glm::vec3 m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
+	float m_scale = 0.5f;
 
-	Zyklon::Camera* m_camera;
+	std::unique_ptr<Zyklon::Camera> m_camera;
 	glm::vec3 m_camera_position;
 	float m_camera_rotation = 0.0f;
-	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
+	float m_fovy = 45.0f; // Field of view in the vertical direction
 	float m_aspect_ratio =
 		Zyklon::Application::get().get_window().get_width() / 
 		Zyklon::Application::get().get_window().get_height(); // 1.5

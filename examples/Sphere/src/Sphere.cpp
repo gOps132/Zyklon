@@ -17,7 +17,7 @@ Zyklon::Application *Zyklon::Application::create_application()
 }
 
 ExampleLayer::ExampleLayer()
-	: Layer("Example"), m_camera(new Zyklon::PerspectiveCamera(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane))
+	: Layer("Example")
 {
 	reset_state();
 }
@@ -74,8 +74,6 @@ void ExampleLayer::generate_circle(
 
 	// std::vector<uint32_t> indices = { 0,1,2 };
 
-	ZYKLON_INFO("{0}", m_vertices.data()[0]);
-	
 	m_vertex_buffer.reset(
 		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
 	m_vertex_buffer->set_layout({
@@ -83,26 +81,27 @@ void ExampleLayer::generate_circle(
 	});
 	m_vertex_array->add_vertex_bfr(m_vertex_buffer);
 
-	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
-	m_camera_rotation = 0.0f;
-
-	m_camera->set_position(m_camera_position);
-	m_camera->set_rotation(m_camera_rotation);
-
 	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size() * sizeof(uint32_t)));
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
 
 void ExampleLayer::reset_state()
 {
+	m_camera = std::make_unique<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+
 	m_vertex_array.reset(Zyklon::VertexArray::create());
 
 	// TODO: include issues may arrive later
-	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Triangle.shader"));
+	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Polygon.shader"));
+
+	m_camera_position = glm::vec3(0.0f,0.0f,10.0f);
+	m_camera_rotation = 0.0f;
+
+	m_camera->set_position(m_camera_position);
+	m_camera->set_rotation(m_camera_rotation);
 
 	generate_circle(m_segments, m_radius, m_center_x, m_center_y);
 }
-
 
 void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
@@ -152,10 +151,12 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
 
-	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(m_scale));
 
 	Zyklon::Renderer::begin_scene(*m_camera);
+		// translate object into world space
 		glm::mat4 transform = glm::translate(m_model, glm::vec3(1.0f)) * scale;
+
 		// Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 3, transform);
 		Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 	Zyklon::Renderer::end_scene();
@@ -165,16 +166,25 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
+	if(event.get_event_type() == Zyklon::EventType::WindowResize)
+	{
+		m_aspect_ratio =	Zyklon::Application::get().get_window().get_width() / 
+						Zyklon::Application::get().get_window().get_height(); // 1.5
+	}
+	// ZYKLON_TRACE("{0}", event);
 }
 
 void ExampleLayer::on_imgui_render()
 {
 	ImGui::Begin("Shader Uniforms");
-	ImGui::Text("Hello World!");
-	ImGui::ColorPicker3("color", m_color, 0);
-	ImGui::SliderFloat3("model position", m_model_pos, 0.0f, 1.0f, "%.2f", 1.0f);
-	ImGui::SliderInt("segments", &m_segments, 3, 100, "%d");
-	if (ImGui::Button("reset"))
-		reset_state();
+		ImGui::ColorPicker3("color", m_color, 0);
+		ImGui::SliderFloat3("model position", m_model_pos, 0.0f, 1.0f, "%.2f", 1.0f);
+		ImGui::SliderFloat("scale", &m_scale, 0.0f, 100.0f, "%.2f", 1.0f);
+		if (ImGui::SliderInt("segments", &m_segments, 3, 40, "%d"))
+			generate_circle(m_segments, m_radius, m_center_x, m_center_y);
+		ImGui::Text("Camera options!");
+		ImGui::SliderFloat("fov", &m_fovy, 20.0f, 120.0f, "%.2f", 5.0f);
+		if (ImGui::Button("reset"))
+			reset_state();
 	ImGui::End();
 }
