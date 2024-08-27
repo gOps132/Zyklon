@@ -12,28 +12,46 @@ public:
 	virtual void on_imgui_render() override;
 	void reset_state();
 private:
+
+//	TODO: generate circle vertices
+// 	TODO: generate circle indices
+// 	TODO: generate circle normal
+	void change_circle();
+
+	std::vector<float> m_vertices;
+	std::vector<uint32_t> m_indices;
+	void generate_circle(
+		const int p_num_segments,
+		const float p_radius,
+		const float p_center_x,
+		const float p_center_y
+	);
+	int m_segments = 5;
+	float m_radius = 1.0f;
+	float m_center_x = 0.0f;
+	float m_center_y = 0.0f;
+
+//	uniforms
+	float m_color[3];
+	float m_model_pos[3];
+
 	std::shared_ptr<Zyklon::Shader> m_shader;
 	std::shared_ptr<Zyklon::VertexBuffer> m_vertex_buffer;
-	// std::shared_ptr<IndexBuffer> m_cube_index_bfr;
+	std::shared_ptr<Zyklon::IndexBuffer> m_index_buffer;
 	std::shared_ptr<Zyklon::VertexArray> m_vertex_array;
 
+	glm::mat4 m_model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	glm::vec3 m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	Zyklon::Camera* m_camera;
 	glm::vec3 m_camera_position;
 	float m_camera_rotation = 0.0f;
-
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
 		Zyklon::Application::get().get_window().get_width() / 
 		Zyklon::Application::get().get_window().get_height(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
-
-	Zyklon::Camera* m_camera;
-
-	glm::mat4 m_model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	glm::vec3 m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
-
-	float m_color[3];
-	float m_model_pos[3];
 };
 
 class Sphere : public Zyklon::Application {

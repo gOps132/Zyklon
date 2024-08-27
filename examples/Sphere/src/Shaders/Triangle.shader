@@ -15,8 +15,8 @@ void main()
 	v_position = a_position;
 	v_color = vec4(u_color, 1.0);
 
-	// gl_Position = vec4(a_position, 1.0);
-	gl_Position = u_view_projection * u_transform * vec4(a_position, 1.0);
+	gl_Position = vec4(a_position, 1.0);
+	// gl_Position = u_view_projection * u_transform * vec4(a_position, 1.0);
 }
 
 #shader fragment

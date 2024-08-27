@@ -8,6 +8,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 Zyklon::Application *Zyklon::Application::create_application()
@@ -21,84 +22,62 @@ ExampleLayer::ExampleLayer()
 	reset_state();
 }
 
-void ExampleLayer::reset_state()
-{
-	m_vertex_array.reset(Zyklon::VertexArray::create());
+// reset the vertex array
+void ExampleLayer::generate_circle(	
+	const int p_num_segments,
+	const float p_radius,
+	const float p_center_x,
+	const float p_center_y
+){
+	ZYKLON_INFO("GENERATING CIRCLE");
 
-	// TODO: include issues may arrive later
-	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Triangle.shader"));
+	m_vertices.clear();
+	m_vertices.shrink_to_fit();
+	m_indices.clear();
+	m_indices.shrink_to_fit();
 
-// sample pentagon
-	const float PI = 3.14159265358979323846f;
-	const int numVertices = 5; // Pentagon has 5 vertices
+// default
+	m_vertices.push_back(p_center_x); 
+	m_vertices.push_back(p_center_y);
+	m_vertices.push_back(0.0);
+	
+	// calculate angle between each segment
+	float angle_increment = 2.0f * M_PI / p_num_segments;
 
-	// Center coordinates for the pentagon
-	float cx = 0.0f;
-	float cy = 0.0f;
-	float radius = 0.5f; // Radius of the circle that the pentagon is inscribed in
-
-	// Vertex buffer for the pentagon
-	float vertices[numVertices * 3]; // 3 coordinates (x, y, z) per vertex
-
-	// float vertices[numVertices * 3];
-
-	// Vertex data for a pentagon (triangle fan)
-	// float vertices[15 * 3] = {
-	// 	// Triangle 1
-	// 	0.0f, 0.0f, 0.0f,    // Center vertex
-	// 	0.0f,  0.5f, 0.0f,   // Top vertex
-	// 	0.4755f,  0.1545f, 0.0f,  // Top-right vertex
-
-	// 	// Triangle 2
-	// 	0.0f, 0.0f, 0.0f,    // Center vertex
-	// 	0.4755f,  0.1545f, 0.0f,  // Top-right vertex
-	// 	0.2939f, -0.4045f, 0.0f,  // Bottom-right vertex
-
-	// 	// Triangle 3
-	// 	0.0f, 0.0f, 0.0f,    // Center vertex
-	// 	0.2939f, -0.4045f, 0.0f,  // Bottom-right vertex
-	// 	-0.2939f, -0.4045f, 0.0f, // Bottom-left vertex
-
-	// 	// Triangle 4
-	// 	0.0f, 0.0f, 0.0f,    // Center vertex
-	// 	-0.2939f, -0.4045f, 0.0f, // Bottom-left vertex
-	// 	-0.4755f,  0.1545f, 0.0f,  // Top-left vertex
-
-	// 	// Triangle 5
-	// 	0.0f, 0.0f, 0.0f,    // Center vertex
-	// 	-0.4755f,  0.1545f, 0.0f,  // Top-left vertex
-	// 	0.0f,  0.5f, 0.0f   // Top vertex
-	// };
-
-
-	// float _vertices[6 * 3] = {
-	// 	// First triangle (Top-left, Bottom-left, Bottom-right)
-	// 	-0.5f,  0.5f, 0.0f,  // Top-left
-	// 	-0.5f, -0.5f, 0.0f,  // Bottom-left
-	// 	0.5f, -0.5f, 0.0f,  // Bottom-right
-
-	// 	// Second triangle (Top-left, Bottom-right, Top-right)
-	// 	-0.5f,  0.5f, 0.0f,  // Top-left
-	// 	0.5f, -0.5f, 0.0f,  // Bottom-right
-	// 	0.5f,  0.5f, 0.0f   // Top-right
-	// };
-
-	for (int i = 0; i < numVertices; ++i) {
-		float angle = 2.0f * PI * float(i) / float(numVertices);
-		vertices[i * 3] = cx + radius * cos(angle);   // x-coordinate
-		vertices[i * 3 + 1] = cy + radius * sin(angle); // y-coordinate
-		vertices[i * 3 + 2] = 0.0f;                     // z-coordinate (in 2D, z is 0)
+	for(int i = 0; i < p_num_segments; i++)
+	{
+		float angle = i * angle_increment;
+		float x = p_center_x + p_radius * std::cos(angle);
+		float y = p_center_y + p_radius * std::sin(angle);
+		float z = 0.0f;
+		m_vertices.push_back(x);
+		m_vertices.push_back(y);
+		m_vertices.push_back(z);
 	}
 
-	// float vertices[3*3] = {
+	for (int i = 0; i <= p_num_segments; ++i) {
+		m_indices.push_back(0);		 					// Center vertex
+		m_indices.push_back(i);  						// Current vertex on the circumference
+		m_indices.push_back(i % p_num_segments + 1);  	// Next vertex on the circumference
+	}
+
+	m_indices.push_back(0);
+	m_indices.push_back(p_num_segments);
+	m_indices.push_back(1);
+
+	// std::vector<float> vertices = {
 	// 	// X, Y, Z  (in NDC space)
 	// 	0.0f,  0.5f, 0.0f,  // Top vertex
 	// 	-0.5f, -0.5f, 0.0f,  // Bottom left vertex
 	// 	0.5f, -0.5f, 0.0f   // Bottom right vertex
 	// };
 
+	// std::vector<uint32_t> indices = { 0,1,2 };
+
+	ZYKLON_INFO("{0}", m_vertices.data()[0]);
+	
 	m_vertex_buffer.reset(
-		Zyklon::VertexBuffer::create(vertices, sizeof(vertices)));
+		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
 	m_vertex_buffer->set_layout({
 		{Zyklon::ShaderDataType::Float3, "a_position", false},
 	});
@@ -110,17 +89,23 @@ void ExampleLayer::reset_state()
 	m_camera->set_position(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
-	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
-	// m_vertex_array->set_index_bfr(m_cube_index_bfr);	
+	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size() * sizeof(uint32_t)));
+	m_vertex_array->set_index_bfr(m_index_buffer);
 }
 
-// GAMELOOP
+void ExampleLayer::reset_state()
+{
+	m_vertex_array.reset(Zyklon::VertexArray::create());
+
+	// TODO: include issues may arrive later
+	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Triangle.shader"));
+
+	generate_circle(m_segments, m_radius, m_center_x, m_center_y);
+}
+
+
 void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
-	// ZYKLON_TRACE("DELTA TIME, {0}, {1}ms", ts.get_seconds(), ts.get_milliseconds());
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
-	// 	ZYKLON_INFO("Tab Key is Pressed");
-
 	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
     float amplitude = 0.2f; // Adjust for desired oscillation range
 
@@ -131,10 +116,6 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	m_model_position.y =
 		amplitude *
 		cos(frequency * Zyklon::Application::get().get_window().get_time());
-
-	// ZYKLON_INFO("ts: {0}, value: {1}",
-	// 	ts.get_seconds(),
-	// 	(cos(frequency * Zyklon::Application::get().get_window().get_time())));
 
 	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
 	m_model = glm::rotate(
@@ -175,7 +156,8 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	Zyklon::Renderer::begin_scene(*m_camera);
 		glm::mat4 transform = glm::translate(m_model, glm::vec3(1.0f)) * scale;
-		Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 15, transform);
+		// Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 3, transform);
+		Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 	Zyklon::Renderer::end_scene();
 
 	// m_shader->bind();
@@ -191,6 +173,7 @@ void ExampleLayer::on_imgui_render()
 	ImGui::Text("Hello World!");
 	ImGui::ColorPicker3("color", m_color, 0);
 	ImGui::SliderFloat3("model position", m_model_pos, 0.0f, 1.0f, "%.2f", 1.0f);
+	ImGui::SliderInt("segments", &m_segments, 3, 100, "%d");
 	if (ImGui::Button("reset"))
 		reset_state();
 	ImGui::End();
