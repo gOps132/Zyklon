@@ -37,7 +37,7 @@ void ExampleLayer::generate_circle(
 	m_indices.shrink_to_fit();
 
 // default
-	m_vertices.push_back(p_center_x); 
+	m_vertices.push_back(p_center_x);
 	m_vertices.push_back(p_center_y);
 	m_vertices.push_back(0.0);
 	

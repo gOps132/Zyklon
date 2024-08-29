@@ -14,7 +14,7 @@ uniform float u_time;
 void main() 
 {
 	v_position = a_position;
-	v_color = vec4(v_position + u_color * cos(u_time), 1.0);
+	v_color = vec4(u_color.x * sin(u_time), u_color.y * cos(u_time), u_color.z, 1.0);
 
 	// gl_Position = vec4(a_position, 1.0);
 	// gl_Position = u_transform * vec4(a_position, 1.0) - 1.0;
