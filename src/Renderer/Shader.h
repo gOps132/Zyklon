@@ -13,15 +13,6 @@ struct ShaderProgramSource {
 	std::string fragmentSource;
 };
 
-// struct ShaderUniform {
-// 	ShaderDataType type;
-// 	std::string name;
-// 	// ptr to glm value
-// 	float buffer;
-
-// 	ShaderUniform(ShaderDataType p_type, const std::string &p_name, const float &buffer);
-// };
-
 class Shader {
 public:
 	virtual ~Shader() {}

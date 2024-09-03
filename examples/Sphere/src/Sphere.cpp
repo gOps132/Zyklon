@@ -29,7 +29,8 @@ void ExampleLayer::generate_circle(
 	const float p_center_x,
 	const float p_center_y
 ){
-	ZYKLON_INFO("GENERATING CIRCLE");
+	// BUG TOO MANY LOGS CAUSE PROGRAM TO CRASH
+	// ZYKLON_INFO("GENERATING CIRCLE");
 
 	m_vertices.clear();
 	m_vertices.shrink_to_fit();
