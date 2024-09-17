@@ -1,7 +1,8 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace Zyklon
 {
@@ -19,9 +20,14 @@ public:
 	}
 
 	float get_rotation() const { return m_rotation; }
-	void set_rotation(const float p_rotation) {
+	void set_rotation(const float p_rotation) 
+	{
 		m_rotation = p_rotation;
 		recalculate_view_matrix();
+	}
+	void look_at(glm::vec3 direction, glm::vec3 up)
+	{
+		m_view_matrix = glm::lookAt(m_position, direction, up);
 	}
 
 	const glm::mat4& get_projection_matrix() { return m_projection_matrix; }
