@@ -14,22 +14,24 @@ public:
 private:
 	std::vector<float> m_vertices;
 	std::vector<uint32_t> m_indices;
-	void generate_sphere(
+	void generate_uv_sphere(
 		const float p_radius,
 		const int p_stacks,
 		const int p_slices
 	);
+	/*
 	void generate_circle(
-		const int p_num_segments,
+		const int p_segments,
 		const float p_radius,
 		const float p_center_x,
 		const float p_center_y
 	);
+	*/
 	float m_radius 			= 1.0f;
-	int m_stacks			= 5;
-	int m_slices 			= 5;
+	int m_stacks			= 50;
+	int m_slices 			= 50;
 
-	int m_segments 		= 5;
+	// int m_segments 		= 3;
 	float m_center_x 	= 0.0f;
 	float m_center_y 	= 0.0f;
 
@@ -45,7 +47,7 @@ private:
 	glm::mat4 m_model         	= glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	glm::vec3 m_model_position 	= glm::vec3(0.0f, 0.0f, 0.0f);
 	float m_scale = 0.5f;
-	float m_model_rotation_speed = 2.0f;
+	float m_model_rotation_speed = 0.5f;
 
 	std::shared_ptr<Zyklon::Camera> m_camera;
 	glm::vec3 m_camera_position;

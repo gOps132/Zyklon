@@ -11,6 +11,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include <vector>
+
 Zyklon::Application *Zyklon::Application::create_application()
 {
 	return new Sphere();
@@ -23,8 +25,9 @@ ExampleLayer::ExampleLayer()
 }
 
 // reset the vertex array
+/*
 void ExampleLayer::generate_circle(	
-	const int p_num_segments,
+	const int p_segments,
 	const float p_radius,
 	const float p_center_x,
 	const float p_center_y
@@ -43,9 +46,9 @@ void ExampleLayer::generate_circle(
 	m_vertices.push_back(0.0);
 	
 	// calculate angle between each segment
-	float angle_increment = 2.0f * M_PI / p_num_segments;
+	float angle_increment = 2.0f * M_PI / p_segments;
 
-	for(int i = 0; i < p_num_segments; i++)
+	for(int i = 0; i < p_segments; i++)
 	{
 		float angle = i * angle_increment;
 		float x = p_center_x + p_radius * std::cos(angle);
@@ -56,14 +59,14 @@ void ExampleLayer::generate_circle(
 		m_vertices.push_back(z);
 	}
 
-	for (int i = 0; i <= p_num_segments; ++i) {
+	for (int i = 0; i <= p_segments; ++i) {
 		m_indices.push_back(0);		 					// Center vertex
 		m_indices.push_back(i);  						// Current vertex on the circumference
-		m_indices.push_back(i % p_num_segments + 1);  	// Next vertex on the circumference
+		m_indices.push_back(i % p_segments + 1);  	// Next vertex on the circumference
 	}
 
 	m_indices.push_back(0);
-	m_indices.push_back(p_num_segments);
+	m_indices.push_back(p_segments);
 	m_indices.push_back(1);
 
 	// std::vector<float> vertices = {
@@ -85,8 +88,10 @@ void ExampleLayer::generate_circle(
 	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size() * sizeof(uint32_t)));
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
+*/
 
-void ExampleLayer::generate_sphere(
+// /*
+void ExampleLayer::generate_uv_sphere(
 		const float p_radius,
 		const int p_stacks,
 		const int p_slices)
@@ -96,7 +101,7 @@ void ExampleLayer::generate_sphere(
 	m_indices.clear();
 	m_indices.shrink_to_fit();
 
-	ZYKLON_INFO("GENERATING SPHERE");
+	// ZYKLON_INFO("GENERATING SPHERE");
 
 // the north and south poles are the exception when generating vertices
 // also the exception when generating indices
@@ -150,12 +155,27 @@ void ExampleLayer::generate_sphere(
  		}
 	}
 
+	// Add the bottom vertex (south pole)
+	m_vertices.push_back(0.0f);               // x = 0 (centered)
+	m_vertices.push_back(-p_radius);           // y = -radius (bottom pole)
+	m_vertices.push_back(0.0f);               // z = 0 (centered)
+
+	// Bottom pole normal (pointing down)
+	m_vertices.push_back(0.0f);               // Normal x
+	m_vertices.push_back(-1.0f);              // Normal y
+	m_vertices.push_back(0.0f);               // Normal z
+
+	// Bottom UV coordinates (center of texture at bottom pole)
+	m_vertices.push_back(0.5f);               // u = 0.5 (center)
+	m_vertices.push_back(0.0f);               // v = 0 (bottom of texture)
+
     // top stacks indices
     for (int j = 0; j < p_slices; ++j) {
         // Top stack (triangles connecting the top vertex)
         m_indices.push_back(0);                    // Top vertex
         m_indices.push_back(j + 1);                // First vertex on the next ring
-        m_indices.push_back(j + 2);                // Next vertex on the next ring
+        // m_indices.push_back(j + 2);                // Next vertex on the next ring
+		m_indices.push_back(j == p_slices - 1 ? 1 : j + 2);
     }
 
     // Middle stacks
@@ -181,7 +201,7 @@ void ExampleLayer::generate_sphere(
     int start = (p_stacks - 2) * (p_slices + 1) + 1;
     for (int j = 0; j < p_slices; ++j) {
         m_indices.push_back(bottomVertexIndex);
-        m_indices.push_back(start + j + 1);
+    	m_indices.push_back(start + ((j + 1) % p_slices));              // Wrap around for last slice
         m_indices.push_back(start + j);
     }
 	
@@ -194,16 +214,70 @@ void ExampleLayer::generate_sphere(
 	});
 	m_vertex_array->add_vertex_bfr(m_vertex_buffer);
 
-	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size() * sizeof(uint32_t)));
+	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
+// */
+
+// likely not very space efficient, should use reserve and resize for memory efficiency
+/*
+void ExampleLayer::generate_uv_sphere(
+		const float p_radius,
+		const int p_stacks,
+		const int p_slices)
+{
+	m_vertices.clear();
+	m_vertices.shrink_to_fit();
+	m_indices.clear();
+	m_indices.shrink_to_fit();
+
+	// OPENGL DEFAULTS WINDING ORDER TO COUNTER CLOCK WISE
+	// EXAMPLE
+	std::vector<float> vertices = {
+		// X, Y, Z  (in NDC space)
+		// -0.5f, 	-0.5f, 	0.0f, 	// Bottom left vertex 0
+		// 0.5f, 	-0.5f, 	0.0f,  	// Bottom right vertex 1
+		// -0.5f,  0.5f, 	0.0f,  	// Top left 2
+		// 0.5f, 	0.5f, 	0.0f	// top right 3	
+
+		// PYRAMID
+		0.0f, 0.5f, 0.0f,			// top vertex apex
+		
+		-0.5f, -0.5f, -0.5f,		// bottom back left
+		0.0f, -0.5f,  0.5f,			// bottom front middle
+		0.5f, -0.5f, -0.5f			// bottom back right
+	};
+
+	std::vector<uint32_t> indices = {
+		// 0,2,3,
+		// 0,3,1 
+
+		0, 1, 2,  // Left Face
+		0, 2, 3,  // Front Face
+		0, 3, 1   // Right Face (this is the change needed)
+	};
+
+	m_vertex_buffer.reset(
+		Zyklon::VertexBuffer::create(vertices.data(), vertices.size() * sizeof(float)));
+	m_vertex_buffer->set_layout({
+		{Zyklon::ShaderDataType::Float3, "a_position", false},
+		// {Zyklon::ShaderDataType::Float3, "a_normal", false},
+		// {Zyklon::ShaderDataType::Float2, "a_uv", false}
+	});
+	m_vertex_array->add_vertex_bfr(m_vertex_buffer);
+
+	// ZYKLON_INFO("SIZEOF INDICES: {0}", indices.size());
+	m_index_buffer.reset(Zyklon::IndexBuffer::create(indices.data(), indices.size()));
+	m_vertex_array->set_index_bfr(m_index_buffer);
+}
+*/
 
 void ExampleLayer::reset_state()
 {
 	m_aspect_ratio =
 		(float)Zyklon::Application::get().get_window().get_width() / 
 		(float)Zyklon::Application::get().get_window().get_height(); // 1.5
-	m_camera_position = glm::vec3(0.0f,0.0f,10.0f);
+	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
 	m_camera_rotation = 0.0f;
 	m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
 	// use reset function
@@ -215,13 +289,14 @@ void ExampleLayer::reset_state()
 	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Polygon.shader"));
 
 	// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
-	generate_sphere(m_radius, m_stacks, m_slices);
+	generate_uv_sphere(m_radius, m_stacks, m_slices);
 }
 
 void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
-	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
-    float amplitude = 0.2f; // Adjust for desired oscillation range
+	float time = Zyklon::Application::get().get_window().get_time();
+	float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
+    float amplitude = 1.0f; // Adjust for desired oscillation range
 
 	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
 
@@ -248,7 +323,7 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	m_camera->look_at(m_model_position, m_camera_vertical_orientation);
 
-	m_shader->set_uniform_1f("u_time", Zyklon::Application::get().get_window().get_time());
+	m_shader->set_uniform_1f("u_time", time);
 	m_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
 
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
@@ -258,13 +333,11 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	Zyklon::Renderer::begin_scene(*m_camera);
 		// translate object into world space
-		m_model = glm::rotate(m_model,
-			glm::radians(20.0f) *
-			Zyklon::Application::get().get_window().get_time() *
-			m_model_rotation_speed, {0.0f, 0.5f, 0.0f});
+		float rotation_angle = glm::radians(20.0f) * time * m_model_rotation_speed;
+		m_model = glm::rotate(m_model, rotation_angle, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		glm::mat4 transform = glm::translate(m_model,
-			glm::vec3(1.0f, amplitude * cos(frequency * Zyklon::Application::get().get_window().get_time()),1.0f))
+			glm::vec3(0.0f, 0.3 * cos(frequency * time),0.0f))
 			* scale;
 
 		// Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 3, transform);
@@ -288,13 +361,13 @@ void ExampleLayer::on_imgui_render()
 		ImGui::SliderFloat("scale", &m_scale, 0.0f, 100.0f, "%.2f", 1.0f);
 		ImGui::SliderFloat("rotation speed", &m_model_rotation_speed, 0.0f, 5.0f, "%.2f");
 		if (ImGui::SliderFloat("radius", &m_radius, 1.0f, 100.0f, "%.2f"))
-			generate_sphere(m_radius, m_stacks, m_slices);
+			generate_uv_sphere(m_radius, m_stacks, m_slices);
 
 		if (ImGui::SliderInt("stacks", &m_stacks, 3, 100, "%d"))
-			generate_sphere(m_radius, m_stacks, m_slices);
+			generate_uv_sphere(m_radius, m_stacks, m_slices);
 
 		if (ImGui::SliderInt("slices", &m_slices, 3, 100, "%d"))
-			generate_sphere(m_radius, m_stacks, m_slices);
+			generate_uv_sphere(m_radius, m_stacks, m_slices);
 			// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
 
 		ImGui::Text("Camera options!");
