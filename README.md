@@ -77,3 +77,5 @@ Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazing
 ### TODOS:
 
 [ ] Add uniform optimizations to openGL API
+[ ] Resolve viewport stretching
+[ ] add a physics system

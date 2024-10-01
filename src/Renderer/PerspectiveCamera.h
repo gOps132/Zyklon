@@ -25,6 +25,12 @@ public:
 	// This happens when setting the transform, either by setting the position or rotation
 	// not optimal if doing every single transform but were going to do it anyway
 	virtual void recalculate_view_matrix() override;
+	virtual void recalculate_perspective_matrix(float p_fovy, float p_aspect_ratio, float p_near_plane, float p_far_plane) override;
+private:
+	float m_fovy;
+	float m_aspect_ratio;
+	float m_near_plane;
+	float m_far_plane;
 };
 
 };

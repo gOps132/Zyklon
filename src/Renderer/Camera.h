@@ -37,6 +37,7 @@ public:
 	// This happens when setting the transform, either by setting the position or rotation
 	// not optimal if doing every single transform but were going to do it anyway
 	virtual void recalculate_view_matrix() = 0;
+	virtual void recalculate_perspective_matrix(float p_fovy, float p_aspect_ratio, float p_near_plane, float p_far_plane) = 0;
 
 public:
 	glm::mat4 m_projection_matrix;
@@ -45,7 +46,7 @@ public:
 
 	glm::vec3 m_position;
 	float m_rotation = 0.0f;
- };
+};
 
 } // namespace Zyklon
 

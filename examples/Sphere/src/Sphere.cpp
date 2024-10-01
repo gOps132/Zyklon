@@ -19,7 +19,7 @@ Zyklon::Application *Zyklon::Application::create_application()
 }
 
 ExampleLayer::ExampleLayer()
-	: 	Layer("Example"), m_camera(std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane))
+	: 	Layer("Example")
 {
 	reset_state();
 }
@@ -79,7 +79,7 @@ void ExampleLayer::generate_circle(
 	// std::vector<uint32_t> indices = { 0,1,2 };
 
 	m_vertex_buffer.reset(
-		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
+		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeofstatic_cast<float>());
 	m_vertex_buffer->set_layout({
 		{Zyklon::ShaderDataType::Float3, "a_position", false},
 	});
@@ -90,7 +90,6 @@ void ExampleLayer::generate_circle(
 }
 */
 
-// /*
 void ExampleLayer::generate_uv_sphere(
 		const float p_radius,
 		const int p_stacks,
@@ -122,14 +121,14 @@ void ExampleLayer::generate_uv_sphere(
 	for(int i = 1; i < p_stacks; ++i)
 	{
 		// latitude angle
-		float phi = (float)i * glm::pi<float>() / (float)p_stacks;
-		float v = (float)i / p_stacks;
+		float phi = static_cast<float>(i * glm::pi<float>()) / static_cast<float>(p_stacks);
+		float v = static_cast<float>(i / p_stacks);
 
 		for(int j = 0; j <= p_slices; ++j)
 		{
 			// longhitude angle 
-			float theta = j * glm::two_pi<float>() / (float)p_slices;
-			float u = (float)j / p_slices;
+			float theta = j * glm::two_pi<float>() / static_cast<float>(p_slices);
+			float u = static_cast<float>(j) / static_cast<float>(p_slices);
 
 			float x = p_radius * std::sin(phi) * std::cos(theta);
 			float y = p_radius * std::cos(phi);
@@ -217,7 +216,6 @@ void ExampleLayer::generate_uv_sphere(
 	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
-// */
 
 // likely not very space efficient, should use reserve and resize for memory efficiency
 /*
@@ -258,7 +256,7 @@ void ExampleLayer::generate_uv_sphere(
 	};
 
 	m_vertex_buffer.reset(
-		Zyklon::VertexBuffer::create(vertices.data(), vertices.size() * sizeof(float)));
+		Zyklon::VertexBuffer::create(vertices.data(), vertices.size() * sizeofstatic_cast<float>());
 	m_vertex_buffer->set_layout({
 		{Zyklon::ShaderDataType::Float3, "a_position", false},
 		// {Zyklon::ShaderDataType::Float3, "a_normal", false},
@@ -274,14 +272,11 @@ void ExampleLayer::generate_uv_sphere(
 
 void ExampleLayer::reset_state()
 {
-	m_aspect_ratio =
-		(float)Zyklon::Application::get().get_window().get_width() / 
-		(float)Zyklon::Application::get().get_window().get_height(); // 1.5
+	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+
 	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
 	m_camera_rotation = 0.0f;
 	m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
-	// use reset function
-	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 
 	m_vertex_array.reset(Zyklon::VertexArray::create());
 
@@ -325,6 +320,10 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	m_shader->set_uniform_1f("u_time", time);
 	m_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
+	m_shader->set_uniform_3fv("u_stretch", {m_stretch[0], m_stretch[1], m_stretch[2]});
+
+	// strechy effect on model
+	m_model *= glm::vec4({m_stretch[0], m_stretch[1], m_stretch[2], 1.0f});
 
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
@@ -337,7 +336,7 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 		m_model = glm::rotate(m_model, rotation_angle, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		glm::mat4 transform = glm::translate(m_model,
-			glm::vec3(0.0f, 0.3 * cos(frequency * time),0.0f))
+			glm::vec3(0.0f, 0.3 * cos(static_cast<double>(frequency) * static_cast<double>(time)),0.0f))
 			* scale;
 
 		// Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 3, transform);
@@ -349,8 +348,11 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 {
 	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
 	// {
-	// 	m_aspect_ratio =	Zyklon::Application::get().get_window().get_width() / 
-	// 					Zyklon::Application::get().get_window().get_height(); // 1.5
+	// 	m_aspect_ratio =
+	// 	static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+	// 	static_cast<float>(Zyklon::Application::get().get_window().get_height());
+	// 	m_camera->recalculate_perspective_matrix(m_aspect_ratio);
+		
 	// }
 }
 
@@ -363,17 +365,23 @@ void ExampleLayer::on_imgui_render()
 		if (ImGui::SliderFloat("radius", &m_radius, 1.0f, 100.0f, "%.2f"))
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 
-		if (ImGui::SliderInt("stacks", &m_stacks, 3, 100, "%d"))
+		if (ImGui::SliderInt("stacks", &m_stacks, 0, 100, "%d"))
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 
-		if (ImGui::SliderInt("slices", &m_slices, 3, 100, "%d"))
+		if (ImGui::SliderInt("slices", &m_slices, 0, 100, "%d"))
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 			// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
 
 		ImGui::Text("Camera options!");
-		ImGui::SliderFloat("fov", &m_fovy, 20.0f, 120.0f, "%.2f", 5.0f);
-		ImGui::SliderFloat("near plane", &m_near_plane, 0.1f, 100.0f, "%.2f", 5.0f);
-		ImGui::SliderFloat("far plane", &m_far_plane, 100.0f, 200.0f, "%.2f", 5.0f);
+		if(ImGui::SliderFloat("fov", &m_fovy, 20.0f, 120.0f, "%.2f", 5.0f))
+			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
+		if(ImGui::SliderFloat("near plane", &m_near_plane, 0.1f, 100.0f, "%.2f", 5.0f))
+			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
+		if(ImGui::SliderFloat("far plane", &m_far_plane, 100.0f, 200.0f, "%.2f", 5.0f))
+			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
+
+		ImGui::Text("Fun transformations!");
+		ImGui::SliderFloat3("stretching", m_stretch, 0.0f, 10.0f, "%.3f", 1.0f);
 		if (ImGui::Button("reset"))
 			reset_state();
 	ImGui::End();

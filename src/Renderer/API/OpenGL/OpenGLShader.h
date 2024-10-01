@@ -16,6 +16,7 @@ public:
 	virtual void set_uniform_1f(const std::string &name, const float v0) override;
 	virtual void set_uniform_2f(const std::string &name, const float v0, const float v1) override;
 	virtual void set_uniform_3fv(const std::string &name, const glm::vec3 &buffer) override;
+	virtual void set_uniform_4fv(const std::string &name, const glm::vec4 &buffer) override;
 	virtual void set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer) override;
 
 	virtual void bind() override;

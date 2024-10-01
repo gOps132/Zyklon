@@ -38,6 +38,13 @@ void OpenGLShader::set_uniform_3fv(const std::string &name, const glm::vec3 &buf
 		GLCall(glUniform3f(location, buffer.x, buffer.y, buffer.z));
 }
 
+void OpenGLShader::set_uniform_4fv(const std::string &name, const glm::vec4 &buffer)
+{
+	GLCall(glUseProgram(m_renderer_id));
+	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
+	if (location != -1)
+		GLCall(glUniform4f(location, buffer.x, buffer.y, buffer.z, buffer.w));
+}
 
 void OpenGLShader::set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer)
 {

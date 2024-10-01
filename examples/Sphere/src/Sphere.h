@@ -31,13 +31,9 @@ private:
 	int m_stacks			= 50;
 	int m_slices 			= 50;
 
-	// int m_segments 		= 3;
-	float m_center_x 	= 0.0f;
-	float m_center_y 	= 0.0f;
-
 //	uniforms
 	float m_color[3];
-	float m_model_pos[3];
+	float m_stretch[3] = {1.0f, 1.0f, 1.0f};
 
 	std::shared_ptr<Zyklon::Shader> m_shader;
 	std::shared_ptr<Zyklon::VertexBuffer> m_vertex_buffer;

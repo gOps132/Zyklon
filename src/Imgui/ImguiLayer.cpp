@@ -105,8 +105,8 @@ void ImGuiLayer::end()
 
 void ImGuiLayer::on_imgui_render()
 {
-	static bool show = true;
-	ImGui::ShowDemoWindow(&show);
+	// static bool show = false;
+	// ImGui::ShowDemoWindow(&show);
 }
 
 } // namespace Zyklon

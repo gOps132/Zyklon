@@ -2,7 +2,7 @@
 // Created by Gian Cedrick Epilan on 10/07/2020.
 //
 
-#include "Grid.h"
+#include "Plane.h"
 #include <imgui-test/imgui.h>
 
 #include "glm/glm.hpp"
@@ -10,7 +10,7 @@
 
 Zyklon::Application *Zyklon::Application::create_application()
 {
-	return new Grid();
+	return new Plane();
 }
 
 ExampleLayer::ExampleLayer()
@@ -21,16 +21,12 @@ ExampleLayer::ExampleLayer()
 
 void ExampleLayer::reset_state()
 {
-	m_camera_rotation = 0.0f;
-	m_camera_position =  glm::vec3(0.0f,0.0f,1.0f);
-	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
-
-	m_grid_vertex_arr.reset(Zyklon::VertexArray::create());
+	m_square_vertex_array.reset(Zyklon::VertexArray::create());
 
 	// TODO: include issues may arrive later
-	m_grid_shader.reset(Zyklon::Shader::create("examples/Grid/src/Shaders/Grid.shader"));
+	m_square_shader.reset(Zyklon::Shader::create("examples/Maze/src/Shaders/Square.shader"));
 
-	float grid_vertices[5 * 4] = {
+	float square_vertices[5 * 4] = {
 		// Position             // Texture coordinates
 		-0.5f,  0.5f, 0.0f,     0.0f, 1.0f,   // Top-left
 		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,   // Top-right
@@ -38,76 +34,89 @@ void ExampleLayer::reset_state()
 		-0.5f, -0.5f, 0.0f,     0.0f, 0.0f    // Bottom-left
 	};
 
-	uint32_t grid_indices[3 * 2] = {
+	uint32_t square_indices[3 * 2] = {
 		0, 1, 2,   // First triangle
 		0, 2, 3    // Second triangle
 	};
 
-	m_grid_vertex_bfr.reset(
-		Zyklon::VertexBuffer::create(grid_vertices, sizeof(grid_vertices)));
-	m_grid_vertex_bfr->set_layout({
+	m_square_vertex_buffer.reset(
+		Zyklon::VertexBuffer::create(square_vertices, sizeof(square_vertices)));
+	m_square_vertex_buffer->set_layout({
 		{Zyklon::ShaderDataType::Float3, "a_Position", false},
 		{Zyklon::ShaderDataType::Float2, "a_Tex", false}
 	});
-	m_grid_vertex_arr->add_vertex_bfr(m_grid_vertex_bfr);
+	m_square_vertex_array->add_vertex_bfr(m_square_vertex_buffer);
 
-	m_grid_shader->set_uniform_3fv("light_color", glm::vec3(0.5,1.0,1.0));
+	m_square_shader->set_uniform_3fv("light_color", glm::vec3(0.5,1.0,1.0));
+
+	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
+	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
+	m_camera_rotation = 0.0f;
 
 	m_camera->set_position(m_camera_position);
+	m_camera->set_rotation(m_camera_rotation);
 
-	m_grid_index_bfr.reset(Zyklon::IndexBuffer::create(grid_indices, sizeof(grid_indices) / sizeof(uint32_t)));
-	m_grid_vertex_arr->set_index_bfr(m_grid_index_bfr);
+	m_square_index_buffer.reset(Zyklon::IndexBuffer::create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
+	m_square_vertex_array->set_index_bfr(m_square_index_buffer);
 }
 
 // GAMELOOP
 void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
-	// ZYKLON_TRACE("DELTA TIME, {0}, {1}ms", ts.get_seconds(), ts.get_milliseconds());
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_TAB))
-	// 	ZYKLON_INFO("Tab Key is Pressed");
+	float time = Zyklon::Application::get().get_window().get_time();
+	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
+    float amplitude = 0.2f; // Adjust for desired oscillation range
+
+	float model_rotation_speed = 15.0f;
+
+	// m_model_position.y =
+	// 	amplitude *
+	// 	cos(frequency * time);
 
 	// ZYKLON_INFO("ts: {0}, value: {1}",
 	// 	ts.get_seconds(),
 	// 	(cos(frequency * Zyklon::Application::get().get_window().get_time())));
 
-	// ZYKLON_TRACE("Timestep: {0}", (float)ts);
-	
+	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
+	// m_model = glm::rotate(
+	// 	m_model, (glm::radians(model_rotation_speed * sin(ts))),
+	// 	glm::vec3(0.1f, 0.1f, 0.1f)
+	// );
+
 	float camera_speed = 10.0f;
 	float camera_rotation_speed = 1.5f;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
-		m_camera_position.y -= camera_speed * ts;
+		m_model_position.y -= m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
-		m_camera_position.y += camera_speed * ts;
+		m_model_position.y += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
-		m_camera_position.x -= camera_speed * ts;
+		m_model_position.x -= m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
-		m_camera_position.x += camera_speed * ts;
+		m_model_position.x += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
-		m_camera_position.z -= camera_speed * ts;
+		m_camera_position.z += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
-		m_camera_position.z += camera_speed * ts;
-	
+		m_camera_position.z -= m_camera_speed * ts;
+
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
-		m_camera_rotation -= camera_rotation_speed * ts;
+		m_camera_rotation -= m_camera_rotation_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
-		m_camera_rotation += camera_rotation_speed * ts;
+		m_camera_rotation += m_camera_rotation_speed * ts;
 
 	m_camera->set_position(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
-	m_grid_shader->set_uniform_1f("u_time", Zyklon::Application::get().get_window().get_time());
-	m_grid_shader->set_uniform_2f("u_params", uniform_float_parameters[0], uniform_float_parameters[1]);
+	m_square_shader->set_uniform_1f("u_time", time);
+	m_square_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
 
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
 
+	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
 	Zyklon::Renderer::begin_scene(*m_camera);
-	Zyklon::Renderer::submit(m_grid_shader, m_grid_vertex_arr, m_model);
-		// ZYKLON_TRACE("camera {0},{1},{2}", 
-		// 	m_camera->get_position().x,
-		// 	m_camera->get_position().y,
-		// 	m_camera->get_position().z
-		// );
+			glm::mat4 transform = glm::translate(m_model, glm::vec3(0.0f)) * scale;
+			Zyklon::Renderer::submit(m_square_shader, m_square_vertex_array, transform);
 	Zyklon::Renderer::end_scene();
 }
 
@@ -122,9 +131,8 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 void ExampleLayer::on_imgui_render()
 {
 	ImGui::Begin("Shader Uniforms");
+	ImGui::ColorPicker3("color", m_color, 0);
 	if (ImGui::Button("reset"))
 		reset_state();
-	ImGui::SliderFloat("Grid Scale", &uniform_float_parameters[0], 0.0f, 100.0f);
-	ImGui::SliderFloat("Grid Resolution", &uniform_float_parameters[1], 0.0f, 1.0f);
 	ImGui::End();
 }
