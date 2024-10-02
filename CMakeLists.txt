@@ -130,49 +130,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	DEFINITIONS -Dzyklon_EXPORTS
 )
 
-if(MSVC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-	option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
-endif(MSVC) 
-
-# If the runtime static linkage option is turned on, replace
-# compiler flag that selects runtime library variant.
-if(MSVC AND RUNTIME_STATIC_LINKAGE)
-	foreach(flag
-		CMAKE_C_FLAGS
-		CMAKE_CXX_FLAGS
-		CMAKE_C_FLAGS_DEBUG
-		CMAKE_CXX_FLAGS_DEBUG
-		CMAKE_C_FLAGS_RELEASE
-		CMAKE_CXX_FLAGS_RELEASE
-		CMAKE_C_FLAGS_MINSIZEREL
-		CMAKE_CXX_FLAGS_MINSIZEREL
-		CMAKE_C_FLAGS_RELWITHDEBINFO
-		CMAKE_CXX_FLAGS_RELWITHDEBINFO
-	)
-		if(${flag} MATCHES "/MD")
-			string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
-		endif(${flag} MATCHES "/MD")
-	endforeach(flag)
-endif(MSVC AND RUNTIME_STATIC_LINKAGE)
-
 # ------------------------------------------
 # DEBUG FLAGS
 # ------------------------------------------
 
 # Not sure if MSVC supports the g flag
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-
-# Other debugger flags
-# if(MSVC)
-#   # using Visual Studio C++
-# elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-#     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pg")
-# elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-#     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-# else()
-#     message(AUTHOR_WARNING "No compiler debug set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
-# endif()
 
 # ------------------------------------------
 # PLATFORM SPECIFIC MACRO DEFINITIONS

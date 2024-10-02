@@ -3,7 +3,7 @@
 
 #ifdef ZYKLON_EXPORT
 
-int main(int argc, char **argv)
+int main()
 {
 	Zyklon::Log::init("APP");
 
