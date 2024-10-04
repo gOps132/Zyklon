@@ -60,8 +60,10 @@ set(GRAPHICS_API
 	src/Renderer/Shader.cpp
 	src/Renderer/VertexArray.cpp
 	src/Renderer/RenderCommand.cpp
-	src/Renderer/OrthographicCamera.cpp
-	src/Renderer/PerspectiveCamera.cpp
+
+	src/Renderer/Camera/OrthographicCamera.cpp
+	src/Renderer/Camera/PerspectiveCamera.cpp
+	src/Renderer/Camera/OrbitControls.cpp
 
 	${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
 	${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp

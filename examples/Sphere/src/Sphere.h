@@ -44,6 +44,8 @@ private:
 	glm::vec3 m_model_position 	= glm::vec3(0.0f, 0.0f, 0.0f);
 	float m_scale = 0.5f;
 	float m_model_rotation_speed = 0.5f;
+	float m_scroll_state_x = 0.0f;
+	float m_scroll_state_y = 0.0f;
 
 	std::shared_ptr<Zyklon::Camera> m_camera;
 	glm::vec3 m_camera_position;

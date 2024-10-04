@@ -33,9 +33,9 @@
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
 
-#include "Renderer/Camera.h"
-#include "Renderer/OrthographicCamera.h"
-#include "Renderer/PerspectiveCamera.h"
+#include "Renderer/Camera/Camera.h"
+#include "Renderer/Camera/OrthographicCamera.h"
+#include "Renderer/Camera/PerspectiveCamera.h"
 //-------------------------------
 
 //----------Entry Point----------

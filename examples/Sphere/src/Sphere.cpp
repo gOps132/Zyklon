@@ -168,41 +168,41 @@ void ExampleLayer::generate_uv_sphere(
 	m_vertices.push_back(0.5f);               // u = 0.5 (center)
 	m_vertices.push_back(0.0f);               // v = 0 (bottom of texture)
 
-    // top stacks indices
-    for (int j = 0; j < p_slices; ++j) {
-        // Top stack (triangles connecting the top vertex)
-        m_indices.push_back(0);                    // Top vertex
-        m_indices.push_back(j + 1);                // First vertex on the next ring
-        // m_indices.push_back(j + 2);                // Next vertex on the next ring
+	// top stacks indices
+	for (int j = 0; j < p_slices; ++j) {
+		// Top stack (triangles connecting the top vertex)
+		m_indices.push_back(0);                    // Top vertex
+		m_indices.push_back(j + 1);                // First vertex on the next ring
+		// m_indices.push_back(j + 2);                // Next vertex on the next ring
 		m_indices.push_back(j == p_slices - 1 ? 1 : j + 2);
-    }
+	}
 
-    // Middle stacks
-    for (int i = 0; i < p_stacks - 2; ++i) {
-        for (int j = 0; j < p_slices; ++j) {
-            int first = i * (p_slices + 1) + (j + 1);
-            int second = first + p_slices + 1;
+	// Middle stacks
+	for (int i = 0; i < p_stacks - 2; ++i) {
+		for (int j = 0; j < p_slices; ++j) {
+			int first = i * (p_slices + 1) + (j + 1);
+			int second = first + p_slices + 1;
 
-            // First triangle of the quad
-            m_indices.push_back(first);
-            m_indices.push_back(second);
-            m_indices.push_back(first + 1);
+			// First triangle of the quad
+			m_indices.push_back(first);
+			m_indices.push_back(second);
+			m_indices.push_back(first + 1);
 
-            // Second triangle of the quad
-            m_indices.push_back(second);
-            m_indices.push_back(second + 1);
-            m_indices.push_back(first + 1);
-        }
-    }
+			// Second triangle of the quad
+			m_indices.push_back(second);
+			m_indices.push_back(second + 1);
+			m_indices.push_back(first + 1);
+		}
+	}
 
 	// Bottom stack (triangles connecting the bottom vertex)
-    int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
-    int start = (p_stacks - 2) * (p_slices + 1) + 1;
-    for (int j = 0; j < p_slices; ++j) {
-        m_indices.push_back(bottomVertexIndex);
-    	m_indices.push_back(start + ((j + 1) % p_slices));              // Wrap around for last slice
-        m_indices.push_back(start + j);
-    }
+	int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
+	int start = (p_stacks - 2) * (p_slices + 1) + 1;
+	for (int j = 0; j < p_slices; ++j) {
+		m_indices.push_back(bottomVertexIndex);
+		m_indices.push_back(start + ((j + 1) % p_slices));              // Wrap around for last slice
+		m_indices.push_back(start + j);
+	}
 	
 	m_vertex_buffer.reset(
 		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
@@ -272,11 +272,22 @@ void ExampleLayer::generate_uv_sphere(
 
 void ExampleLayer::reset_state()
 {
+	m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+		static_cast<float>(Zyklon::Application::get().get_window().get_height());
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 
+	m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
 	m_camera_rotation = 0.0f;
 	m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
+
+	m_stretch[0] = 1.0f;
+	m_stretch[1] = 1.0f;
+	m_stretch[2] = 1.0f;
+
+	m_near_plane = 0.1f;          // Near clipping plane distance
+	m_far_plane = 100.0f;         // Far clipping plane distance
 
 	m_vertex_array.reset(Zyklon::VertexArray::create());
 
@@ -291,7 +302,7 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
 	float time = Zyklon::Application::get().get_window().get_time();
 	float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
-    float amplitude = 1.0f; // Adjust for desired oscillation range
+	float amplitude = 0.4f; // Adjust for desired oscillation range
 
 	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
 
@@ -307,6 +318,9 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 		m_camera_position.z += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z -= m_camera_speed * ts;
+
+	m_model_position.x += m_scroll_state_x * ts;
+	m_model_position.y += m_scroll_state_y * ts;
 
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
 		m_camera_rotation -= m_camera_rotation_speed * ts;
@@ -339,21 +353,42 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 			glm::vec3(0.0f, 0.3 * cos(static_cast<double>(frequency) * static_cast<double>(time)),0.0f))
 			* scale;
 
-		// Zyklon::Renderer::submit_vertex(m_shader, m_vertex_array, 3, transform);
 		Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 	Zyklon::Renderer::end_scene();
 }
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
-	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
-	// {
-	// 	m_aspect_ratio =
-	// 	static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-	// 	static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	// 	m_camera->recalculate_perspective_matrix(m_aspect_ratio);
-		
-	// }
+	Zyklon::EventDispatcher dispatcher(event);
+	if(event.get_event_type() == Zyklon::EventType::WindowResize)
+	{
+		m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+		static_cast<float>(Zyklon::Application::get().get_window().get_height());
+		m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	}
+	// dispatcher.Dispatch<Zyklon::MouseMovedEvent>([](Zyklon::MouseMovedEvent& e) {
+	// 	float x = e.GetX();  // Access derived class methods
+	// 	float y = e.GetY();
+	// 	ZYKLON_INFO("Mouse moved to: {0}, {1}",x,y); 
+	// 	return false;  // Return true if the event was handled
+	// });
+	// TODO: do something about events 
+
+	if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
+			float x = e.GetXOffset();  // Access derived class methods
+			float y = e.GetYOffset();
+			// crude application
+			m_scroll_state_x = x;
+			m_scroll_state_y = y;
+			// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
+			return true;  // Return true if the event was handled
+	}));
+	else {
+		m_scroll_state_x = 0;
+		m_scroll_state_y = 0;
+	}
+
 }
 
 void ExampleLayer::on_imgui_render()

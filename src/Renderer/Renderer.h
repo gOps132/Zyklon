@@ -3,7 +3,7 @@
 
 #include "Zyklon/zyklon_pch.h"
 
-#include "Camera.h"
+#include "Camera/Camera.h"
 
 #include "RendererAPI.h"
 #include <glm/glm.hpp>
