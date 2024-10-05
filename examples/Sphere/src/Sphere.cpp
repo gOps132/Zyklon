@@ -21,6 +21,12 @@ Zyklon::Application *Zyklon::Application::create_application()
 ExampleLayer::ExampleLayer()
 	: 	Layer("Example")
 {
+	m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+		static_cast<float>(Zyklon::Application::get().get_window().get_height());
+	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
+
 	reset_state();
 }
 
@@ -275,7 +281,7 @@ void ExampleLayer::reset_state()
 	m_aspect_ratio =
 		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
 		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	m_camera->recalculate_perspective_matrix(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 
 	m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);

@@ -1,9 +1,11 @@
 #ifndef __ORBITCONTROLS_H__
 #define __ORBITCONTROLS_H__
 
+#include <Zyklon/zyklon_pch.h>
+#include <Zyklon/Events/Event.h>
+
 #include <glm/glm.hpp>
 
-#include <Zyklon/Events/Event.h>
 #include "Camera.h"
 
 namespace Zyklon
@@ -14,10 +16,10 @@ namespace Zyklon
 	class OrbitControls
 	{
 	public:
-		OrbitControls(Camera *p_camera, glm::vec3 *p_target);
+		OrbitControls(std::shared_ptr<Camera> p_camera);
 
 		void set_target(glm::vec3 *p_target) { m_target = p_target; }
-		void set_camera(Camera* p_camera) { m_camera = p_camera; }
+		void set_camera(std::shared_ptr<Camera> p_camera) { m_camera = p_camera; }
 		// convert the 2d screen coordinates into 3d movement
 		glm::vec3 map_to_unit_sphere(float p_mouse_x, float p_mouse_y, float p_width, float p_height);
 		/**
@@ -27,7 +29,7 @@ namespace Zyklon
 		*/
 		void orbit_events(Event p_event);
 	private:
-		Camera	*m_camera;
+		std::shared_ptr<Camera> m_camera;
 		glm::vec3 *m_target;
 		glm::vec3 m_up_normal;
 		glm::mat4 m_yaw;

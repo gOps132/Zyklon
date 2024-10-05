@@ -47,6 +47,7 @@ private:
 	float m_scroll_state_x = 0.0f;
 	float m_scroll_state_y = 0.0f;
 
+	std::shared_ptr<Zyklon::OrbitControls> m_orbit;
 	std::shared_ptr<Zyklon::Camera> m_camera;
 	glm::vec3 m_camera_position;
 	glm::vec3 m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
