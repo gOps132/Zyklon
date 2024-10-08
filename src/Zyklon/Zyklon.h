@@ -36,6 +36,7 @@
 #include "Renderer/Camera/Camera.h"
 #include "Renderer/Camera/OrthographicCamera.h"
 #include "Renderer/Camera/PerspectiveCamera.h"
+#include "Renderer/Camera/OrbitControls.h"
 //-------------------------------
 
 //----------Entry Point----------

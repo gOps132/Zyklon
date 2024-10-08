@@ -39,7 +39,7 @@ GLenum OpenGLHelperFunc::shader_type_to_opengl_typedef(ShaderDataType p_type)
 
 OpenGLVertexBuffer::OpenGLVertexBuffer(float *p_vertices, size_t p_size)
 {
-	// GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
+	GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
 
 	GLCall(glGenBuffers(1, &m_renderer_id));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id));

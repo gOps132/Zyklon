@@ -33,6 +33,9 @@ private:
 
 //	uniforms
 	float m_color[3];
+	float m_directional_light_color[3];
+	float m_ambient_light_color[3];
+	float m_ambient_light_intensity = 0.01f;
 	float m_stretch[3] = {1.0f, 1.0f, 1.0f};
 
 	std::shared_ptr<Zyklon::Shader> m_shader;
@@ -44,12 +47,17 @@ private:
 	glm::vec3 m_model_position 	= glm::vec3(0.0f, 0.0f, 0.0f);
 	float m_scale = 0.5f;
 	float m_model_rotation_speed = 0.5f;
-	float m_scroll_state_x = 0.0f;
-	float m_scroll_state_y = 0.0f;
+	// float m_scroll_state_x = 0.0f;
+	// float m_scroll_state_y = 0.0f;
+	glm::vec2 m_mouse_moved_delta;
 
+	bool is_mouse_down = false;
+
+
+	std::shared_ptr<Zyklon::OrbitControls> m_orbit;
 	std::shared_ptr<Zyklon::Camera> m_camera;
 	glm::vec3 m_camera_position;
-	glm::vec3 m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
+	// glm::vec3 m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
 	float m_camera_rotation = 0.0f;
 	float m_fovy = 45.0f; // Field of view in the vertical direction
 	float m_aspect_ratio =

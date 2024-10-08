@@ -20,7 +20,7 @@ PerspectiveCamera::PerspectiveCamera(float p_fovy, float p_aspect_ratio, float p
 void PerspectiveCamera::recalculate_view_matrix()
 {
 	glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_position) *
-		glm::rotate(glm::mat4(1.0f), m_rotation, glm::vec3(0,0,1));
+		glm::rotate(glm::mat4(1.0f), m_rotation, glm::vec3(0,1,0));
 
 	// inverse
 	m_view_matrix = glm::inverse(transform);

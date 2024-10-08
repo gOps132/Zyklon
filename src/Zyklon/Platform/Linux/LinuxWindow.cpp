@@ -40,6 +40,8 @@ LinuxWindow::LinuxWindow(const WindowProps &p_props)
 
 		glfwSetErrorCallback(glfw_error_callback);
 
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
 		ZYKLON_CORE_ASSERT(success, "Could not intialize GLFW!");
 
 		s_glfw_initialized = true;

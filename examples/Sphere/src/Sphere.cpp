@@ -21,6 +21,12 @@ Zyklon::Application *Zyklon::Application::create_application()
 ExampleLayer::ExampleLayer()
 	: 	Layer("Example")
 {
+	m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+		static_cast<float>(Zyklon::Application::get().get_window().get_height());
+	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
+
 	reset_state();
 }
 
@@ -217,70 +223,17 @@ void ExampleLayer::generate_uv_sphere(
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
 
-// likely not very space efficient, should use reserve and resize for memory efficiency
-/*
-void ExampleLayer::generate_uv_sphere(
-		const float p_radius,
-		const int p_stacks,
-		const int p_slices)
-{
-	m_vertices.clear();
-	m_vertices.shrink_to_fit();
-	m_indices.clear();
-	m_indices.shrink_to_fit();
-
-	// OPENGL DEFAULTS WINDING ORDER TO COUNTER CLOCK WISE
-	// EXAMPLE
-	std::vector<float> vertices = {
-		// X, Y, Z  (in NDC space)
-		// -0.5f, 	-0.5f, 	0.0f, 	// Bottom left vertex 0
-		// 0.5f, 	-0.5f, 	0.0f,  	// Bottom right vertex 1
-		// -0.5f,  0.5f, 	0.0f,  	// Top left 2
-		// 0.5f, 	0.5f, 	0.0f	// top right 3	
-
-		// PYRAMID
-		0.0f, 0.5f, 0.0f,			// top vertex apex
-		
-		-0.5f, -0.5f, -0.5f,		// bottom back left
-		0.0f, -0.5f,  0.5f,			// bottom front middle
-		0.5f, -0.5f, -0.5f			// bottom back right
-	};
-
-	std::vector<uint32_t> indices = {
-		// 0,2,3,
-		// 0,3,1 
-
-		0, 1, 2,  // Left Face
-		0, 2, 3,  // Front Face
-		0, 3, 1   // Right Face (this is the change needed)
-	};
-
-	m_vertex_buffer.reset(
-		Zyklon::VertexBuffer::create(vertices.data(), vertices.size() * sizeofstatic_cast<float>());
-	m_vertex_buffer->set_layout({
-		{Zyklon::ShaderDataType::Float3, "a_position", false},
-		// {Zyklon::ShaderDataType::Float3, "a_normal", false},
-		// {Zyklon::ShaderDataType::Float2, "a_uv", false}
-	});
-	m_vertex_array->add_vertex_bfr(m_vertex_buffer);
-
-	// ZYKLON_INFO("SIZEOF INDICES: {0}", indices.size());
-	m_index_buffer.reset(Zyklon::IndexBuffer::create(indices.data(), indices.size()));
-	m_vertex_array->set_index_bfr(m_index_buffer);
-}
-*/
-
 void ExampleLayer::reset_state()
 {
 	m_aspect_ratio =
 		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
 		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	m_camera->recalculate_perspective_matrix(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 
 	m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
 	m_camera_rotation = 0.0f;
-	m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
+	// m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
 
 	m_stretch[0] = 1.0f;
 	m_stretch[1] = 1.0f;
@@ -319,21 +272,29 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z -= m_camera_speed * ts;
 
-	m_model_position.x += m_scroll_state_x * ts;
-	m_model_position.y += m_scroll_state_y * ts;
-
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
 		m_camera_rotation -= m_camera_rotation_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
 		m_camera_rotation += m_camera_rotation_speed * ts;
+	
+	// if (is_mouse_down)
+	// {
+	// 	m_model_position.x += m_mouse_moved_delta.x;
+	// 	m_model_position.x += m_mouse_moved_delta.y;
+	// }
 
 	m_camera->set_position(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
-	m_camera->look_at(m_model_position, m_camera_vertical_orientation);
+	// m_camera->look_at(m_model_position, m_camera_vertical_orientation);
 
 	m_shader->set_uniform_1f("u_time", time);
+
 	m_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
+	m_shader->set_uniform_3fv("u_ambient_light_color", {m_ambient_light_color[0], m_ambient_light_color[1], m_ambient_light_color[2]});
+	m_shader->set_uniform_1f("u_ambient_light_intensity", m_ambient_light_intensity);
+	m_shader->set_uniform_3fv("u_directional_light_color", {m_directional_light_color[0], m_directional_light_color[1], m_directional_light_color[2]});
+
 	m_shader->set_uniform_3fv("u_stretch", {m_stretch[0], m_stretch[1], m_stretch[2]});
 
 	// strechy effect on model
@@ -359,6 +320,10 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
+	glm::vec2 mouse_current = {0.0f, 0.0f};
+	glm::vec2 mouse_previous = {0.0f, 0.0f}; 
+	is_mouse_down = false;
+
 	Zyklon::EventDispatcher dispatcher(event);
 	if(event.get_event_type() == Zyklon::EventType::WindowResize)
 	{
@@ -367,34 +332,44 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 		static_cast<float>(Zyklon::Application::get().get_window().get_height());
 		m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	}
-	// dispatcher.Dispatch<Zyklon::MouseMovedEvent>([](Zyklon::MouseMovedEvent& e) {
-	// 	float x = e.GetX();  // Access derived class methods
-	// 	float y = e.GetY();
-	// 	ZYKLON_INFO("Mouse moved to: {0}, {1}",x,y); 
-	// 	return false;  // Return true if the event was handled
-	// });
-	// TODO: do something about events 
+	
+	// TODO: 
+	// get the difference between the mouse current position and the mouse preivous position
+	// normalize them between 0 and 1
+	// multiply it by the transformation speed and delta time
 
-	if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
-			float x = e.GetXOffset();  // Access derived class methods
-			float y = e.GetYOffset();
-			// crude application
-			m_scroll_state_x = x;
-			m_scroll_state_y = y;
-			// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
-			return true;  // Return true if the event was handled
-	}));
-	else {
-		m_scroll_state_x = 0;
-		m_scroll_state_y = 0;
-	}
+	// if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
+	// {
+	// 	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
+	// 		mouse_previous = {e.GetX(), e.GetY()};
+	// 		ZYKLON_INFO("Mouse position previous: {0}, Y:{1}", e.GetX(), e.GetY());
+	// 		return true;
+	// 	});
+	// }
+
+	// if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
+	// 		float x = e.GetXOffset();  // Access derived class methods
+	// 		float y = e.GetYOffset();
+	// 		// crude application
+	// 		m_scroll_state_x = x;
+	// 		m_scroll_state_y = y;
+	// 		// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
+	// 		return true;  // Return true if the event was handled
+	// }));
+	// else {
+	// 	m_scroll_state_x = 0;
+	// 	m_scroll_state_y = 0;
+	// }
 
 }
 
 void ExampleLayer::on_imgui_render()
 {
 	ImGui::Begin("Shader Uniforms");
-		ImGui::ColorPicker3("color", m_color, 0);
+		ImGui::ColorPicker3("sphere color", m_color, 0);
+		ImGui::ColorPicker3("directional light color", m_directional_light_color, 0);
+		ImGui::ColorPicker3("ambient light color", m_ambient_light_color, 0);
+		ImGui::SliderFloat("ambient light intensity", &m_ambient_light_intensity, 0.0f, 1.0f, "%.3f");
 		ImGui::SliderFloat("scale", &m_scale, 0.0f, 100.0f, "%.2f", 1.0f);
 		ImGui::SliderFloat("rotation speed", &m_model_rotation_speed, 0.0f, 5.0f, "%.2f");
 		if (ImGui::SliderFloat("radius", &m_radius, 1.0f, 100.0f, "%.2f"))

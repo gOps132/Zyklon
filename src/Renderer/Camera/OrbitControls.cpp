@@ -2,8 +2,8 @@
 
 namespace Zyklon
 {
-	OrbitControls::OrbitControls(Camera* p_camera, glm::vec3 *p_target) :
-	m_camera(p_camera), m_target(p_target) {}
+	OrbitControls::OrbitControls(std::shared_ptr<Camera> p_camera) :
+	m_camera(p_camera) {}
 
 	glm::vec3 map_to_unit_sphere(float p_mouse_x, float p_mouse_y, float p_width, float p_height)
 	{
