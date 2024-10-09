@@ -1,7 +1,7 @@
 #ifndef __LINUXINPUT_H__
 #define __LINUXINPUT_H__
 
-#include "Zyklon/Input/Input.h"
+#include <Zyklon/Input/Input.h>
 
 namespace Zyklon {
 

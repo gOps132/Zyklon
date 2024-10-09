@@ -1,9 +1,8 @@
 #ifndef __ERRORMANAGER_H__
 #define __ERRORMANAGER_H__
 
-#include "Zyklon/Core.h"
-
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #ifndef DEBUG
 #define GLCall(x)                                                              \

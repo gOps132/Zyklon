@@ -1,10 +1,10 @@
-#include "Zyklon/zyklon_pch.h"
+#include "Zyklon/Core/zyklon_pch.h"
+#include "Zyklon/Core/Application.h"
 
-#include "Zyklon/Application.h"
+#include <GLFW/glfw3.h>
 
 #include "LinuxInput.h"
 
-#include <GLFW/glfw3.h>
 
 namespace Zyklon {
 Input *Input::s_instance = new LinuxInput();

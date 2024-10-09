@@ -1,8 +1,9 @@
 #ifndef __PERSPECTIVECAMERA_H__
 #define __PERSPECTIVECAMERA_H__
 
-#include "Camera.h"
 #include <glm/glm.hpp>
+
+#include "Camera.h"
 
 namespace Zyklon {
 

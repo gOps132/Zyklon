@@ -1,14 +1,14 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
 
-#include "Camera/Camera.h"
-
-#include "RendererAPI.h"
 #include <glm/glm.hpp>
 
+#include "RendererAPI.h"
 #include "Shader.h"
+
+#include "Camera/Camera.h"
 
 namespace Zyklon {
 

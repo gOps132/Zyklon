@@ -1,10 +1,11 @@
 #ifndef __RENDERERAPI_H__
 #define __RENDERERAPI_H__
 
+#include <glm/glm.hpp>
+
 #include "Buffer.h"
 #include "VertexArray.h"
 
-#include <glm/glm.hpp>
 namespace Zyklon {
 class RendererAPI {
 public:

@@ -50,40 +50,51 @@ set(PLATFORM_SOURCES
 	src/Zyklon/Platform/Linux/LinuxInput.cpp
 )
 
-# TODO: add abstraction test for build time and runtime
-set(RENDER_API_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/API")
-set(GRAPHICS_API 
-	src/Renderer/GraphicsContext.cpp
-	src/Renderer/RendererAPI.cpp
-	src/Renderer/Renderer.cpp
-	src/Renderer/Buffer.cpp
-	src/Renderer/Shader.cpp
-	src/Renderer/VertexArray.cpp
-	src/Renderer/RenderCommand.cpp
+set(ZYKLON_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon")
+set(IMGUI_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Imgui")
+set(RENDERER_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer")
 
-	src/Renderer/Camera/OrthographicCamera.cpp
-	src/Renderer/Camera/PerspectiveCamera.cpp
-	src/Renderer/Camera/OrbitControls.cpp
+set(RENDERER_SOURCE_FILES 
+	${RENDERER_DIRECTORY}/GraphicsContext.cpp
+	${RENDERER_DIRECTORY}/RendererAPI.cpp
+	${RENDERER_DIRECTORY}/Renderer.cpp
+	${RENDERER_DIRECTORY}/Buffer.cpp
+	${RENDERER_DIRECTORY}/Shader.cpp
+	${RENDERER_DIRECTORY}/VertexArray.cpp
+	${RENDERER_DIRECTORY}/RenderCommand.cpp
 
-	${RENDER_API_DIR}/OpenGL/OpenGLContext.cpp
-	${RENDER_API_DIR}/OpenGL/OpenGLShader.cpp
-	${RENDER_API_DIR}/OpenGL/OpenGLBuffer.cpp
-	${RENDER_API_DIR}/OpenGL/OpenGLVertexArray.cpp
-	${RENDER_API_DIR}/OpenGL/OpenGLErrorManager.cpp
-	${RENDER_API_DIR}/OpenGL/OpenGLRendererAPI.cpp
+	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
+	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp
+	${RENDERER_DIRECTORY}/Camera/OrbitControls.cpp
+)
+
+set(OPENGL_SOURCE_FILES
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLContext.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLShader.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLBuffer.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLVertexArray.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLErrorManager.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLRendererAPI.cpp
+)
+
+set(ZYKLON_CORE_FILES
+	${ZYKLON_DIRECTORY}/Core/Application.cpp
+	${ZYKLON_DIRECTORY}/Core/Log.cpp
+	${ZYKLON_DIRECTORY}/Core/Layer.cpp
+	${ZYKLON_DIRECTORY}/Core/LayerStack.cpp
+	${ZYKLON_DIRECTORY}/Core/zyklon_pch.cpp
+)
+
+set(IMGUI_SOURCE_FILES
+	${IMGUI_DIRECTORY}/ImguiLayer.cpp
+	${IMGUI_DIRECTORY}/ImguiBuild.cpp
 )
 
 set(ZYKLON_SOURCE_FILES
-	src/Zyklon/Application.cpp
-	src/Zyklon/Log.cpp
-	src/Zyklon/Layer.cpp
-	src/Zyklon/LayerStack.cpp
-	src/Zyklon/zyklon_pch.cpp
-
-	src/Imgui/ImguiLayer.cpp
-	src/Imgui/ImguiBuild.cpp
-
-	${GRAPHICS_API}
+	${ZYKLON_CORE_FILES}
+	${OPENGL_SOURCE_FILES}
+	${IMGUI_SOURCE_FILES}
+	${RENDERER_SOURCE_FILES}
 	${PLATFORM_SOURCES}
 )
 
@@ -114,7 +125,7 @@ set_project_warnings(${PROJECT_NAME})
 # GENERATING DLL VISIBILITY EXPORT HEADERS
 # ------------------------------------------
 include(GenerateExportHeader)
-generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_exports.h)
+generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${ZYKLON_DIRECTORY}/zyklon_exports.h)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ------------------------------------------
@@ -137,7 +148,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # ------------------------------------------
 
 # Not sure if MSVC supports the g flag
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 # ------------------------------------------
 # PLATFORM SPECIFIC MACRO DEFINITIONS
@@ -183,12 +194,16 @@ target_link_libraries(
 
 target_precompile_headers(
 	${PROJECT_NAME}
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/zyklon_pch.h
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/Core/zyklon_pch.h
 )
 
 target_include_directories(${PROJECT_NAME}
-	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/src
 	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/vendor
+	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/src
+
+	PRIVATE		${RENDERER_DIRECTORY}
+	PRIVATE		${ZYKLON_DIRECTORY}
+	PRIVATE		${IMGUI_DIRECTORY}
 )
 
 # ------------------------------------------

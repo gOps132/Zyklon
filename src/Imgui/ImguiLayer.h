@@ -1,12 +1,13 @@
 #ifndef __IMGUILAYER_H__
 #define __IMGUILAYER_H__
 
-#include "Zyklon/Layer.h"
-#include "Zyklon/zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 
-#include "Zyklon/Events/ApplicationEvent.h"
-#include "Zyklon/Events/KeyEvent.h"
-#include "Zyklon/Events/MouseEvent.h"
+#include <Zyklon/Core/Layer.h>
+
+#include <Zyklon/Events/ApplicationEvent.h>
+#include <Zyklon/Events/KeyEvent.h>
+#include <Zyklon/Events/MouseEvent.h>
 
 namespace Zyklon {
 

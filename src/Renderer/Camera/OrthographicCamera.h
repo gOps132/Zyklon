@@ -1,9 +1,9 @@
 #ifndef __ORTHOGRAPHICCAMERA_H__
 #define __ORTHOGRAPHICCAMERA_H__
 
-#include "Camera.h"
-
 #include <glm/glm.hpp>
+
+#include "Camera.h"
 
 namespace Zyklon {
 

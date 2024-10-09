@@ -1,8 +1,8 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Zyklon
 {

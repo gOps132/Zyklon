@@ -1,12 +1,13 @@
 #ifndef __LINUXWINDOW_H__
 #define __LINUXWINDOW_H__
 
-#include "Zyklon/Window.h"
+#include <Zyklon/Core/Window.h>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Renderer/API/OpenGL/OpenGLContext.h"
+#include <Renderer/API/OpenGL/OpenGLContext.h>
+
 namespace Zyklon {
 
 class LinuxWindow : public Window {

@@ -1,15 +1,16 @@
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
-#include "Renderer/Renderer.h"
-#include "Renderer/Shader.h"
+#include <Renderer/Renderer.h>
+#include <Renderer/Shader.h>
 
-#include "Zyklon/Core.h"
 #include <glad/glad.h>
+
+#include <glm/gtc/type_ptr.hpp>
 
 #include "OpenGLErrorManager.h"
 #include "OpenGLShader.h"
 
-#include "glm/gtc/type_ptr.hpp"
 
 namespace Zyklon {
 

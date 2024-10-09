@@ -1,12 +1,12 @@
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
 
-#include "Zyklon/Events/ApplicationEvent.h"
-#include "Zyklon/Events/KeyEvent.h"
-#include "Zyklon/Events/MouseEvent.h"
+#include <Zyklon/Events/ApplicationEvent.h>
+#include <Zyklon/Events/KeyEvent.h>
+#include <Zyklon/Events/MouseEvent.h>
 
 #include "LinuxWindow.h"
 
-#include "Renderer/API/OpenGL/OpenGLContext.h"
+#include <Renderer/API/OpenGL/OpenGLContext.h>
 
 namespace Zyklon {
 

@@ -3,19 +3,19 @@
 
 #include "zyklon_exports.h"
 
+#include <Zyklon/Events/ApplicationEvent.h>
+#include <Zyklon/Events/Event.h>
+
+#include <Imgui/ImguiLayer.h>
+
+#include <Renderer/Buffer.h>
+#include <Renderer/Shader.h>
+#include <Renderer/VertexArray.h>
+
 #include "LayerStack.h"
 #include "Window.h"
 
-#include "Events/ApplicationEvent.h"
-#include "Events/Event.h"
-
-#include "Imgui/ImguiLayer.h"
-
-#include "Renderer/Buffer.h"
-#include "Renderer/Shader.h"
-#include "Renderer/VertexArray.h"
-
-#include "Core/Timestep.h"
+#include "Timestep.h"
 
 namespace Zyklon {
 

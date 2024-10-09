@@ -1,8 +1,9 @@
 #ifndef __OPENGLRENDERERAPI_H__
 #define __OPENGLRENDERERAPI_H__
 
+#include <Zyklon/Core/Core.h>
+
 #include "Renderer/RendererAPI.h"
-#include "Zyklon/Core.h"
 
 namespace Zyklon {
 class OpenGLRendererAPI ZYKLON_OPENGL_FINAL : public RendererAPI {

@@ -1,10 +1,10 @@
-#include "Zyklon/Core.h"
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/Core.h>
+#include <Zyklon/Core/zyklon_pch.h>
 
 #include "Shader.h"
 
-#include "Renderer/Renderer.h"
-#include "Renderer/API/OpenGL/OpenGLShader.h"
+#include "Renderer.h"
+#include "API/OpenGL/OpenGLShader.h"
 
 namespace Zyklon {
 

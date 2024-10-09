@@ -1,7 +1,6 @@
-#include "Zyklon/zyklon_pch.h"
-
-#include "Zyklon/Core.h"
-#include "Zyklon/zyklon_exports.h"
+#include <zyklon_exports.h>
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

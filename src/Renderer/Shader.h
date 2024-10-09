@@ -1,10 +1,11 @@
 #ifndef __SHADER_H__
 #define __SHADER_H__
 
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Buffer.h"
-#include "glm/gtc/type_ptr.hpp"
 
 namespace Zyklon {
 

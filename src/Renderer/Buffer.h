@@ -1,8 +1,8 @@
 #ifndef __BUFFER_H__
 #define __BUFFER_H__
 
-#include "Zyklon/zyklon_pch.h"
-#include "Zyklon/Core.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 namespace Zyklon {
 

@@ -1,8 +1,9 @@
 #ifndef __OPENGLVERTEXARRAY_H__
 #define __OPENGLVERTEXARRAY_H__
 
+#include <Zyklon/Core/Core.h>
+
 #include "Renderer/VertexArray.h"
-#include "Zyklon/Core.h"
 
 namespace Zyklon {
 class OpenGLVertexArray ZYKLON_OPENGL_FINAL : public VertexArray {

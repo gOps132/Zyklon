@@ -1,11 +1,11 @@
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <glad/glad.h>
+
+#include "Renderer.h"
+#include "API/OpenGL/OpenGLBuffer.h"
 
 #include "Buffer.h"
 
-#include "Renderer.h"
-#include "Renderer/API/OpenGL/OpenGLBuffer.h"
-
-#include <glad/glad.h>
 
 namespace Zyklon {
 

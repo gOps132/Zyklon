@@ -1,8 +1,9 @@
 #ifndef __MOUSEEVENT_H__
 #define __MOUSEEVENT_H__
 
+#include <Zyklon/zyklon_exports.h>
+
 #include "Event.h"
-#include "Zyklon/zyklon_exports.h"
 
 namespace Zyklon {
 

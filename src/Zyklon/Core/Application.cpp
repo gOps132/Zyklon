@@ -4,12 +4,14 @@
 
 #include "zyklon_pch.h"
 
+#include <Zyklon/Events/ApplicationEvent.h>
+#include <Zyklon/Input/Input.h>
+
 #include "Core.h"
-#include "Events/ApplicationEvent.h"
-#include "Input/Input.h"
 #include "Window.h"
 
 #include "Application.h"
+
 
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"

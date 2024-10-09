@@ -1,9 +1,9 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
-#include "Core.h"
-#include "Events/Event.h"
 #include "zyklon_exports.h"
+#include "Core.h"
+#include <Zyklon/Events/Event.h>
 
 namespace Zyklon {
 /* Default window parameters */

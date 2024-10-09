@@ -1,11 +1,11 @@
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
 
 #include "RendererAPI.h"
 #include "Renderer.h"
-
 #include "GraphicsContext.h"
 
-#include "Renderer/API/OpenGL/OpenGLContext.h"
+#include "API/OpenGL/OpenGLContext.h"
+
 
 namespace Zyklon {
 GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)

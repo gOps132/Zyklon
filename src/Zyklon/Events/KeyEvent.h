@@ -1,8 +1,9 @@
 #ifndef __KEYEVENT_H__
 #define __KEYEVENT_H__
 
+#include <Zyklon/zyklon_exports.h>
+
 #include "Event.h"
-#include "Zyklon/zyklon_exports.h"
 
 namespace Zyklon {
 

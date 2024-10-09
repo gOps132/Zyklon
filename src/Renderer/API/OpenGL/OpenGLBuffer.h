@@ -1,13 +1,14 @@
 #ifndef __OPENGLVERTEXBUFFER_H__
 #define __OPENGLVERTEXBUFFER_H__
 
-#include "Zyklon/zyklon_pch.h"
-
-#include "Renderer/Buffer.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #include <glad/glad.h>
 
-#include "Zyklon/Core.h"
+#include <Renderer/Buffer.h>
+
+
 
 namespace Zyklon {
 

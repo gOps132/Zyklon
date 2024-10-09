@@ -1,11 +1,12 @@
 #ifndef __EVENT_H__
 #define __EVENT_H__
 
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/zyklon_exports.h>
 
-#include "Zyklon/Core.h"
-#include "Zyklon/Log.h"
-#include "Zyklon/zyklon_exports.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
+#include <Zyklon/Core/Log.h>
+
 
 namespace Zyklon {
 

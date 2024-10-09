@@ -1,8 +1,8 @@
-#include "Zyklon/zyklon_pch.h"
-
-#include  "OrthographicCamera.h"
+#include <Zyklon/Core/zyklon_pch.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "OrthographicCamera.h"
 
 namespace Zyklon {
 

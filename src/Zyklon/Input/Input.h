@@ -1,7 +1,7 @@
 #ifndef __INPUT_H__
 #define __INPUT_H__
 
-#include "Zyklon/zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 
 namespace Zyklon {
 

@@ -1,8 +1,9 @@
 #ifndef __OPENGLCONTEXT_H__
 #define __OPENGLCONTEXT_H__
 
+#include <Zyklon/Core/Core.h>
+
 #include "Renderer/GraphicsContext.h"
-#include "Zyklon/Core.h"
 
 class GLFWwindow;
 namespace Zyklon {

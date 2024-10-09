@@ -1,10 +1,10 @@
 #ifndef __OPENGLSHADER_H__
 #define __OPENGLSHADER_H__
 
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #include "Renderer/Shader.h"
-#include "Zyklon/Core.h"
 
 namespace Zyklon {
 class OpenGLShader ZYKLON_OPENGL_FINAL : public Shader {

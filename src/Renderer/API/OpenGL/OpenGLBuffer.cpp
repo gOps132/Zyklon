@@ -1,5 +1,5 @@
-#include "Zyklon/Core.h"
-#include "Zyklon/zyklon_pch.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #include "OpenGLBuffer.h"
 #include "OpenGLErrorManager.h"

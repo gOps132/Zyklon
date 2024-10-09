@@ -2,10 +2,9 @@
  * Using GLFW key codes for now
  */
 
-#include "Zyklon/zyklon_pch.h"
-
-#include "Zyklon/Application.h"
-#include "Zyklon/Core.h"
+#include <Zyklon/Core/zyklon_pch.h>
+#include <Zyklon/Core/Application.h>
+#include <Zyklon/Core/Core.h>
 
 #include <imgui.h>
 

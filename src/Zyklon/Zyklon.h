@@ -8,16 +8,16 @@
 #include "zyklon_exports.h"
 
 //------------CORE---------------
-#include "Application.h"
-#include "Layer.h"
-#include "Log.h"
-#include "Core/Timestep.h"
+#include "Zyklon/Core/Application.h"
+#include "Zyklon/Core/Layer.h"
+#include "Zyklon/Core/Log.h"
+#include "Zyklon/Core/Timestep.h"
 //-------------------------------
 
 //------------INPUT--------------
-#include "Input/Input.h"
-#include "Input/KeyCodes.h"
-#include "Input/MouseButtonCodes.h"
+#include "Zyklon/Input/Input.h"
+#include "Zyklon/Input/KeyCodes.h"
+#include "Zyklon/Input/MouseButtonCodes.h"
 //-------------------------------
 
 //------------IMGUI--------------
@@ -40,7 +40,7 @@
 //-------------------------------
 
 //----------Entry Point----------
-#include "EntryPoint.h"
+#include "Zyklon/Core/EntryPoint.h"
 //-------------------------------
 
 
