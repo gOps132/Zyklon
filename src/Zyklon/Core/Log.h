@@ -7,7 +7,7 @@
  * Don't run this from distribution builds*
  */
 
-#include "zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>

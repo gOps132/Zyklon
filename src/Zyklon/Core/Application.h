@@ -1,7 +1,7 @@
 #ifndef __APPLICATION_H__
 #define __APPLICATION_H__
 
-#include "zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 
 #include <Zyklon/Events/ApplicationEvent.h>
 #include <Zyklon/Events/Event.h>

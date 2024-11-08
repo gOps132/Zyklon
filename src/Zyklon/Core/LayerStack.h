@@ -1,7 +1,7 @@
 #ifndef __LAYERSTACK_H__
 #define __LAYERSTACK_H__
 
-#include "zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 #include "zyklon_pch.h"
 
 #include "Core.h"

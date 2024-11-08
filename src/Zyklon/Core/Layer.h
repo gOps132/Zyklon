@@ -1,7 +1,7 @@
 #ifndef __LAYER_H__
 #define __LAYER_H__
 
-#include "zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 #include "Core.h"
 #include "Timestep.h"
 

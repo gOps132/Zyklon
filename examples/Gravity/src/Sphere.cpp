@@ -3,34 +3,24 @@
 //
 
 #include "Sphere.h"
-#include <imgui-test/imgui.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include <Renderer/Renderer.h>
+#include <imgui-test/imgui.h>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 #include <vector>
 
-Zyklon::Application *Zyklon::Application::create_application()
+Sphere::Sphere(
+		std::string p_name, 
+		glm::vec3 p_model_position,
+		std::string p_shader_path)
+	: 	m_name(p_name), m_model_position_og(p_model_position), m_shader_path(p_shader_path)
 {
-	return new Sphere();
+	reset();
 }
 
-ExampleLayer::ExampleLayer()
-	: 	Layer("Example")
-{
-	m_aspect_ratio =
-		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
-
-	reset_state();
-}
-
-// reset the vertex array
 /*
 void ExampleLayer::generate_circle(	
 	const int p_segments,
@@ -96,7 +86,7 @@ void ExampleLayer::generate_circle(
 }
 */
 
-void ExampleLayer::generate_uv_sphere(
+void Sphere::generate_uv_sphere(
 		const float p_radius,
 		const int p_stacks,
 		const int p_slices)
@@ -108,10 +98,6 @@ void ExampleLayer::generate_uv_sphere(
 
 	// ZYKLON_INFO("GENERATING SPHERE");
 
-// the north and south poles are the exception when generating vertices
-// also the exception when generating indices
-
-// 	top vertex
 	m_vertices.push_back(0.0f);
 	m_vertices.push_back(p_radius);
 	m_vertices.push_back(0.0f);
@@ -223,72 +209,31 @@ void ExampleLayer::generate_uv_sphere(
 	m_vertex_array->set_index_bfr(m_index_buffer);
 }
 
-void ExampleLayer::reset_state()
+void Sphere::reset()
 {
-	m_aspect_ratio =
-		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	m_camera->recalculate_perspective_matrix(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-
-	m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
-	m_camera_position = glm::vec3(0.0f,0.0f,5.0f);
-	m_camera_rotation = 0.0f;
-	// m_camera_vertical_orientation = {0.0f, 1.0f, 0.0f};
+	m_model_position = m_model_position_og;
 
 	m_stretch[0] = 1.0f;
 	m_stretch[1] = 1.0f;
 	m_stretch[2] = 1.0f;
 
-	m_near_plane = 0.1f;          // Near clipping plane distance
-	m_far_plane = 100.0f;         // Far clipping plane distance
-
 	m_vertex_array.reset(Zyklon::VertexArray::create());
 
-	// TODO: include issues may arrive later
-	m_shader.reset(Zyklon::Shader::create("examples/Sphere/src/Shaders/Polygon.shader"));
+	m_shader.reset(Zyklon::Shader::create(m_shader_path));
 
 	// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
 	generate_uv_sphere(m_radius, m_stacks, m_slices);
 }
 
-void ExampleLayer::on_update(Zyklon::Timestep ts)
+void Sphere::set_shader(std::string p_shader_path)
 {
-	float time = Zyklon::Application::get().get_window().get_time();
-	float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
-	float amplitude = 0.4f; // Adjust for desired oscillation range
+	m_shader_path = p_shader_path;
+	m_shader.reset(Zyklon::Shader::create(m_shader_path));
+}
 
-	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
-
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
-		m_model_position.y -= m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
-		m_model_position.y += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
-		m_model_position.x -= m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
-		m_model_position.x += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
-		m_camera_position.z += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
-		m_camera_position.z -= m_camera_speed * ts;
-
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
-		m_camera_rotation -= m_camera_rotation_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
-		m_camera_rotation += m_camera_rotation_speed * ts;
-	
-	// if (is_mouse_down)
-	// {
-	// 	m_model_position.x += m_mouse_moved_delta.x;
-	// 	m_model_position.x += m_mouse_moved_delta.y;
-	// }
-
-	m_camera->set_position(m_camera_position);
-	m_camera->set_rotation(m_camera_rotation);
-
-	// m_camera->look_at(m_model_position, m_camera_vertical_orientation);
-
-	m_shader->set_uniform_1f("u_time", time);
+void Sphere::update_shader(float p_time)
+{
+	m_shader->set_uniform_1f("u_time", p_time);
 
 	m_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
 	m_shader->set_uniform_3fv("u_ambient_light_color", {m_ambient_light_color[0], m_ambient_light_color[1], m_ambient_light_color[2]});
@@ -296,76 +241,16 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	m_shader->set_uniform_3fv("u_directional_light_color", {m_directional_light_color[0], m_directional_light_color[1], m_directional_light_color[2]});
 
 	m_shader->set_uniform_3fv("u_stretch", {m_stretch[0], m_stretch[1], m_stretch[2]});
-
-	// strechy effect on model
-	m_model *= glm::vec4({m_stretch[0], m_stretch[1], m_stretch[2], 1.0f});
-
-	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
-	Zyklon::RenderCommand::clear();
-
-	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(m_scale));
-
-	Zyklon::Renderer::begin_scene(*m_camera);
-		// translate object into world space
-		float rotation_angle = glm::radians(20.0f) * time * m_model_rotation_speed;
-		m_model = glm::rotate(m_model, rotation_angle, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		glm::mat4 transform = glm::translate(m_model,
-			glm::vec3(0.0f, 0.3 * cos(static_cast<double>(frequency) * static_cast<double>(time)),0.0f))
-			* scale;
-
-		Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
-	Zyklon::Renderer::end_scene();
 }
 
-void ExampleLayer::on_event(Zyklon::Event &event)
+void Sphere::render(glm::mat4 p_transform)
 {
-	glm::vec2 mouse_current = {0.0f, 0.0f};
-	glm::vec2 mouse_previous = {0.0f, 0.0f}; 
-	is_mouse_down = false;
-
-	Zyklon::EventDispatcher dispatcher(event);
-	if(event.get_event_type() == Zyklon::EventType::WindowResize)
-	{
-		m_aspect_ratio =
-		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-		m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-	}
-	
-	// TODO: 
-	// get the difference between the mouse current position and the mouse preivous position
-	// normalize them between 0 and 1
-	// multiply it by the transformation speed and delta time
-
-	// if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
-	// {
-	// 	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
-	// 		mouse_previous = {e.GetX(), e.GetY()};
-	// 		ZYKLON_INFO("Mouse position previous: {0}, Y:{1}", e.GetX(), e.GetY());
-	// 		return true;
-	// 	});
-	// }
-
-	// if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
-	// 		float x = e.GetXOffset();  // Access derived class methods
-	// 		float y = e.GetYOffset();
-	// 		// crude application
-	// 		m_scroll_state_x = x;
-	// 		m_scroll_state_y = y;
-	// 		// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
-	// 		return true;  // Return true if the event was handled
-	// }));
-	// else {
-	// 	m_scroll_state_x = 0;
-	// 	m_scroll_state_y = 0;
-	// }
-
+	Zyklon::Renderer::submit(m_shader, m_vertex_array, p_transform);
 }
 
-void ExampleLayer::on_imgui_render()
+void Sphere::render_gui()
 {
-	ImGui::Begin("Shader Uniforms");
+	ImGui::Begin("Sphere Uniforms");
 		ImGui::ColorPicker3("sphere color", m_color, 0);
 		ImGui::ColorPicker3("directional light color", m_directional_light_color, 0);
 		ImGui::ColorPicker3("ambient light color", m_ambient_light_color, 0);
@@ -381,18 +266,10 @@ void ExampleLayer::on_imgui_render()
 		if (ImGui::SliderInt("slices", &m_slices, 0, 100, "%d"))
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 			// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
-
-		ImGui::Text("Camera options!");
-		if(ImGui::SliderFloat("fov", &m_fovy, 20.0f, 120.0f, "%.2f", 5.0f))
-			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
-		if(ImGui::SliderFloat("near plane", &m_near_plane, 0.1f, 100.0f, "%.2f", 5.0f))
-			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
-		if(ImGui::SliderFloat("far plane", &m_far_plane, 100.0f, 200.0f, "%.2f", 5.0f))
-			m_camera->recalculate_perspective_matrix(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane);
-
+	
 		ImGui::Text("Fun transformations!");
 		ImGui::SliderFloat3("stretching", m_stretch, 0.0f, 10.0f, "%.3f", 1.0f);
-		if (ImGui::Button("reset"))
-			reset_state();
+		if (ImGui::Button("reset sphere"))
+			reset();
 	ImGui::End();
 }

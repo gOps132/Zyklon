@@ -1,7 +1,7 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
-#include "zyklon_exports.h"
+#include <Zyklon/zyklon_exports.h>
 #include "Core.h"
 #include <Zyklon/Events/Event.h>
 
