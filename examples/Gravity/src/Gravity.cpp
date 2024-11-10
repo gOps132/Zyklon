@@ -18,7 +18,25 @@ ExampleLayer::ExampleLayer()
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
 
-	m_sphere = std::make_shared<Sphere>("Sphere", glm::vec3(0.0f, 0.0f, 0.0f), "examples/Gravity/src/Shaders/Polygon.shader");
+	// name, radius, mass, og position, shader_path
+	// m_sphere = std::make_shared<Sphere>(
+	// 	"First Sphere", 1.0f,  30.0f, glm::vec3(0.0f, 0.0f, 0.0f), "examples/Gravity/src/Shaders/Polygon.shader"
+	// );
+
+	m_planets = std::make_shared<SystemState>();
+
+	// TODO: maybe use reserved for later?
+	// TODO: sphere transformation
+	for (int i = 1; i <= 2; i++)
+	{
+		auto sphere = std::make_shared<Sphere>(
+			"sphere " + std::to_string(i),
+			1.0f,  30.0f, glm::vec3(0.0f + (1.5f * i), 0.0f, 0.0f),
+			"examples/Gravity/src/Shaders/Polygon.shader"
+		);
+		m_sphere.push_back(sphere);
+		m_planets->add_physical_object(sphere);
+	}
 
 	reset_state();
 }
@@ -36,7 +54,7 @@ void ExampleLayer::reset_state()
 	m_near_plane = 0.1f;          // Near clipping plane distance
 	m_far_plane = 100.0f;         // Far clipping plane distance
 
-	m_sphere->reset();
+	// m_sphere->reset();
 }
 
 void ExampleLayer::on_update(Zyklon::Timestep ts)
@@ -47,12 +65,15 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
 	// 	m_model_position.y -= m_camera_speed * ts;
+
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
 	// 	m_model_position.y += m_camera_speed * ts;
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
 	// 	m_model_position.x -= m_camera_speed * ts;
 	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
 	// 	m_model_position.x += m_camera_speed * ts;
+
+	// TODO: MOVE THIS INTO CAMERA ORBIT CONTROLS
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
 		m_camera_position.z += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
@@ -74,7 +95,11 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	// m_camera->look_at(m_model_position, m_camera_vertical_orientation);
 
-	m_sphere->update_shader(time);
+	// m_sphere->update_shader(time);
+	for ( auto sphere : m_sphere )
+	{
+		sphere->update_shader(time);
+	}
 
 	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
@@ -83,15 +108,24 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	Zyklon::Renderer::begin_scene(*m_camera);
 		// translate object into world space
-		float rotation_angle = glm::radians(20.0f) * time * m_model_rotation_speed;
-		// m_model = glm::rotate(m_model, rotation_angle, glm::vec3(0.0f, 1.0f, 0.0f));
-		double bob_val = std::cos(static_cast<double>(frequency) * static_cast<double>(time));
+		float rotation_speed = 0.5f;
+		float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
+		// double bob_val = std::cos(static_cast<double>(frequency) * static_cast<double>(time));
 
-		glm::mat4 transform = glm::translate(m_sphere->get_model_matrix(),
-			glm::vec3(0.0f, 0.0f, 0.0f))
-			* scale;
+		
+		// TODO: abstrat away the transformation matrix code
+		for ( auto sphere : m_sphere )
+		{
+			sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
+			glm::mat4 transform = glm::translate(sphere->get_model_matrix(),
+				// glm::vec3(0.0f, 0.3f * bob_val, 0.0f))
+				sphere->get_position())
+				 * scale;
 
-		m_sphere->render(transform);
+			sphere->render(transform);
+		}
+
+		// m_sphere->render(transform);
 
 	Zyklon::Renderer::end_scene();
 }
@@ -154,5 +188,8 @@ void ExampleLayer::on_imgui_render()
 		if (ImGui::Button("reset camera"))
 			reset_state();
 	ImGui::End();
-	m_sphere->render_gui();
+	for ( auto sphere : m_sphere )
+	{
+		sphere->render_gui();
+	}
 }

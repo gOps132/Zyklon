@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE
 	src/Gravity.cpp
 	src/Sphere.cpp
+	src/Physics.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})

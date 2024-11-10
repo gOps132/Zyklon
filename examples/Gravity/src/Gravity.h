@@ -6,8 +6,10 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Physics.h"
 #include "Sphere.h"
 
+#include <vector>
 #include <memory>
 
 class ExampleLayer : public Zyklon::Layer {
@@ -19,10 +21,10 @@ public:
 	virtual void on_imgui_render() override;
 	void reset_state();
 private:
-	std::shared_ptr<Sphere> m_sphere;
+	std::shared_ptr<SystemState> m_planets;
+	std::vector<std::shared_ptr<Sphere>> m_sphere;
 
 	float m_scale = 0.5f;
-	float m_model_rotation_speed = 0.5f;
 	// float m_scroll_state_x = 0.0f;
 	// float m_scroll_state_y = 0.0f;
 	// glm::vec2 m_mouse_moved_delta;

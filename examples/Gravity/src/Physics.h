@@ -1,0 +1,44 @@
+#ifndef __PHYSICS_H__
+#define __PHYSICS_H__
+
+#include "PhysicsConstants.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include <vector>
+#include <memory>
+
+class PObject
+{
+public:
+    PObject(float mass, glm::vec3& position, const glm::vec3& velocity)
+        : m_mass(mass), m_position(position), m_velocity(velocity) {}
+	float get_mass() { return m_mass; }
+
+	void set_mass(float mass) { m_mass = mass; }
+	void set_position(const glm::vec3& position) { m_position = position; }
+	void set_velocity(const glm::vec3& velocity) { m_velocity = velocity; }
+
+	float get_mass() const { return m_mass; }
+ 	const glm::vec3& get_velocity() { return m_velocity; }
+	const glm::vec3& get_position() { return m_position; }
+protected:
+	float m_mass;
+	glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
+	glm::vec3 m_velocity = {0.0f, 0.0f, 0.0f};
+};
+
+class SystemState
+{
+public:
+	SystemState() {};
+	// integrates and updates values of physical objects
+	void ode_solve_euler(float ts);
+	void add_physical_object(const std::shared_ptr<PObject>& p_object);
+private:
+	std::vector<std::shared_ptr<PObject>> m_physical_objects;
+};
+
+
+#endif // __PHYSICS_H__

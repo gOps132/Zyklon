@@ -13,20 +13,25 @@
 #include <vector>
 
 Sphere::Sphere(
-		std::string p_name, 
-		glm::vec3 p_model_position,
-		std::string p_shader_path)
-	: 	m_name(p_name), m_model_position_og(p_model_position), m_shader_path(p_shader_path)
+		std::string name,
+		float radius,
+		float mass,
+		glm::vec3 position,
+		std::string shader_path)	:
+	PObject(mass, position, m_velocity),
+	m_radius(radius), m_name(name), 
+	m_orig_model_position(position),
+	m_shader_path(shader_path)
 {
 	reset();
 }
 
 /*
 void ExampleLayer::generate_circle(	
-	const int p_segments,
-	const float p_radius,
-	const float p_center_x,
-	const float p_center_y
+	const int segments,
+	const float radius,
+	const float center_x,
+	const float center_y
 ){
 	// BUG TOO MANY LOGS CAUSE PROGRAM TO CRASH
 	// ZYKLON_INFO("GENERATING CIRCLE");
@@ -37,32 +42,32 @@ void ExampleLayer::generate_circle(
 	m_indices.shrink_to_fit();
 
 // default
-	m_vertices.push_back(p_center_x);
-	m_vertices.push_back(p_center_y);
+	m_vertices.push_back(center_x);
+	m_vertices.push_back(center_y);
 	m_vertices.push_back(0.0);
 	
 	// calculate angle between each segment
-	float angle_increment = 2.0f * M_PI / p_segments;
+	float angle_increment = 2.0f * M_PI / segments;
 
-	for(int i = 0; i < p_segments; i++)
+	for(int i = 0; i < segments; i++)
 	{
 		float angle = i * angle_increment;
-		float x = p_center_x + p_radius * std::cos(angle);
-		float y = p_center_y + p_radius * std::sin(angle);
+		float x = center_x + radius * std::cos(angle);
+		float y = center_y + radius * std::sin(angle);
 		float z = 0.0f;
 		m_vertices.push_back(x);
 		m_vertices.push_back(y);
 		m_vertices.push_back(z);
 	}
 
-	for (int i = 0; i <= p_segments; ++i) {
+	for (int i = 0; i <= segments; ++i) {
 		m_indices.push_back(0);		 					// Center vertex
 		m_indices.push_back(i);  						// Current vertex on the circumference
-		m_indices.push_back(i % p_segments + 1);  	// Next vertex on the circumference
+		m_indices.push_back(i % segments + 1);  	// Next vertex on the circumference
 	}
 
 	m_indices.push_back(0);
-	m_indices.push_back(p_segments);
+	m_indices.push_back(segments);
 	m_indices.push_back(1);
 
 	// std::vector<float> vertices = {
@@ -87,9 +92,9 @@ void ExampleLayer::generate_circle(
 */
 
 void Sphere::generate_uv_sphere(
-		const float p_radius,
-		const int p_stacks,
-		const int p_slices)
+		const float radius,
+		const int stacks,
+		const int slices)
 {
 	m_vertices.clear();
 	m_vertices.shrink_to_fit();
@@ -99,7 +104,7 @@ void Sphere::generate_uv_sphere(
 	// ZYKLON_INFO("GENERATING SPHERE");
 
 	m_vertices.push_back(0.0f);
-	m_vertices.push_back(p_radius);
+	m_vertices.push_back(radius);
 	m_vertices.push_back(0.0f);
 //  top normals
 	m_vertices.push_back(0.0f);
@@ -110,24 +115,24 @@ void Sphere::generate_uv_sphere(
 	m_vertices.push_back(1.0f);
 
 // middle vertices
-	for(int i = 1; i < p_stacks; ++i)
+	for(int i = 1; i < stacks; ++i)
 	{
 		// latitude angle
-		float phi = static_cast<float>(i * glm::pi<float>()) / static_cast<float>(p_stacks);
-		float v = static_cast<float>(i / p_stacks);
+		float phi = static_cast<float>(i * glm::pi<float>()) / static_cast<float>(stacks);
+		float v = static_cast<float>(i / stacks);
 
-		for(int j = 0; j <= p_slices; ++j)
+		for(int j = 0; j <= slices; ++j)
 		{
 			// longhitude angle 
-			float theta = j * glm::two_pi<float>() / static_cast<float>(p_slices);
-			float u = static_cast<float>(j) / static_cast<float>(p_slices);
+			float theta = j * glm::two_pi<float>() / static_cast<float>(slices);
+			float u = static_cast<float>(j) / static_cast<float>(slices);
 
-			float x = p_radius * std::sin(phi) * std::cos(theta);
-			float y = p_radius * std::cos(phi);
-			float z = p_radius * std::sin(phi) * std::sin(theta);
+			float x = radius * std::sin(phi) * std::cos(theta);
+			float y = radius * std::cos(phi);
+			float z = radius * std::sin(phi) * std::sin(theta);
 
 			// ZYKLON_INFO("VERTICE: {0}, STACK: {1}, SLICE: {2}, x: {3:.2f}, y: {4:.2f}, z: {5:.2f}",
-			// 	i*p_stacks + j, i, j, x,y,z);
+			// 	i*stacks + j, i, j, x,y,z);
 
 			// positions
 			m_vertices.push_back(x);
@@ -148,7 +153,7 @@ void Sphere::generate_uv_sphere(
 
 	// Add the bottom vertex (south pole)
 	m_vertices.push_back(0.0f);               // x = 0 (centered)
-	m_vertices.push_back(-p_radius);           // y = -radius (bottom pole)
+	m_vertices.push_back(-radius);           // y = -radius (bottom pole)
 	m_vertices.push_back(0.0f);               // z = 0 (centered)
 
 	// Bottom pole normal (pointing down)
@@ -161,19 +166,19 @@ void Sphere::generate_uv_sphere(
 	m_vertices.push_back(0.0f);               // v = 0 (bottom of texture)
 
 	// top stacks indices
-	for (int j = 0; j < p_slices; ++j) {
+	for (int j = 0; j < slices; ++j) {
 		// Top stack (triangles connecting the top vertex)
 		m_indices.push_back(0);                    // Top vertex
 		m_indices.push_back(j + 1);                // First vertex on the next ring
 		// m_indices.push_back(j + 2);                // Next vertex on the next ring
-		m_indices.push_back(j == p_slices - 1 ? 1 : j + 2);
+		m_indices.push_back(j == slices - 1 ? 1 : j + 2);
 	}
 
 	// Middle stacks
-	for (int i = 0; i < p_stacks - 2; ++i) {
-		for (int j = 0; j < p_slices; ++j) {
-			int first = i * (p_slices + 1) + (j + 1);
-			int second = first + p_slices + 1;
+	for (int i = 0; i < stacks - 2; ++i) {
+		for (int j = 0; j < slices; ++j) {
+			int first = i * (slices + 1) + (j + 1);
+			int second = first + slices + 1;
 
 			// First triangle of the quad
 			m_indices.push_back(first);
@@ -189,10 +194,10 @@ void Sphere::generate_uv_sphere(
 
 	// Bottom stack (triangles connecting the bottom vertex)
 	int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
-	int start = (p_stacks - 2) * (p_slices + 1) + 1;
-	for (int j = 0; j < p_slices; ++j) {
+	int start = (stacks - 2) * (slices + 1) + 1;
+	for (int j = 0; j < slices; ++j) {
 		m_indices.push_back(bottomVertexIndex);
-		m_indices.push_back(start + ((j + 1) % p_slices));              // Wrap around for last slice
+		m_indices.push_back(start + ((j + 1) % slices));              // Wrap around for last slice
 		m_indices.push_back(start + j);
 	}
 	
@@ -211,7 +216,7 @@ void Sphere::generate_uv_sphere(
 
 void Sphere::reset()
 {
-	m_model_position = m_model_position_og;
+	m_position = m_orig_model_position;
 
 	m_stretch[0] = 1.0f;
 	m_stretch[1] = 1.0f;
@@ -225,50 +230,53 @@ void Sphere::reset()
 	generate_uv_sphere(m_radius, m_stacks, m_slices);
 }
 
-void Sphere::set_shader(std::string p_shader_path)
+void Sphere::set_shader(std::string shader_path)
 {
-	m_shader_path = p_shader_path;
+	m_shader_path = shader_path;
 	m_shader.reset(Zyklon::Shader::create(m_shader_path));
 }
 
-void Sphere::update_shader(float p_time)
+void Sphere::update_shader(float time)
 {
-	m_shader->set_uniform_1f("u_time", p_time);
+	m_shader->set_uniform_1f("u_time", time);
 
-	m_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
-	m_shader->set_uniform_3fv("u_ambient_light_color", {m_ambient_light_color[0], m_ambient_light_color[1], m_ambient_light_color[2]});
+	m_shader->set_uniform_3fv("u_color", m_color);
+	m_shader->set_uniform_3fv("u_ambient_light_color", m_ambient_light_color);
 	m_shader->set_uniform_1f("u_ambient_light_intensity", m_ambient_light_intensity);
-	m_shader->set_uniform_3fv("u_directional_light_color", {m_directional_light_color[0], m_directional_light_color[1], m_directional_light_color[2]});
+	m_shader->set_uniform_3fv("u_directional_light_color", m_directional_light_color);
 
-	m_shader->set_uniform_3fv("u_stretch", {m_stretch[0], m_stretch[1], m_stretch[2]});
+	m_shader->set_uniform_3fv("u_stretch", m_stretch);
 }
 
-void Sphere::render(glm::mat4 p_transform)
+void Sphere::render(glm::mat4 transform)
 {
-	Zyklon::Renderer::submit(m_shader, m_vertex_array, p_transform);
+	Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 }
 
 void Sphere::render_gui()
 {
-	ImGui::Begin("Sphere Uniforms");
-		ImGui::ColorPicker3("sphere color", m_color, 0);
-		ImGui::ColorPicker3("directional light color", m_directional_light_color, 0);
-		ImGui::ColorPicker3("ambient light color", m_ambient_light_color, 0);
+	ImGui::Begin(m_name.c_str());
+		ImGui::ColorPicker3("sphere color", glm::value_ptr(m_color), 0);
+		ImGui::ColorPicker3("directional light color", glm::value_ptr(m_directional_light_color), 0);
+		ImGui::ColorPicker3("ambient light color", glm::value_ptr(m_ambient_light_color), 0);
 		ImGui::SliderFloat("ambient light intensity", &m_ambient_light_intensity, 0.0f, 1.0f, "%.3f");
-		ImGui::SliderFloat("scale", &m_scale, 0.0f, 100.0f, "%.2f", 1.0f);
-		ImGui::SliderFloat("rotation speed", &m_model_rotation_speed, 0.0f, 5.0f, "%.2f");
 		if (ImGui::SliderFloat("radius", &m_radius, 1.0f, 100.0f, "%.2f"))
+		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
+		}
 
 		if (ImGui::SliderInt("stacks", &m_stacks, 0, 100, "%d"))
+		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
+		}
 
 		if (ImGui::SliderInt("slices", &m_slices, 0, 100, "%d"))
+		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
-			// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
-	
+		}
+
 		ImGui::Text("Fun transformations!");
-		ImGui::SliderFloat3("stretching", m_stretch, 0.0f, 10.0f, "%.3f", 1.0f);
+		ImGui::SliderFloat3("stretching", glm::value_ptr(m_stretch), 0.0f, 10.0f, "%.3f", 1.0f);
 		if (ImGui::Button("reset sphere"))
 			reset();
 	ImGui::End();
