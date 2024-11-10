@@ -22,6 +22,7 @@ public:
 		float radius,
 		float mass,
 		glm::vec3 position,
+		glm::vec3 velocity,
 		std::string shader_path
 	);
 	void reset();
@@ -39,12 +40,6 @@ public:
 		m_stacks = stacks; 
 		m_slices = slices;
 	}
-	// sets the original model position and updates the position
-	void set_model_position(const glm::vec3& model_position) 
-	{
-		m_orig_model_position = model_position;
-	 	m_position = m_orig_model_position;
-	}
 	glm::mat4 set_model_matrix(const glm::mat4& model_matrix) { m_model_matrix = model_matrix; }
 	const glm::mat4 &get_model_matrix() const { return m_model_matrix; }
 private:
@@ -52,7 +47,6 @@ private:
 	std::string m_shader_path;
 
 	glm::mat4 m_model_matrix         	= glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	glm::vec3 m_orig_model_position;
 
 // sphere resolution
 	std::vector<float> m_vertices;
@@ -73,8 +67,6 @@ private:
 	std::shared_ptr<Zyklon::VertexBuffer> m_vertex_buffer;
 	std::shared_ptr<Zyklon::IndexBuffer> m_index_buffer;
 	std::shared_ptr<Zyklon::VertexArray> m_vertex_array;
-
-	float m_model_rotation_speed = 0.5f;
 };
 
 #endif // __SPHERE_H__

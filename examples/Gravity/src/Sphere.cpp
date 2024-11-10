@@ -17,10 +17,10 @@ Sphere::Sphere(
 		float radius,
 		float mass,
 		glm::vec3 position,
+		glm::vec3 velocity,
 		std::string shader_path)	:
-	PObject(mass, position, m_velocity),
+	PObject(mass, position, velocity),
 	m_radius(radius), m_name(name), 
-	m_orig_model_position(position),
 	m_shader_path(shader_path)
 {
 	reset();
@@ -216,11 +216,10 @@ void Sphere::generate_uv_sphere(
 
 void Sphere::reset()
 {
-	m_position = m_orig_model_position;
+	m_position = m_initial_position;
+	m_velocity = m_initial_velocity;
 
-	m_stretch[0] = 1.0f;
-	m_stretch[1] = 1.0f;
-	m_stretch[2] = 1.0f;
+	m_stretch = {0.0f, 0.0f, 0.0f};
 
 	m_vertex_array.reset(Zyklon::VertexArray::create());
 
@@ -274,9 +273,18 @@ void Sphere::render_gui()
 		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 		}
+		// ImGui::Text("Fun transformations!");
+		// ImGui::SliderFloat3("stretching", glm::value_ptr(m_stretch), 0.0f, 10.0f, "%.3f", 1.0f);
+		ImGui::Text("Physics");
 
-		ImGui::Text("Fun transformations!");
-		ImGui::SliderFloat3("stretching", glm::value_ptr(m_stretch), 0.0f, 10.0f, "%.3f", 1.0f);
+		ImGui::SliderFloat("Mass", &m_mass, 1.0f, 100.0f, "%.2f");
+		ImGui::SliderFloat3("Initial Position", glm::value_ptr(m_initial_position), -10.0f, 10.0f, "%.3f", 1.0f);
+		ImGui::SliderFloat3("Initial Velocity", glm::value_ptr(m_initial_velocity), -10.0f, 10.0f, "%.3f", 1.0f);
+
+		ImGui::InputFloat3("Velocity: ", glm::value_ptr(m_velocity));
+		ImGui::InputFloat3("Position: ", glm::value_ptr(m_position));
+		// ImGui::SliderFloat3("velocity", glm::value_ptr(m_velocity), -10.0f, 10.0f, "%.3f", 1.0f);
+
 		if (ImGui::Button("reset sphere"))
 			reset();
 	ImGui::End();

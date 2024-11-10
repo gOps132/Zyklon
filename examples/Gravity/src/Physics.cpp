@@ -15,7 +15,10 @@ void SystemState::ode_solve_euler(float ts)
 			if (distance == 0) continue; // Prevent division by zero
 
 			glm::vec3 unit_direction = glm::normalize(direction);
-			float force_magnitude = (G * obj1->get_mass() * obj2->get_mass()) / (distance * distance);
+
+			// USING GRAVITATIONAL CONSTANT!!! NOT VIABLE FOR MEAGER EULER INTEGRATION
+			// float force_magnitude = (G * obj1->get_mass() * obj2->get_mass()) / (distance * distance);
+			float force_magnitude = (1 * obj1->get_mass() * obj2->get_mass()) / (distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 

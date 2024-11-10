@@ -27,11 +27,13 @@ ExampleLayer::ExampleLayer()
 
 	// TODO: maybe use reserved for later?
 	// TODO: sphere transformation
-	for (int i = 1; i <= 2; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		auto sphere = std::make_shared<Sphere>(
-			"sphere " + std::to_string(i),
-			1.0f,  30.0f, glm::vec3(0.0f + (1.5f * i), 0.0f, 0.0f),
+			"sphere " + std::to_string(i+1),
+			1.0f,  1.0f,
+			glm::vec3(0.0f + (2.5f * i), 0.0f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
 			"examples/Gravity/src/Shaders/Polygon.shader"
 		);
 		m_sphere.push_back(sphere);
@@ -107,16 +109,18 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(m_scale));
 
 	Zyklon::Renderer::begin_scene(*m_camera);
+		// calculate gravitational phsyics
+		m_planets->ode_solve_euler(ts);
+
 		// translate object into world space
 		float rotation_speed = 0.5f;
-		float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
+		// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 		// double bob_val = std::cos(static_cast<double>(frequency) * static_cast<double>(time));
 
-		
 		// TODO: abstrat away the transformation matrix code
 		for ( auto sphere : m_sphere )
 		{
-			sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
+			// sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
 			glm::mat4 transform = glm::translate(sphere->get_model_matrix(),
 				// glm::vec3(0.0f, 0.3f * bob_val, 0.0f))
 				sphere->get_position())

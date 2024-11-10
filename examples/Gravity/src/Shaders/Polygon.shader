@@ -24,7 +24,7 @@ uniform float u_time;
 out vec3 v_directional_light_color; 
 out float v_directional_light_intensity;
 
-void main() 
+void main()
 {
 	v_position = a_position;
 	v_uv = a_uv;

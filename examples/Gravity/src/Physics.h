@@ -12,21 +12,31 @@
 class PObject
 {
 public:
-    PObject(float mass, glm::vec3& position, const glm::vec3& velocity)
-        : m_mass(mass), m_position(position), m_velocity(velocity) {}
-	float get_mass() { return m_mass; }
+    PObject(float mass, glm::vec3& position, glm::vec3& velocity)
+        : m_mass(mass), m_initial_position(position), m_initial_velocity(velocity) { reset(); }
 
 	void set_mass(float mass) { m_mass = mass; }
 	void set_position(const glm::vec3& position) { m_position = position; }
 	void set_velocity(const glm::vec3& velocity) { m_velocity = velocity; }
+	void set_initial_position(const glm::vec3& position) { m_initial_position = position; }
+	void set_initial_velocity(const glm::vec3& velocity) { m_initial_velocity = velocity; }
 
 	float get_mass() const { return m_mass; }
  	const glm::vec3& get_velocity() { return m_velocity; }
 	const glm::vec3& get_position() { return m_position; }
+
+	void reset()
+	{
+		m_position = m_initial_position;
+		m_velocity = m_initial_velocity;
+	}
 protected:
 	float m_mass;
 	glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
 	glm::vec3 m_velocity = {0.0f, 0.0f, 0.0f};
+
+	glm::vec3 m_initial_velocity = {0.0f, 0.0f, 0.0f};
+	glm::vec3 m_initial_position = {0.0f, 0.0f, 0.0f};
 };
 
 class SystemState
