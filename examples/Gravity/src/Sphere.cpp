@@ -278,8 +278,12 @@ void Sphere::render_gui()
 		ImGui::Text("Physics");
 
 		ImGui::SliderFloat("Mass", &m_mass, 1.0f, 100.0f, "%.2f");
-		ImGui::SliderFloat3("Initial Position", glm::value_ptr(m_initial_position), -10.0f, 10.0f, "%.3f", 1.0f);
-		ImGui::SliderFloat3("Initial Velocity", glm::value_ptr(m_initial_velocity), -10.0f, 10.0f, "%.3f", 1.0f);
+
+		// ImGui::SliderFloat3("Initial Position", glm::value_ptr(m_initial_position), -10.0f, 10.0f, "%.3f", 1.0f);
+		// ImGui::SliderFloat3("Initial Velocity", glm::value_ptr(m_initial_velocity), -10.0f, 10.0f, "%.3f", 1.0f);
+
+		ImGui::InputFloat3("Initial Position", glm::value_ptr(m_initial_position));
+		ImGui::InputFloat3("Initial Velocity", glm::value_ptr(m_initial_velocity));
 
 		ImGui::InputFloat3("Velocity: ", glm::value_ptr(m_velocity));
 		ImGui::InputFloat3("Position: ", glm::value_ptr(m_position));

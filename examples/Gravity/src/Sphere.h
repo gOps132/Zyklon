@@ -57,10 +57,10 @@ private:
 	int m_slices 			= 50;
 
 //	sphere shader uniforms
-	glm::vec3 m_color;
-	glm::vec3 m_directional_light_color;
-	glm::vec3 m_ambient_light_color;
-	float m_ambient_light_intensity = 0.01f;
+	glm::vec3 m_color = { 1.0f, 1.0f, 1.0f};
+	glm::vec3 m_directional_light_color = { 1.0f, 1.0f, 1.0f};
+	glm::vec3 m_ambient_light_color = { 1.0f, 1.0f, 1.0f};
+	float m_ambient_light_intensity = 0.3f;
 	glm::vec3 m_stretch = {1.0f, 1.0f, 1.0f};
 
 	std::shared_ptr<Zyklon::Shader> m_shader;

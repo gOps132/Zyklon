@@ -192,6 +192,14 @@ void ExampleLayer::on_imgui_render()
 		if (ImGui::Button("reset camera"))
 			reset_state();
 	ImGui::End();
+	ImGui::Begin("All States");
+		if (ImGui::Button("reset all"))
+			for ( auto sphere : m_sphere )
+			{
+				sphere->reset();
+			}
+	ImGui::End();
+
 	for ( auto sphere : m_sphere )
 	{
 		sphere->render_gui();
