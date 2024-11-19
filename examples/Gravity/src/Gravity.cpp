@@ -54,20 +54,23 @@ void ExampleLayer::reset_state()
 void ExampleLayer::on_update(Zyklon::Timestep ts)
 {
 	float time = Zyklon::Application::get().get_window().get_time();
-	float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
-	float amplitude = 0.4f; // Adjust for desired oscillation range
+	// float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
+	// float amplitude = 0.4f; // Adjust for desired oscillation range
 
 
-	// TODO: MOVE THIS INTO CAMERA ORBIT CONTROLS
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
 		m_camera_position.z += m_camera_speed * ts;
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z -= m_camera_speed * ts;
-
 	m_camera->set_position(m_camera_position);
-	// m_camera->set_rotation(m_camera_rotation);
+
 	if (look_at)
-		m_camera->look_at(m_sphere[index]->get_position(), {1.0f, 1.0f, 0.0f});
+	{
+		m_orbit->set_target(m_sphere[index]->get_position());
+		m_orbit->update();
+	} else {
+		m_camera->update();
+	}
 
 	// m_sphere->update_shader(time);
 	for ( auto sphere : m_sphere )
@@ -83,14 +86,12 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// calculate gravitational phsyics
 	m_planets->update_system_state(ts);
 
-	m_camera->update();
 	Zyklon::Renderer::begin_scene(*m_camera);
 		// translate object into world space
-		float rotation_speed = 0.5f;
+		// float rotation_speed = 0.5f;
 		// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 		// double bob_val = std::cos(static_cast<double>(frequency) * static_cast<double>(time));
 
-		// TODO: abstrat away the transformation matrix code
 		for ( auto sphere : m_sphere )
 		{
 			// sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
@@ -106,16 +107,17 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
+	// ZYKLON_INFO("Event: {0}", event.get_name());
 	is_mouse_down = false;
 
 	Zyklon::EventDispatcher dispatcher(event);
-	if(event.get_event_type() == Zyklon::EventType::WindowResize)
-	{
-		m_aspect_ratio =
-		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-		static_cast<float>(Zyklon::Application::get().get_window().get_height());
-		m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-	}
+	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
+	// {
+	// 	m_aspect_ratio =
+	// 	static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+	// 	static_cast<float>(Zyklon::Application::get().get_window().get_height());
+	// 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+	// }
 	
 	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
 		// is_moving = true;
@@ -127,8 +129,8 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_A))
 	{
 		index = (index + 1) % m_sphere.size();
-		auto tmp = m_sphere[index]->get_position();
-		ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index, tmp.x, tmp.y, tmp.z);
+		// auto tmp = m_sphere[index]->get_position();
+		// ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index, tmp.x, tmp.y, tmp.z);
 	}
 
 	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_SPACE))
@@ -136,10 +138,6 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 		look_at = !look_at;
 	}
 
-	// TODO:
-	// get the difference between the mouse current position and the mouse preivous position
-	// normalize them between 0 and 1
-	// multiply it by the transformation speed and delta time
 	if(event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
 	{
 		mouse_previous = mouse_current;
@@ -156,9 +154,14 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 
 			// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
 
-			m_camera_position.x += x;
-			m_camera_position.y -= y;
-				
+			if (look_at)
+				m_orbit->update(x, y);
+			else {
+				m_camera_position.x += x;
+				m_camera_position.y -= y;
+			}
+
+			
 			return true;  // Return true if the event was handled
 	}));
 }

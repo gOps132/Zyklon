@@ -29,9 +29,9 @@ public:
 		m_needs_update = true;
 		m_rotation = p_rotation;
 	}
-	void look_at(glm::vec3 direction, glm::vec3 up)
+	void look_at(glm::vec3 position, glm::vec3 direction, glm::vec3 up)
 	{
-		m_view_matrix = glm::lookAt(m_position, direction, up);
+		m_view_matrix = glm::lookAt(position, direction, up);
 		m_view_projection_matrix = m_projection_matrix * m_view_matrix;
 		
 		// Set the update flag if needed

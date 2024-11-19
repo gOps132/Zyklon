@@ -44,7 +44,6 @@ private:
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 	float m_camera_speed = 10.0f;
-	float m_camera_rotation_speed = 1.5f;
 
 	float m_scale = 0.5f;
 };
