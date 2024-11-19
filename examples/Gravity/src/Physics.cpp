@@ -1,5 +1,15 @@
 #include "Physics.h"
 
+void SystemState::update_system_state(float ts)
+{
+	m_accumulated_time += ts;
+	while (m_accumulated_time > m_fixed_timestep) 
+	{
+		ode_solve_euler(m_fixed_timestep);
+		m_accumulated_time -= m_fixed_timestep;
+	}
+}
+
 void SystemState::ode_solve_euler(float ts)
 {
 	// Calculate forces between each pair of objects

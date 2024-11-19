@@ -17,29 +17,21 @@ ExampleLayer::ExampleLayer()
 		static_cast<float>(Zyklon::Application::get().get_window().get_height());
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
-
-	// name, radius, mass, og position, shader_path
-	// m_sphere = std::make_shared<Sphere>(
-	// 	"First Sphere", 1.0f,  30.0f, glm::vec3(0.0f, 0.0f, 0.0f), "examples/Gravity/src/Shaders/Polygon.shader"
-	// );
-
 	m_planets = std::make_shared<SystemState>();
 
-	// TODO: maybe use reserved for later?
-	// TODO: sphere transformation
+	// instantiate them balls
 	for (int i = 0; i < 2; i++)
 	{
 		auto sphere = std::make_shared<Sphere>(
 			"sphere " + std::to_string(i+1),
 			1.0f,  1.0f,
-			glm::vec3(0.0f + (2.5f * i), 0.0f, 0.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3((2.0f * i) + (2.0f * i), (2.0f * i), 0.0f),
+			glm::vec3(0.0f, (-1.0f * i), 0.0f),
 			"examples/Gravity/src/Shaders/Polygon.shader"
 		);
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
 	}
-
 	reset_state();
 }
 
@@ -65,15 +57,6 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
 	float amplitude = 0.4f; // Adjust for desired oscillation range
 
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
-	// 	m_model_position.y -= m_camera_speed * ts;
-
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
-	// 	m_model_position.y += m_camera_speed * ts;
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
-	// 	m_model_position.x -= m_camera_speed * ts;
-	// if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
-	// 	m_model_position.x += m_camera_speed * ts;
 
 	// TODO: MOVE THIS INTO CAMERA ORBIT CONTROLS
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
@@ -81,21 +64,10 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z -= m_camera_speed * ts;
 
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
-		m_camera_rotation -= m_camera_rotation_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
-		m_camera_rotation += m_camera_rotation_speed * ts;
-	
-	// if (is_mouse_down)
-	// {
-	// 	m_model_position.x += m_mouse_moved_delta.x;
-	// 	m_model_position.x += m_mouse_moved_delta.y;
-	// }
-
 	m_camera->set_position(m_camera_position);
-	m_camera->set_rotation(m_camera_rotation);
-
-	// m_camera->look_at(m_model_position, m_camera_vertical_orientation);
+	// m_camera->set_rotation(m_camera_rotation);
+	if (look_at)
+		m_camera->look_at(m_sphere[index]->get_position(), {1.0f, 1.0f, 0.0f});
 
 	// m_sphere->update_shader(time);
 	for ( auto sphere : m_sphere )
@@ -108,10 +80,11 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(m_scale));
 
-	Zyklon::Renderer::begin_scene(*m_camera);
-		// calculate gravitational phsyics
-		m_planets->ode_solve_euler(ts);
+	// calculate gravitational phsyics
+	m_planets->update_system_state(ts);
 
+	m_camera->update();
+	Zyklon::Renderer::begin_scene(*m_camera);
 		// translate object into world space
 		float rotation_speed = 0.5f;
 		// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
@@ -128,16 +101,11 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 			sphere->render(transform);
 		}
-
-		// m_sphere->render(transform);
-
 	Zyklon::Renderer::end_scene();
 }
 
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
-	// glm::vec2 mouse_current = {0.0f, 0.0f};
-	// glm::vec2 mouse_previous = {0.0f, 0.0f}; 
 	is_mouse_down = false;
 
 	Zyklon::EventDispatcher dispatcher(event);
@@ -149,34 +117,50 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 		m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	}
 	
+	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
+		// is_moving = true;
+		mouse_current = {e.GetX(), e.GetY()};
+		// ZYKLON_INFO("Mouse current: {0}, Y:{1}", mouse_current.x, mouse_current.y);
+		return true;
+	});
+
+	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+	{
+		index = (index + 1) % m_sphere.size();
+		auto tmp = m_sphere[index]->get_position();
+		ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index, tmp.x, tmp.y, tmp.z);
+	}
+
+	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_SPACE))
+	{
+		look_at = !look_at;
+	}
+
 	// TODO:
 	// get the difference between the mouse current position and the mouse preivous position
 	// normalize them between 0 and 1
 	// multiply it by the transformation speed and delta time
+	if(event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
+	{
+		mouse_previous = mouse_current;
+	}
+	if(event.get_event_type() == Zyklon::EventType::MouseButtonRelease)
+	{
+		m_mouse_moved_delta = mouse_current - mouse_previous; 
+		// ZYKLON_INFO("Mouse delta: x:{0}, y:{1}", m_mouse_moved_delta.x, m_mouse_moved_delta.y);
+	}
 
-	// if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
-	// {
-	// 	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
-	// 		mouse_previous = {e.GetX(), e.GetY()};
-	// 		ZYKLON_INFO("Mouse position previous: {0}, Y:{1}", e.GetX(), e.GetY());
-	// 		return true;
-	// 	});
-	// }
+	if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
+			float x = e.GetXOffset();  // Access derived class methods
+			float y = e.GetYOffset();
 
-	// if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
-	// 		float x = e.GetXOffset();  // Access derived class methods
-	// 		float y = e.GetYOffset();
-	// 		// crude application
-	// 		m_scroll_state_x = x;
-	// 		m_scroll_state_y = y;
-	// 		// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
-	// 		return true;  // Return true if the event was handled
-	// }));
-	// else {
-	// 	m_scroll_state_x = 0;
-	// 	m_scroll_state_y = 0;
-	// }
+			// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
 
+			m_camera_position.x += x;
+			m_camera_position.y -= y;
+				
+			return true;  // Return true if the event was handled
+	}));
 }
 
 void ExampleLayer::on_imgui_render()

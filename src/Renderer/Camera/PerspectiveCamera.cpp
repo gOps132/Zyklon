@@ -20,12 +20,14 @@ PerspectiveCamera::PerspectiveCamera(float p_fovy, float p_aspect_ratio, float p
 
 void PerspectiveCamera::recalculate_view_matrix()
 {
-	glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_position) *
-		glm::rotate(glm::mat4(1.0f), m_rotation, glm::vec3(0,1,0));
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_position) *
+                          glm::rotate(glm::mat4(1.0f), m_rotation, glm::vec3(0, 1, 0));
 
-	// inverse
-	m_view_matrix = glm::inverse(transform);
-	m_view_projection_matrix = m_projection_matrix * m_view_matrix;
+    // Compute inverse to get the view matrix
+    m_view_matrix = glm::inverse(transform);
+    m_view_projection_matrix = m_projection_matrix * m_view_matrix;
+
+    m_needs_update = false; // Reset update flag after recalculating
 }
 
 void PerspectiveCamera::recalculate_perspective_matrix(float p_fovy, float p_aspect_ratio, float p_near_plane, float p_far_plane)

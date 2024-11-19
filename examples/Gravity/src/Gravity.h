@@ -24,11 +24,12 @@ private:
 	std::shared_ptr<SystemState> m_planets;
 	std::vector<std::shared_ptr<Sphere>> m_sphere;
 
-	float m_scale = 0.5f;
-	// float m_scroll_state_x = 0.0f;
-	// float m_scroll_state_y = 0.0f;
-	// glm::vec2 m_mouse_moved_delta;
+	unsigned int index = 0;
+	bool look_at = true;
 
+	glm::vec2 mouse_current = {0.0f, 0.0f};
+	glm::vec2 mouse_previous = {0.0f, 0.0f}; 
+	glm::vec2 m_mouse_moved_delta = {0.0f, 0.0f};
 	bool is_mouse_down = false;
 
 	std::shared_ptr<Zyklon::OrbitControls> m_orbit;
@@ -44,6 +45,8 @@ private:
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 	float m_camera_speed = 10.0f;
 	float m_camera_rotation_speed = 1.5f;
+
+	float m_scale = 0.5f;
 };
 
 class Gravity : public Zyklon::Application {
