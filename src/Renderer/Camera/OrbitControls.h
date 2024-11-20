@@ -22,6 +22,7 @@ namespace Zyklon
 		void set_camera(std::shared_ptr<Camera> p_camera) { m_camera = p_camera; }
 		void set_rotation_speed(float rotation_speed) { m_rotation_speed = rotation_speed; }
 		void update(float dx = 0.0f, float dy = 0.0f);
+		float& get_distance() { return m_distance; }
 	private:
 		std::shared_ptr<Camera> m_camera;
 		glm::vec3 m_target;

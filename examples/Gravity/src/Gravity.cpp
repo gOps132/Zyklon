@@ -68,7 +68,17 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	{
 		m_orbit->set_target(m_sphere[index]->get_position());
 		m_orbit->update();
-	} else {
+			if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
+		{
+			m_orbit->get_distance() += m_camera_speed * ts;
+		}
+		if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
+		{
+			m_orbit->get_distance() -= m_camera_speed * ts;
+		}
+	}
+	else 
+	{
 		m_camera->set_position(m_camera_position);
 		m_camera->update();
 	}
