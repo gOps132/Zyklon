@@ -97,11 +97,12 @@ void Sphere::generate_uv_sphere(
 		const int slices)
 {
 	m_vertices.clear();
-	m_vertices.shrink_to_fit();
+	// m_vertices.shrink_to_fit();
 	m_indices.clear();
-	m_indices.shrink_to_fit();
+	// m_indices.shrink_to_fit();
 
 	// ZYKLON_INFO("GENERATING SPHERE");
+	glm::vec3 normals;
 
 	m_vertices.push_back(0.0f);
 	m_vertices.push_back(radius);
@@ -119,7 +120,7 @@ void Sphere::generate_uv_sphere(
 	{
 		// latitude angle
 		float phi = static_cast<float>(i * glm::pi<float>()) / static_cast<float>(stacks);
-		float v = static_cast<float>(i / stacks);
+		float v = static_cast<float>(i) / static_cast<float>(stacks);
 
 		for(int j = 0; j <= slices; ++j)
 		{
@@ -140,7 +141,7 @@ void Sphere::generate_uv_sphere(
 			m_vertices.push_back(z);
 
 			// normals
-			glm::vec3 normals = glm::normalize(glm::vec3(x,y,z));
+			normals = glm::normalize(glm::vec3(x,y,z));
 			m_vertices.push_back(normals.x);
 			m_vertices.push_back(normals.y);
 			m_vertices.push_back(normals.z);
@@ -171,7 +172,8 @@ void Sphere::generate_uv_sphere(
 		m_indices.push_back(0);                    // Top vertex
 		m_indices.push_back(j + 1);                // First vertex on the next ring
 		// m_indices.push_back(j + 2);                // Next vertex on the next ring
-		m_indices.push_back(j == slices - 1 ? 1 : j + 2);
+		// m_indices.push_back(j == slices - 1 ? 1 : j + 2);
+		m_indices.push_back((j + 1) % slices + 1);
 	}
 
 	// Middle stacks
@@ -212,6 +214,9 @@ void Sphere::generate_uv_sphere(
 
 	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
 	m_vertex_array->set_index_bfr(m_index_buffer);
+
+	ZYKLON_INFO("Index: {0}, Vertex: {1}, Normal: ({2}, {3}, {4})", 
+    m_indices.size(), m_vertices.size() / 8, normals.x, normals.y, normals.z);
 }
 
 void Sphere::reset()

@@ -34,17 +34,11 @@ void main()
 	directional_light.color = u_directional_light_color;
 
 	float intensity = dot(a_normal, directional_light.direction);
-	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0; // ????
+	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
 	v_directional_light_color = directional_light.color;
 
-	// v_color = vec4(u_directional_light_color * vec3(a_uv.x, a_uv.y, a_position.y),1.0);
 	v_color = u_directional_light_color;
 
-	// v_color = vec4(u_directional_light_color.x * sin(u_time), u_directional_light_color.y * cos(u_time), u_directional_light_color.z, 1.0);
-	// gl_Position = vec4(a_position, 1.0);
-	// gl_Position = u_transform * vec4(a_position, 1.0) - 1.0;
-	// gl_Position = u_view_projection * vec4(u_stretch, 1.0) * u_transform * vec4(v_position, 1.0);
-	// gl_Position = vec4(u_stretch, 1.0) * u_view_projection * u_transform * vec4(v_position, 1.0);
 	gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
 }
 

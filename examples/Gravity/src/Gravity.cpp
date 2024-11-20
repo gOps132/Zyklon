@@ -27,7 +27,7 @@ ExampleLayer::ExampleLayer()
 			1.0f,  1.0f,
 			glm::vec3((2.0f * i) + (2.0f * i), (2.0f * i), 0.0f),
 			glm::vec3(0.0f, (-1.0f * i), 0.0f),
-			"examples/Gravity/src/Shaders/Polygon.shader"
+			"examples/Gravity/src/Shaders/wood.shader"
 		);
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
@@ -47,8 +47,6 @@ void ExampleLayer::reset_state()
 
 	m_near_plane = 0.1f;          // Near clipping plane distance
 	m_far_plane = 100.0f;         // Far clipping plane distance
-
-	// m_sphere->reset();
 }
 
 void ExampleLayer::on_update(Zyklon::Timestep ts)
@@ -192,9 +190,5 @@ void ExampleLayer::on_imgui_render()
 			}
 	ImGui::End();
 
-	// for ( auto sphere : m_sphere )
-	// {
-	// 	sphere->render_gui();
-	// }
 	m_sphere[index]->render_gui();
 }
