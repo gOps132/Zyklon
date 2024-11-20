@@ -37,7 +37,7 @@ public:
 	void render_gui();
 	void set_resolution(int stacks, int slices) 
 	{ 
-		m_stacks = stacks; 
+		m_stacks = stacks;
 		m_slices = slices;
 	}
 	glm::mat4 set_model_matrix(const glm::mat4& model_matrix) { m_model_matrix = model_matrix; }

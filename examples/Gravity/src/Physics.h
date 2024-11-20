@@ -35,8 +35,8 @@ protected:
 	glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
 	glm::vec3 m_velocity = {0.0f, 0.0f, 0.0f};
 
-	glm::vec3 m_initial_velocity = {0.0f, 0.0f, 0.0f};
 	glm::vec3 m_initial_position = {0.0f, 0.0f, 0.0f};
+	glm::vec3 m_initial_velocity = {0.0f, 0.0f, 0.0f};
 };
 
 class SystemState

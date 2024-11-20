@@ -20,7 +20,7 @@ ExampleLayer::ExampleLayer()
 	m_planets = std::make_shared<SystemState>();
 
 	// instantiate them balls
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		auto sphere = std::make_shared<Sphere>(
 			"sphere " + std::to_string(i+1),
@@ -57,18 +57,21 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// float frequency = 0.4f; // Adjust for desired oscillation speed (higher = faster)
 	// float amplitude = 0.4f; // Adjust for desired oscillation range
 
-
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
+	{
 		m_camera_position.z += m_camera_speed * ts;
+	}
 	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
+	{
 		m_camera_position.z -= m_camera_speed * ts;
-	m_camera->set_position(m_camera_position);
+	}
 
 	if (look_at)
 	{
 		m_orbit->set_target(m_sphere[index]->get_position());
 		m_orbit->update();
 	} else {
+		m_camera->set_position(m_camera_position);
 		m_camera->update();
 	}
 
@@ -108,62 +111,64 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
 	// ZYKLON_INFO("Event: {0}", event.get_name());
-	is_mouse_down = false;
-
-	Zyklon::EventDispatcher dispatcher(event);
-	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
-	// {
-	// 	m_aspect_ratio =
-	// 	static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
-	// 	static_cast<float>(Zyklon::Application::get().get_window().get_height());
-	// 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-	// }
-	
-	dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
-		// is_moving = true;
-		mouse_current = {e.GetX(), e.GetY()};
-		// ZYKLON_INFO("Mouse current: {0}, Y:{1}", mouse_current.x, mouse_current.y);
-		return true;
-	});
-
-	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+	if(event.get_event_type() == Zyklon::EventType::WindowResize)
 	{
-		index = (index + 1) % m_sphere.size();
-		// auto tmp = m_sphere[index]->get_position();
-		// ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index, tmp.x, tmp.y, tmp.z);
+		m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().get_window().get_width()) / 
+		static_cast<float>(Zyklon::Application::get().get_window().get_height());
+		m_camera->recalculate_perspective_matrix(glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	}
 
-	if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_SPACE))
+	if (!ImGui::IsAnyWindowFocused())
 	{
-		look_at = !look_at;
+		is_mouse_down = false;
+
+		Zyklon::EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<Zyklon::MouseMovedEvent>([&](Zyklon::MouseMovedEvent& e) {
+			// is_moving = true;
+			mouse_current = {e.GetX(), e.GetY()};
+			// ZYKLON_INFO("Mouse current: {0}, Y:{1}", mouse_current.x, mouse_current.y);
+			return true;
+		});
+
+		if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+		{	
+			index = (index + 1) % m_sphere.size();
+			// auto tmp = m_sphere[index]->get_position();
+			// ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index, tmp.x, tmp.y, tmp.z);
+		}
+
+		if (event.get_event_type() == Zyklon::EventType::KeyPressed && Zyklon::Input::key_pressed(ZYKLON_KEY_SPACE))
+		{
+			look_at = !look_at;
+			ZYKLON_INFO("look at mode {0}", look_at);
+		}
+
+		if(event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
+		{
+			mouse_previous = mouse_current;
+		}
+		if(event.get_event_type() == Zyklon::EventType::MouseButtonRelease)
+		{
+			m_mouse_moved_delta = mouse_current - mouse_previous; 
+			// ZYKLON_INFO("Mouse delta: x:{0}, y:{1}", m_mouse_moved_delta.x, m_mouse_moved_delta.y);
+		}
+
+		if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
+				float x = e.GetXOffset();  // Access derived class methods
+				float y = e.GetYOffset();
+				// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
+
+				if (look_at)
+					m_orbit->update(x, y);
+				else {
+					m_camera_position.x += x;
+					m_camera_position.y -= y;
+				}
+
+				return true;  // Return true if the event was handled
+		}));
 	}
-
-	if(event.get_event_type() == Zyklon::EventType::MouseButtonPressed)
-	{
-		mouse_previous = mouse_current;
-	}
-	if(event.get_event_type() == Zyklon::EventType::MouseButtonRelease)
-	{
-		m_mouse_moved_delta = mouse_current - mouse_previous; 
-		// ZYKLON_INFO("Mouse delta: x:{0}, y:{1}", m_mouse_moved_delta.x, m_mouse_moved_delta.y);
-	}
-
-	if(dispatcher.Dispatch<Zyklon::MouseScrolledEvent>([&](Zyklon::MouseScrolledEvent& e) {
-			float x = e.GetXOffset();  // Access derived class methods
-			float y = e.GetYOffset();
-
-			// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y); 
-
-			if (look_at)
-				m_orbit->update(x, y);
-			else {
-				m_camera_position.x += x;
-				m_camera_position.y -= y;
-			}
-
-			
-			return true;  // Return true if the event was handled
-	}));
 }
 
 void ExampleLayer::on_imgui_render()
@@ -187,8 +192,9 @@ void ExampleLayer::on_imgui_render()
 			}
 	ImGui::End();
 
-	for ( auto sphere : m_sphere )
-	{
-		sphere->render_gui();
-	}
+	// for ( auto sphere : m_sphere )
+	// {
+	// 	sphere->render_gui();
+	// }
+	m_sphere[index]->render_gui();
 }

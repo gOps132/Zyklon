@@ -25,7 +25,7 @@ private:
 	std::vector<std::shared_ptr<Sphere>> m_sphere;
 
 	unsigned int index = 0;
-	bool look_at = true;
+	bool look_at = false;
 
 	glm::vec2 mouse_current = {0.0f, 0.0f};
 	glm::vec2 mouse_previous = {0.0f, 0.0f}; 

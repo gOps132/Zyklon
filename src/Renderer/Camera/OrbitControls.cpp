@@ -4,7 +4,8 @@ namespace Zyklon
 {
 	OrbitControls::OrbitControls(std::shared_ptr<Camera> p_camera) :
 	m_camera(p_camera) {
-		m_distance = glm::length(m_target - m_camera->get_position()); // Calculate the distance between camera and target
+		m_distance = 3.0f;
+		// m_distance = glm::length(m_target - m_camera->get_position()); // Calculate the distance between camera and target
 	}
 
 	void OrbitControls::update(float dx, float dy)
@@ -21,8 +22,8 @@ namespace Zyklon
 
 		glm::vec3 direction = glm::vec3(yaw_rotation * pitch_rotation * glm::vec4(0,0,-1,1));
 
-		// calculate distance from the camera to the target
-		m_distance = glm::length(m_target - m_camera->get_position());
+		// // calculate distance from the camera to the target
+		// m_distance = glm::length(m_target - m_camera->get_position());
 
 		// update the camera position 
 		glm::vec3 camera_pos = m_target + direction * m_distance;
@@ -50,5 +51,4 @@ namespace Zyklon
 	}
 */
 
-	
 } // namespace Zyklon
