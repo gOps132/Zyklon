@@ -97,9 +97,7 @@ void Sphere::generate_uv_sphere(
 		const int slices)
 {
 	m_vertices.clear();
-	// m_vertices.shrink_to_fit();
 	m_indices.clear();
-	// m_indices.shrink_to_fit();
 
 	// ZYKLON_INFO("GENERATING SPHERE");
 	glm::vec3 normals;
@@ -116,16 +114,16 @@ void Sphere::generate_uv_sphere(
 	m_vertices.push_back(1.0f);
 
 // middle vertices
-	for(int i = 1; i < stacks; ++i)
+	for(int i = 0; i < stacks; ++i)
 	{
 		// latitude angle
-		float phi = static_cast<float>(i * glm::pi<float>()) / static_cast<float>(stacks);
+		float phi = static_cast<float>(i) * glm::pi<float>() / static_cast<float>(stacks);
 		float v = static_cast<float>(i) / static_cast<float>(stacks);
 
 		for(int j = 0; j <= slices; ++j)
 		{
 			// longhitude angle 
-			float theta = j * glm::two_pi<float>() / static_cast<float>(slices);
+			float theta = static_cast<float>(j) * glm::two_pi<float>() / static_cast<float>(slices);
 			float u = static_cast<float>(j) / static_cast<float>(slices);
 
 			float x = radius * std::sin(phi) * std::cos(theta);
@@ -196,13 +194,14 @@ void Sphere::generate_uv_sphere(
 
 	// Bottom stack (triangles connecting the bottom vertex)
 	int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
-	int start = (stacks - 2) * (slices + 1) + 1;
+	int start = (stacks - 2) * (slices + 1) + 1;  // First vertex of the bottom-most stack
+
 	for (int j = 0; j < slices; ++j) {
-		m_indices.push_back(bottomVertexIndex);
-		m_indices.push_back(start + ((j + 1) % slices));              // Wrap around for last slice
-		m_indices.push_back(start + j);
+		m_indices.push_back(bottomVertexIndex);               // Bottom pole
+		m_indices.push_back(start + j);                       // Current slice
+		m_indices.push_back(start + ((j + 1) % slices));      // Wrap to first slice
 	}
-	
+
 	m_vertex_buffer.reset(
 		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
 	m_vertex_buffer->set_layout({
