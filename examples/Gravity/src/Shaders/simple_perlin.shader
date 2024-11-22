@@ -24,40 +24,8 @@ uniform float u_time;
 out vec3 v_directional_light_color; 
 out float v_directional_light_intensity;
 
-void main()
-{
-	v_position = a_position;
-	v_uv = a_uv;
+out vec3 pattern_color;
 
-	DirectionalLight directional_light;
-	directional_light.direction = vec3(0.5, 0.5, -0.5 );
-	directional_light.color = u_directional_light_color;
-
-	float intensity = dot(a_normal, directional_light.direction);
-	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
-	v_directional_light_color = directional_light.color;
-
-	v_color = u_directional_light_color;
-
-	gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
-}
-
-#shader fragment
-#version 330 core
-
-layout(location = 0) out vec4 color;
-
-uniform vec3 u_color;
-uniform vec3 u_ambient_light_color;
-uniform float u_ambient_light_intensity;
-uniform float u_time;
-
-in vec3 v_position;
-in vec3 v_color;
-
-in vec3 v_directional_light_color; 
-in float v_directional_light_intensity;
-in vec2 v_uv;
 
 // Some useful functions
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -133,19 +101,57 @@ float snoise(vec2 v) {
     return 130.0 * dot(m, g);
 }
 
-void main() 
+void main()
 {
-	vec3 ambient_color = u_ambient_light_color * u_ambient_light_intensity;
-	vec3 diffuse_color =  v_directional_light_color * v_directional_light_intensity;
-	vec3 lighting_color = u_color * (ambient_color + diffuse_color);
+	v_position = a_position;
+	v_uv = a_uv;
+
+	DirectionalLight directional_light;
+	directional_light.direction = vec3(0.5, 0.5, -0.5 );
+	directional_light.color = u_directional_light_color;
+
+	float intensity = dot(a_normal, directional_light.direction);
+	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
+	v_directional_light_color = directional_light.color;
 
 	vec2 st = v_uv;
 
 	// scale to see the pattern 
 	st *= 5.0;
 
-    vec3 pattern_color = vec3(snoise(st + u_time)*.5+.5) + u_color;
-	vec3 final_color = mix(lighting_color, pattern_color, 0.5); // Blend lighting with pattern
+    pattern_color = vec3(snoise(st + u_time)*.5+.5);
+
+	v_color = u_directional_light_color;
+
+	gl_Position = u_view_projection * u_transform * vec4(v_position+(a_normal * pattern_color), 1.0);
+}
+
+#shader fragment
+#version 330 core
+
+layout(location = 0) out vec4 color;
+
+uniform vec3 u_color;
+uniform vec3 u_ambient_light_color;
+uniform float u_ambient_light_intensity;
+uniform float u_time;
+
+in vec3 v_position;
+in vec3 v_color;
+
+in vec3 v_directional_light_color; 
+in float v_directional_light_intensity;
+in vec2 v_uv;
+in vec3 pattern_color;
+
+void main() 
+{
+	vec3 ambient_color = u_ambient_light_color * u_ambient_light_intensity;
+	vec3 diffuse_color =  v_directional_light_color * v_directional_light_intensity;
+	vec3 lighting_color = u_color * (ambient_color + diffuse_color);
+
+
+	vec3 final_color = mix(lighting_color, pattern_color+u_color, 0.5); // Blend lighting with pattern
 
 	color = vec4(final_color, 1.0);
 }

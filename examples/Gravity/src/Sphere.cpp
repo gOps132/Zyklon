@@ -268,12 +268,12 @@ void Sphere::render_gui()
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 		}
 
-		if (ImGui::SliderInt("stacks", &m_stacks, 0, 100, "%d"))
+		if (ImGui::SliderInt("stacks", &m_stacks, 0, 500, "%d"))
 		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 		}
 
-		if (ImGui::SliderInt("slices", &m_slices, 0, 100, "%d"))
+		if (ImGui::SliderInt("slices", &m_slices, 0, 500, "%d"))
 		{
 			generate_uv_sphere(m_radius, m_stacks, m_slices);
 		}

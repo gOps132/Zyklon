@@ -20,14 +20,14 @@ ExampleLayer::ExampleLayer()
 	m_planets = std::make_shared<SystemState>();
 
 	// instantiate them balls
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		auto sphere = std::make_shared<Sphere>(
 			"sphere " + std::to_string(i+1),
 			1.0f,  1.0f,
 			glm::vec3((2.0f * i) + (2.0f * i), (2.0f * i), 0.0f),
 			glm::vec3(0.0f, (-1.0f * i), 0.0f),
-			"examples/Gravity/src/Shaders/wood.shader"
+			"examples/Gravity/src/Shaders/_wood.shader"
 		);
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
@@ -99,13 +99,13 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	Zyklon::Renderer::begin_scene(*m_camera);
 		// translate object into world space
-		// float rotation_speed = 0.5f;
-		// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
+		float rotation_speed = 2.0f;
+		float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 		// double bob_val = std::cos(static_cast<double>(frequency) * static_cast<double>(time));
 
 		for ( auto sphere : m_sphere )
 		{
-			// sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
+			sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(), rotation_angle, glm::vec3(0.0f, 0.5f, 0.0f)));
 			glm::mat4 transform = glm::translate(sphere->get_model_matrix(),
 				// glm::vec3(0.0f, 0.3f * bob_val, 0.0f))
 				sphere->get_position())

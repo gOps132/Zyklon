@@ -46,6 +46,7 @@ public:
 	// integrates and updates values of physical objects
 	void update_system_state(float ts);
 	void ode_solve_euler(float ts);
+	void ode_solve_rk2(float ts);
 	void add_physical_object(const std::shared_ptr<PObject>& p_object);
 	void set_fixed_timestep(float ts) { m_fixed_timestep = ts; }
 	std::vector<std::shared_ptr<PObject>>& get_physical_objects() { return m_physical_objects; }

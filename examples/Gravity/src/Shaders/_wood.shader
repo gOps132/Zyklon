@@ -23,7 +23,45 @@ uniform float u_time;
 
 out vec3 v_directional_light_color; 
 out float v_directional_light_intensity;
-out vec3 v_pattern;
+
+void main()
+{
+	v_position = a_position;
+	v_uv = a_uv;
+
+	DirectionalLight directional_light;
+	directional_light.direction = vec3(0.5, 0.5, -0.5 );
+	directional_light.color = u_directional_light_color;
+
+	float intensity = dot(a_normal, directional_light.direction);
+	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
+	v_directional_light_color = directional_light.color;
+
+	v_color = u_directional_light_color;
+
+	gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
+}
+
+#shader fragment
+#version 330 core
+
+layout(location = 0) out vec4 color;
+
+// Uniforms for lighting
+uniform vec3 u_color;
+uniform vec3 u_ambient_light_color;
+uniform float u_ambient_light_intensity;
+
+// Uniforms for procedural pattern
+uniform vec2 u_resolution;
+uniform float u_time;
+
+// Inputs
+in vec3 v_position;
+in vec3 v_color;
+in vec3 v_directional_light_color; 
+in float v_directional_light_intensity;
+in vec2 v_uv;
 
 // Utility Functions
 float random(in vec2 st) {
@@ -51,54 +89,6 @@ float lines(in vec2 pos, float b) {
     return smoothstep(0.0, .5 + b * .5, abs((sin(pos.x * 3.1415) + b * 2.0)) * .5);
 }
 
-void main()
-{
-	v_position = a_position;
-	v_uv = a_uv;
-
-	DirectionalLight directional_light;
-	directional_light.direction = vec3(0.5, 0.5, -0.5 );
-	directional_light.color = u_directional_light_color;
-
-	float intensity = dot(a_normal, directional_light.direction);
-	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
-	v_directional_light_color = directional_light.color;
-
-	// Generate procedural pattern
-    vec2 st = v_uv; // Use UV coordinates instead of screen-space
-    vec2 pos = st * vec2(100.0, 100.0);
-    pos = rotate2d(noise(pos + u_time * 0.05)) * pos; // Animated noise-based rotation
-    float pattern = lines(pos, 0.1);
-	v_pattern = vec3(pattern);
-
-	v_color = u_directional_light_color;
-
-	// gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
-	gl_Position = u_view_projection * u_transform * vec4(v_position + (a_normal + (a_normal * v_pattern)), 1.0);
-}
-
-#shader fragment
-#version 330 core
-
-layout(location = 0) out vec4 color;
-
-// Uniforms for lighting
-uniform vec3 u_color;
-uniform vec3 u_ambient_light_color;
-uniform float u_ambient_light_intensity;
-
-// Uniforms for procedural pattern
-uniform vec2 u_resolution;
-uniform float u_time;
-
-// Inputs
-in vec3 v_position;
-in vec3 v_color;
-in vec3 v_directional_light_color; 
-in float v_directional_light_intensity;
-in vec2 v_uv;
-in vec3 v_pattern;
-
 void main() 
 {
     // Calculate lighting colors
@@ -106,7 +96,13 @@ void main()
     vec3 diffuse_color = v_directional_light_color * v_directional_light_intensity;
     vec3 lighting_color = ambient_color + diffuse_color;
 
+	// Generate procedural pattern
+    vec2 st = v_uv; // Use UV coordinates instead of screen-space
+    vec2 pos = st * vec2(50.0, 50.0);
+    pos = rotate2d(noise(pos + u_time * 0.5)) * pos; // Animated noise-based rotation
+    float pattern = lines(pos, 0.1);
+
     // Combine procedural effect with lighting
-    vec3 final_color = mix(lighting_color, v_pattern + u_color, 0.5); // Blend lighting with pattern
+    vec3 final_color = mix(lighting_color, vec3(pattern) + u_color, 0.5); // Blend lighting with pattern
     color = vec4(final_color, 1.0);
 }
