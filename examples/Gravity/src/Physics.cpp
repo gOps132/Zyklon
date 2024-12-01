@@ -90,13 +90,11 @@ void SystemState::ode_solve_rk2(float ts)
 		glm::vec3 vf1 = obj->get_velocity() + acceleration * ts;
 		glm::vec3 vf2 = vf1 / 2.0f;
 
-		// get the direction
 		glm::vec3 new_velocity = obj->get_velocity() + (vf2 - vf1) * ts;
 
 		glm::vec3 pf1 = obj->get_position() + new_velocity * ts;
 		glm::vec3 pf2 = pf1 / 2.0f;
 
-		// get the direction
 		glm::vec3 new_position = obj->get_position() + (pf2 - pf1) * ts;
 
 		obj->set_velocity(new_velocity);

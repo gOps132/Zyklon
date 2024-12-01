@@ -57,11 +57,10 @@ uniform vec2 u_resolution;
 uniform float u_time;
 
 // Inputs
-in vec3 v_position;
+in vec3 v_position; // Object space position passed from the vertex shader
 in vec3 v_color;
 in vec3 v_directional_light_color; 
 in float v_directional_light_intensity;
-in vec2 v_uv;
 
 // Utility Functions
 float random(in vec2 st) {
@@ -96,11 +95,15 @@ void main()
     vec3 diffuse_color = v_directional_light_color * v_directional_light_intensity;
     vec3 lighting_color = ambient_color + diffuse_color;
 
-	// Generate procedural pattern
-    vec2 st = v_uv; // Use UV coordinates instead of screen-space
-    vec2 pos = st * vec2(50.0, 50.0);
-    pos = rotate2d(noise(pos + u_time * 0.5)) * pos; // Animated noise-based rotation
-    float pattern = lines(pos, 0.1);
+    // Use object-space position for procedural pattern
+    vec3 pos = v_position; // Object-space coordinates
+
+    // Scale and transform the position for better texture detailing
+    vec2 st = pos.xy * 10.0; // Use X and Y from object space (scale by 10.0 for detail)
+    st = rotate2d(noise(st + u_time * 0.5)) * st; // Animated noise-based rotation
+
+    // Generate procedural pattern
+    float pattern = lines(st, 0.1);
 
     // Combine procedural effect with lighting
     vec3 final_color = mix(lighting_color, vec3(pattern) + u_color, 0.5); // Blend lighting with pattern

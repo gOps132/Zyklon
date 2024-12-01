@@ -20,7 +20,7 @@ ExampleLayer::ExampleLayer()
 	m_planets = std::make_shared<SystemState>();
 
 	// instantiate them balls
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		auto sphere = std::make_shared<Sphere>(
 			"sphere " + std::to_string(i+1),
