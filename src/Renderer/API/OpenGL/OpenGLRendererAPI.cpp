@@ -4,6 +4,11 @@
 
 namespace Zyklon {
 
+void OpenGLRendererAPI::set_viewport(int p_x, int p_y, int p_width, int p_height)
+{
+	glViewport(p_x, p_y, p_width, p_height);		
+}
+
 void OpenGLRendererAPI::set_clear_color(const glm::vec4 &p_color)
 {
 	glClearColor(p_color.r, p_color.g, p_color.b, p_color.a);

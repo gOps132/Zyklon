@@ -6,6 +6,11 @@
 namespace Zyklon {
 class RenderCommand {
 public:
+	inline static void set_viewport(int p_x, int p_y, int p_width, int p_height)
+	{
+		s_renderer_api->set_viewport(p_x, p_y, p_width, p_height);
+	}
+
 	inline static void set_clear_color(const glm::vec4 &color)
 	{
 		s_renderer_api->set_clear_color(color);

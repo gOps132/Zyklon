@@ -8,6 +8,7 @@
 namespace Zyklon {
 class OpenGLRendererAPI ZYKLON_OPENGL_FINAL : public RendererAPI {
 public:
+	virtual void set_viewport(int p_x, int p_y, int p_width, int p_height) override;
 	virtual void set_clear_color(const glm::vec4 &color) override;
 	virtual void clear() override;
 

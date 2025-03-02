@@ -142,10 +142,13 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 				Zyklon::Application::get().get_window().get_height());
 		m_camera->recalculate_perspective_matrix(
 			glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
+		int width = Zyklon::Application::get().get_window().get_width();
+		int height = Zyklon::Application::get().get_window().get_height();
+		Zyklon::RenderCommand::set_viewport(0, 0, width, height);
 	}
 
 	// Handles events when main window is active
-	if (!ImGui::IsAnyWindowFocused()) {		
+	if (!ImGui::IsAnyWindowFocused()) {
 		if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed) {
 			is_mouse_down = true;
 			mouse_previous = mouse_current;
@@ -157,11 +160,16 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 				// is_moving = true;
 				mouse_current = {e.GetX(), e.GetY()};
 				if(is_mouse_down) {
-					glm::vec2 delta = mouse_current - mouse_previous;
-					m_camera_position.x += delta.x * 0.01f; // Adjust sensitivity as needed
-                    m_camera_position.y -= delta.y * 0.01f; // Adjust sensitivity as needed
-                    m_camera->set_position(m_camera_position);
-                    m_camera->update();
+					if (look_at) {
+						glm::vec2 delta = mouse_current - mouse_previous;
+						m_orbit->update(delta.x, delta.y); // probably need to adjust sensitivity
+					} else {
+						glm::vec2 delta = mouse_current - mouse_previous;
+						m_camera_position.x += static_cast<float>(delta.x) * 0.10; // Adjust sensitivity as needed
+						m_camera_position.y -= static_cast<float>(delta.y) * 0.10; // Adjust sensitivity as needed
+						m_camera->set_position(m_camera_position);
+						m_camera->update();
+					}
 				}
 				mouse_previous = mouse_current;
 				// ZYKLON_INFO("Mouse current: {0}, Y:{1}", mouse_current.x,
@@ -173,13 +181,15 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 			[&](Zyklon::MouseScrolledEvent &e) {
 				float x = e.GetXOffset(); // Access derived class methods
 				float y = e.GetYOffset();
-				// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y);
-				if (look_at)
-					m_orbit->update(x, y);
-				else {
-					m_camera_position.x += x;
-					m_camera_position.y -= y;
+				// ZYKLON_INFO("scrolled to: x: {0}, y: {1}", x, y);
+				if (look_at) {
+					m_orbit->get_distance() -= static_cast<float>(y) * 0.10; // Adjust sensitivity as needed
+				} else {
+					m_camera_position.z -= static_cast<float>(y) * 0.10f; // Adjust sensitivity as needed
 				}
+
+				m_camera->set_position(m_camera_position);
+				m_camera->update();
 
 				return true; // Return true if the event was handled
 		});

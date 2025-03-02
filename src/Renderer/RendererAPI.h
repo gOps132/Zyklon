@@ -13,6 +13,7 @@ public:
 
 	static void set_renderer_api(const RendererAPI::API &p_api);
 
+	virtual void set_viewport(int p_x, int p_y, int p_width, int p_height) = 0;
 	virtual void set_clear_color(const glm::vec4 &p_color) = 0;
 	virtual void clear() = 0;
 
