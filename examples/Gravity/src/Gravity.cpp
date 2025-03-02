@@ -3,7 +3,6 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
-
 #include <random>
 
 Zyklon::Application *Zyklon::Application::create_application()
@@ -110,15 +109,15 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	Zyklon::Renderer::begin_scene(*m_camera);
 	// translate object into world space
-	float rotation_speed = 2.0f;
-	float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
+	// float rotation_speed = 2.0f;
+	// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 	// double bob_val = std::cos(static_cast<double>(frequency) *
 	// static_cast<double>(time));
 
 	for (auto sphere : m_sphere) {
-		sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(),
-											 rotation_angle,
-											 glm::vec3(0.0f, 0.5f, 0.0f)));
+		// sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(),
+		// 									 rotation_angle,
+		// 									 glm::vec3(0.0f, 0.5f, 0.0f)));
 		glm::mat4 transform =
 			glm::translate(sphere->get_model_matrix(),
 						   // glm::vec3(0.0f, 0.3f * bob_val, 0.0f))
@@ -133,6 +132,8 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 void ExampleLayer::on_event(Zyklon::Event &event)
 {
 	// ZYKLON_INFO("Event: {0}", event.get_name());
+
+	// Handle window resize events
 	if (event.get_event_type() == Zyklon::EventType::WindowResize) {
 		m_aspect_ratio =
 			static_cast<float>(
@@ -143,18 +144,45 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 			glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	}
 
-	if (!ImGui::IsAnyWindowFocused()) {
-		is_mouse_down = false;
+	// Handles events when main window is active
+	if (!ImGui::IsAnyWindowFocused()) {		
+		if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed) {
+			is_mouse_down = true;
+			mouse_previous = mouse_current;
+		}
 
 		Zyklon::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<Zyklon::MouseMovedEvent>(
 			[&](Zyklon::MouseMovedEvent &e) {
 				// is_moving = true;
 				mouse_current = {e.GetX(), e.GetY()};
+				if(is_mouse_down) {
+					glm::vec2 delta = mouse_current - mouse_previous;
+					m_camera_position.x += delta.x * 0.01f; // Adjust sensitivity as needed
+                    m_camera_position.y -= delta.y * 0.01f; // Adjust sensitivity as needed
+                    m_camera->set_position(m_camera_position);
+                    m_camera->update();
+				}
+				mouse_previous = mouse_current;
 				// ZYKLON_INFO("Mouse current: {0}, Y:{1}", mouse_current.x,
 				// mouse_current.y);
 				return true;
 			});
+
+		dispatcher.Dispatch<Zyklon::MouseScrolledEvent>(
+			[&](Zyklon::MouseScrolledEvent &e) {
+				float x = e.GetXOffset(); // Access derived class methods
+				float y = e.GetYOffset();
+				// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y);
+				if (look_at)
+					m_orbit->update(x, y);
+				else {
+					m_camera_position.x += x;
+					m_camera_position.y -= y;
+				}
+
+				return true; // Return true if the event was handled
+		});
 
 		if (event.get_event_type() == Zyklon::EventType::KeyPressed &&
 			Zyklon::Input::key_pressed(ZYKLON_KEY_A)) {
@@ -170,31 +198,13 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 			ZYKLON_INFO("look at mode {0}", look_at);
 		}
 
-		if (event.get_event_type() == Zyklon::EventType::MouseButtonPressed) {
-			mouse_previous = mouse_current;
-		}
 		if (event.get_event_type() == Zyklon::EventType::MouseButtonRelease) {
-			m_mouse_moved_delta = mouse_current - mouse_previous;
+			is_mouse_down = false;
+			// m_mouse_moved_delta = mouse_current - mouse_previous;
 			// ZYKLON_INFO("Mouse delta: x:{0}, y:{1}", m_mouse_moved_delta.x,
 			// m_mouse_moved_delta.y);
 		}
-
-		if (dispatcher.Dispatch<Zyklon::MouseScrolledEvent>(
-				[&](Zyklon::MouseScrolledEvent &e) {
-					float x = e.GetXOffset(); // Access derived class methods
-					float y = e.GetYOffset();
-					// ZYKLON_INFO("scrolled to: x: {0}, y: {1}",x,y);
-
-					if (look_at)
-						m_orbit->update(x, y);
-					else {
-						m_camera_position.x += x;
-						m_camera_position.y -= y;
-					}
-
-					return true; // Return true if the event was handled
-				}))
-			;
+		
 	}
 }
 
