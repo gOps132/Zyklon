@@ -1,7 +1,7 @@
 #ifndef __ORBITCONTROLS_H__
 #define __ORBITCONTROLS_H__
 
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
 #include <Zyklon/Events/Event.h>
 
 #include <glm/glm.hpp>

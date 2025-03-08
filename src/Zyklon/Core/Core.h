@@ -1,6 +1,8 @@
 #ifndef __CORE_H__
 #define __CORE_H__
 
+#include <memory>
+
 #ifdef zyklon_ENABLE_ASSERTS
 #define ZYKLON_ASSERT(x, ...)                                                  \
 	{                                                                          \
@@ -24,6 +26,27 @@
 #define BIT(x) (1 << x)
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Zyklon 
+{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+	
+	template<typename T, typename ...Args>
+	constexpr Scope<T> create_scope(Args&& ... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+	
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+	
+	template<typename T, typename ...Args>
+	constexpr Ref<T> create_ref(Args&& ... args)
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+}
 
 #ifdef ZYKLON_ENABLE_OPENGL
 #define ZYKLON_OPENGL_FINAL final

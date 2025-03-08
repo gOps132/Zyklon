@@ -1,7 +1,7 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
 
 #include <glm/glm.hpp>
 

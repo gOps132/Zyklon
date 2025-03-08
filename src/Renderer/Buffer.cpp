@@ -1,4 +1,5 @@
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
+
 #include <glad/glad.h>
 
 #include "Renderer.h"

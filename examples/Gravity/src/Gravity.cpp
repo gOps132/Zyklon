@@ -21,6 +21,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
 	m_planets = std::make_shared<SystemState>();
 
+		
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(-5.0, 5.0);
@@ -36,17 +37,6 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
 	}
-	// {
-	// 	auto sphere = std::make_shared<Sphere>(
-	// 		"sphere " + std::to_string(2),
-	// 		0.5f,  0.001f,
-	// 		glm::vec3(1.0f, 0.0f, 0.0f),
-	// 		glm::vec3(0.0f, 1.0f, 0.0f),
-	// 		"examples/Gravity/src/Shaders/_wood.shader"
-	// 	);
-	// 	m_sphere.push_back(sphere);
-	// 	m_planets->add_physical_object(sphere);
-	// }
 	reset_state();
 }
 

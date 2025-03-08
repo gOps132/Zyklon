@@ -1,5 +1,6 @@
+#include <zyklon_pch.h>
+
 #include <zyklon_exports.h>
-#include <Zyklon/Core/zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
 #include <glad/glad.h>

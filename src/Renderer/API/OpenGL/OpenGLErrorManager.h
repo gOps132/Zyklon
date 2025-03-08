@@ -1,7 +1,7 @@
 #ifndef __ERRORMANAGER_H__
 #define __ERRORMANAGER_H__
 
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
 #ifndef DEBUG

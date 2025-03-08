@@ -19,6 +19,7 @@ add_subdirectory(lib/ZyklonProfiler)
 # NOTE: needs to be in docking branch
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
+add_subdirectory(lib/stb)
 
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/CompilerWarnings.cmake)
@@ -45,14 +46,14 @@ option(ZYKLON_ENABLE_OPENGL ON)
 #     )
 # endif()
 
+set(ZYKLON_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon")
+set(IMGUI_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Imgui")
+set(RENDERER_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer")
+
 set(PLATFORM_SOURCES 
 	src/Zyklon/Platform/Linux/LinuxWindow.cpp
 	src/Zyklon/Platform/Linux/LinuxInput.cpp
 )
-
-set(ZYKLON_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon")
-set(IMGUI_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Imgui")
-set(RENDERER_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer")
 
 set(RENDERER_SOURCE_FILES 
 	${RENDERER_DIRECTORY}/GraphicsContext.cpp
@@ -62,6 +63,7 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/Shader.cpp
 	${RENDERER_DIRECTORY}/VertexArray.cpp
 	${RENDERER_DIRECTORY}/RenderCommand.cpp
+	${RENDERER_DIRECTORY}/Texture.cpp
 
 	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp
@@ -75,14 +77,15 @@ set(OPENGL_SOURCE_FILES
 	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLVertexArray.cpp
 	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLErrorManager.cpp
 	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLRendererAPI.cpp
+	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLTexture.cpp
 )
 
 set(ZYKLON_CORE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.cpp
 	${ZYKLON_DIRECTORY}/Core/Application.cpp
 	${ZYKLON_DIRECTORY}/Core/Log.cpp
 	${ZYKLON_DIRECTORY}/Core/Layer.cpp
 	${ZYKLON_DIRECTORY}/Core/LayerStack.cpp
-	${ZYKLON_DIRECTORY}/Core/zyklon_pch.cpp
 )
 
 set(IMGUI_SOURCE_FILES
@@ -191,11 +194,12 @@ target_link_libraries(
 		PUBLIC		glm
 		PUBLIC		imgui-test
 		PUBLIC		spdlog
+		PUBLIC		stb
 )
 
 target_precompile_headers(
 	${PROJECT_NAME}
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon/Core/zyklon_pch.h
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.h
 )
 
 target_include_directories(${PROJECT_NAME}

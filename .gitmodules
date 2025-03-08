@@ -13,3 +13,6 @@
 [submodule "lib/spdlog"]
 	path = lib/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "lib/stb"]
+	path = lib/stb
+	url = git@github.com:gOps132/stb.git

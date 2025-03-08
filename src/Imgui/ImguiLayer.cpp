@@ -2,7 +2,8 @@
  * Using GLFW key codes for now
  */
 
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
+
 #include <Zyklon/Core/Application.h>
 #include <Zyklon/Core/Core.h>
 

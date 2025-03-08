@@ -1,4 +1,4 @@
-#include <Zyklon/Core/zyklon_pch.h>
+#include <zyklon_pch.h>
 
 #include <Zyklon/Events/ApplicationEvent.h>
 #include <Zyklon/Events/KeyEvent.h>

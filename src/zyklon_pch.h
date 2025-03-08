@@ -31,7 +31,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "Log.h"
+#include "Zyklon/Core/Log.h"
 
 // ------------------------------------------
 // VENDOR FILES
