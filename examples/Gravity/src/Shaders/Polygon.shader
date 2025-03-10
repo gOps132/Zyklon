@@ -24,6 +24,8 @@ uniform float u_time;
 out vec3 v_directional_light_color; 
 out float v_directional_light_intensity;
 
+uniform sampler2D u_Texture;
+
 void main()
 {
 	v_position = a_position;
@@ -39,7 +41,12 @@ void main()
 
 	v_color = u_directional_light_color;
 
+	float displacement = texture(u_Texture, v_uv).r;
+	vec3 displaced_position = v_position + a_normal  * displacement;
+
 	gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
+	gl_Position = u_view_projection * u_transform * vec4(displaced_position, 1.0);
+
 }
 
 #shader fragment
@@ -50,6 +57,7 @@ layout(location = 0) out vec4 color;
 uniform vec3 u_color;
 uniform vec3 u_ambient_light_color;
 uniform float u_ambient_light_intensity;
+uniform sampler2D u_Texture;
 
 in vec3 v_position;
 in vec3 v_color;
@@ -63,5 +71,10 @@ void main()
 	vec3 ambient_color = u_ambient_light_color * u_ambient_light_intensity;
 	vec3 diffuse_color =  v_directional_light_color * v_directional_light_intensity;
 	vec3 final_color = u_color * (ambient_color + diffuse_color);
-	color = vec4(final_color, 1.0);
+
+	vec4 texture_color = texture(u_Texture, v_uv);
+
+	color = vec4(final_color, 1.0) * texture_color;
+	// color = vec4(vec3(v_uv.x, v_uv.y, v_uv.x * v_uv.y), 1.0);
 }
+

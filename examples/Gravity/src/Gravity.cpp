@@ -3,6 +3,8 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+#include <vector>
 #include <random>
 
 Zyklon::Application *Zyklon::Application::create_application()
@@ -21,22 +23,30 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
 	m_planets = std::make_shared<SystemState>();
 
-		
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(-5.0, 5.0);
-	// instantiate them balls
-	// Instantiate spheres at random positions
-	for (int i = 0; i < 5; i++) {
+
+	std::vector<std::string> ball_textures = 
+	{
+		// "d:\\pictures\\personal\\naigpng.png",
+		"d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\earthpng.png", // warning: absolute directory
+		// "d:\\pictures\\personal\\derfpng.png"
+	};
+
+	for (int i = 0; i < ball_textures.size(); i++)
+	{
 		float random_x = dis(gen);
 		float random_y = dis(gen);
 		auto sphere = std::make_shared<Sphere>(
-			"sphere " + std::to_string(i), 0.5f, 1.0f,
+			"sphere " + std::to_string(i), 1.0f, 1.0f,
 			glm::vec3(random_x, random_y, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
 			"examples/Gravity/src/Shaders/Polygon.shader");
+		sphere->set_texture(ball_textures[i], i);
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
 	}
+	
 	reset_state();
 }
 
@@ -73,18 +83,29 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 		m_orbit->set_target(m_sphere[index]->get_position());
 		m_orbit->update();
 		if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP)) {
-			m_orbit->get_distance() += m_camera_speed * ts;
+			m_orbit->get_distance() -= m_camera_speed * ts;
 		}
 		if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN)) {
-			m_orbit->get_distance() -= m_camera_speed * ts;
+			m_orbit->get_distance() += m_camera_speed * ts;
 		}
 	}
 	else {
+		if (Zyklon::Input::key_pressed(ZYKLON_KEY_W)) {
+			m_camera_position.z += m_camera_speed * ts;
+		}
+		if (Zyklon::Input::key_pressed(ZYKLON_KEY_S)) {
+			m_camera_position.z -= m_camera_speed * ts;
+		}
+		if (Zyklon::Input::key_pressed(ZYKLON_KEY_A)) {
+			m_camera_position.x += m_camera_speed * ts;
+		}
+		if (Zyklon::Input::key_pressed(ZYKLON_KEY_D)) {
+			m_camera_position.x -= m_camera_speed * ts;
+		}
 		m_camera->set_position(m_camera_position);
 		m_camera->update();
 	}
-
-	// m_sphere->update_shader(time);
+	
 	for (auto sphere : m_sphere) {
 		sphere->update_shader(time);
 	}
@@ -102,7 +123,7 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// float rotation_speed = 2.0f;
 	// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 	// double bob_val = std::cos(static_cast<double>(frequency) *
-	// static_cast<double>(time));
+	// static_cast<double>(time));	
 
 	for (auto sphere : m_sphere) {
 		// sphere->set_model_matrix(glm::rotate(sphere->get_model_matrix(),
@@ -185,11 +206,8 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 		});
 
 		if (event.get_event_type() == Zyklon::EventType::KeyPressed &&
-			Zyklon::Input::key_pressed(ZYKLON_KEY_A)) {
+			Zyklon::Input::key_pressed(ZYKLON_KEY_Q)) {
 			index = (index + 1) % m_sphere.size();
-			// auto tmp = m_sphere[index]->get_position();
-			// ZYKLON_INFO("Index: {0}, pos, x: {1}, y: {2}, z:{3}", index,
-			// tmp.x, tmp.y, tmp.z);
 		}
 
 		if (event.get_event_type() == Zyklon::EventType::KeyPressed &&
@@ -200,9 +218,6 @@ void ExampleLayer::on_event(Zyklon::Event &event)
 
 		if (event.get_event_type() == Zyklon::EventType::MouseButtonRelease) {
 			is_mouse_down = false;
-			// m_mouse_moved_delta = mouse_current - mouse_previous;
-			// ZYKLON_INFO("Mouse delta: x:{0}, y:{1}", m_mouse_moved_delta.x,
-			// m_mouse_moved_delta.y);
 		}
 		
 	}

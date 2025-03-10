@@ -11,8 +11,17 @@
 #include "OpenGLErrorManager.h"
 #include "OpenGLShader.h"
 
+namespace Zyklon 
+{
 
-namespace Zyklon {
+void OpenGLShader::set_uniform_1i(const std::string &name, const int value)
+{
+	GLCall(glUseProgram(m_renderer_id));
+	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
+	if (location != -1)
+		GLCall(glUniform1i(location, value));
+}
+
 
 void OpenGLShader::set_uniform_1f(const std::string &name, const float value)
 {

@@ -13,7 +13,7 @@ public:
 	OpenGLShader(const std::string &p_filepath);
 	~OpenGLShader();
 
-// TODO: Add more definitions
+	virtual void set_uniform_1i(const std::string &name, const int value) override;
 	virtual void set_uniform_1f(const std::string &name, const float v0) override;
 	virtual void set_uniform_2f(const std::string &name, const float v0, const float v1) override;
 	virtual void set_uniform_3fv(const std::string &name, const glm::vec3 &buffer) override;

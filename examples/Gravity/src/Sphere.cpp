@@ -20,73 +20,6 @@ Sphere::Sphere(std::string name, float radius, float mass, glm::vec3 position,
 	reset();
 }
 
-/*
-void ExampleLayer::generate_circle(
-	const int segments,
-	const float radius,
-	const float center_x,
-	const float center_y
-){
-	// BUG TOO MANY LOGS CAUSE PROGRAM TO CRASH
-	// ZYKLON_INFO("GENERATING CIRCLE");
-
-	m_vertices.clear();
-	m_vertices.shrink_to_fit();
-	m_indices.clear();
-	m_indices.shrink_to_fit();
-
-// default
-	m_vertices.push_back(center_x);
-	m_vertices.push_back(center_y);
-	m_vertices.push_back(0.0);
-
-	// calculate angle between each segment
-	float angle_increment = 2.0f * M_PI / segments;
-
-	for(int i = 0; i < segments; i++)
-	{
-		float angle = i * angle_increment;
-		float x = center_x + radius * std::cos(angle);
-		float y = center_y + radius * std::sin(angle);
-		float z = 0.0f;
-		m_vertices.push_back(x);
-		m_vertices.push_back(y);
-		m_vertices.push_back(z);
-	}
-
-	for (int i = 0; i <= segments; ++i) {
-		m_indices.push_back(0);		 					// Center vertex
-		m_indices.push_back(i);  						// Current vertex on the
-circumference m_indices.push_back(i % segments + 1);  	// Next vertex on the
-circumference
-	}
-
-	m_indices.push_back(0);
-	m_indices.push_back(segments);
-	m_indices.push_back(1);
-
-	// std::vector<float> vertices = {
-	// 	// X, Y, Z  (in NDC space)
-	// 	0.0f,  0.5f, 0.0f,  // Top vertex
-	// 	-0.5f, -0.5f, 0.0f,  // Bottom left vertex
-	// 	0.5f, -0.5f, 0.0f   // Bottom right vertex
-	// };
-
-	// std::vector<uint32_t> indices = { 0,1,2 };
-
-	m_vertex_buffer.reset(
-		Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() *
-sizeofstatic_cast<float>()); m_vertex_buffer->set_layout({
-		{Zyklon::ShaderDataType::Float3, "a_position", false},
-	});
-	m_vertex_array->add_vertex_bfr(m_vertex_buffer);
-
-	m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(),
-m_indices.size() * sizeof(uint32_t)));
-	m_vertex_array->set_index_bfr(m_index_buffer);
-}
-*/
-
 void Sphere::generate_uv_sphere(const float radius, const int stacks,
 								const int slices)
 {
@@ -112,17 +45,16 @@ void Sphere::generate_uv_sphere(const float radius, const int stacks,
 		// latitude angle
 		float phi = static_cast<float>(i) * glm::pi<float>() /
 					static_cast<float>(stacks);
-		float v = static_cast<float>(i) / static_cast<float>(stacks);
+		float y = radius * std::cos(phi);
+		float v = 1.0f - static_cast<float>(i) / static_cast<float>(stacks);
 
 		for (int j = 0; j <= slices; ++j) {
 			// longhitude angle
 			float theta = static_cast<float>(j) * glm::two_pi<float>() /
 						  static_cast<float>(slices);
-			float u = static_cast<float>(j) / static_cast<float>(slices);
-
 			float x = radius * std::sin(phi) * std::cos(theta);
-			float y = radius * std::cos(phi);
 			float z = radius * std::sin(phi) * std::sin(theta);
+			float u = 1.0f - static_cast<float>(j) / static_cast<float>(slices);
 
 			// ZYKLON_INFO("VERTICE: {0}, STACK: {1}, SLICE: {2}, x: {3:.2f}, y:
 			// {4:.2f}, z: {5:.2f}", 	i*stacks + j, i, j, x,y,z);
@@ -188,8 +120,7 @@ void Sphere::generate_uv_sphere(const float radius, const int stacks,
 
 	// Bottom stack (triangles connecting the bottom vertex)
 	int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
-	int start = (stacks - 2) * (slices + 1) +
-				1; // First vertex of the bottom-most stack
+	int start = (stacks - 2) * (slices + 1) + 1; // First vertex of the bottom-most stack
 
 	for (int j = 0; j < slices; ++j) {
 		m_indices.push_back(bottomVertexIndex);			 // Bottom pole
@@ -237,6 +168,9 @@ void Sphere::set_shader(std::string shader_path)
 
 void Sphere::update_shader(float time)
 {
+	m_texture->bind(m_slot);
+	m_shader->set_uniform_1i("u_Texture", m_slot);
+
 	m_shader->set_uniform_1f("u_time", time);
 
 	m_shader->set_uniform_3fv("u_color", m_color);

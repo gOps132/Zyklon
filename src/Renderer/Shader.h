@@ -21,6 +21,8 @@ public:
 	virtual void bind() = 0;
 	virtual void unbind() = 0;
 
+	virtual void set_uniform_1i(const std::string &name, const int value) = 0;
+
 	virtual void set_uniform_1f(const std::string &name, const float value) = 0;
 
 	virtual void set_uniform_2f(const std::string &name, const float v0, const float v1) = 0;
