@@ -7,7 +7,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Physics.h"
-#include "Sphere.h"
+#include "UVSphere.h"
+#include "HexagonalSphere.h"
 
 #include <vector>
 #include <memory>
@@ -22,7 +23,7 @@ public:
 	void reset_state();
 private:
 	std::shared_ptr<SystemState> m_planets;
-	std::vector<std::shared_ptr<Sphere>> m_sphere;
+	std::vector<std::shared_ptr<HexagonalSphere>> m_sphere;
 
 	unsigned int index = 0;
 	bool look_at = false;

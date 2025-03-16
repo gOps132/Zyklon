@@ -1,5 +1,5 @@
-#ifndef __SPHERE_H__
-#define __SPHERE_H__
+#ifndef __HEXAGONALSPHERE_H__
+#define __HEXAGONALSPHERE_H__
 
 #include "Physics.h"
 
@@ -16,32 +16,39 @@
 #include <vector>
 #include <memory>
 
-class Sphere : public PObject {
+class HexagonalSphere : public PObject {
 public:
-	Sphere(std::string name, float radius, float mass, glm::vec3 position,
+	HexagonalSphere(std::string name, float radius, float mass, glm::vec3 position,
 		   glm::vec3 velocity, std::string shader_path);
+
 	void reset();
-	void generate_uv_sphere(const float radius, const int stacks,
-							const int slices);
-	void set_shader(std::string shader_path);
+
+	void generate(const float p_radius, const int p_resolution);
+	void create_icosahedron(const float p_radius);
+	void subdivide();
+
 	void set_texture(const std::string& p_path, int p_slot) 
 	{
 		m_slot = p_slot;
 		m_texture = Zyklon::Texture2D::create(p_path); 
 	}
-
+	
+	void set_shader(std::string shader_path);
 	void update_shader(float time);
+
 	void render(glm::mat4 transform);
 	void render_gui();
-	void set_resolution(int stacks, int slices)
+
+	void set_resolution(int p_res)
 	{
-		m_stacks = stacks;
-		m_slices = slices;
+		m_resolution = p_res;
 	}
+
 	void set_model_matrix(const glm::mat4 &model_matrix)
 	{
 		m_model_matrix = model_matrix;
 	}
+
 	const glm::mat4 &get_model_matrix() const { return m_model_matrix; }
     const Zyklon::Shader& get_shader() const { return *m_shader; }
 private:
@@ -50,13 +57,13 @@ private:
 
 	glm::mat4 m_model_matrix = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 
-	// sphere resolution
+	// sphere data
 	std::vector<float> m_vertices;
 	std::vector<uint32_t> m_indices;
 
-	int m_stacks = 50;
-	int m_slices = 50;
+	int m_resolution = 1;
 
+	// texture info
 	int m_slot = 0;
 
 	//	sphere shader uniforms
@@ -73,4 +80,4 @@ private:
 	std::shared_ptr<Zyklon::VertexArray> m_vertex_array;
 };
 
-#endif // __SPHERE_H__
+#endif // __HEXAGONALSPHERE_H__

@@ -2,7 +2,7 @@
 // Created by Gian Cedrick Epilan on 10/07/2020.
 //
 
-#include "Sphere.h"
+#include "UVSphere.h"
 
 #include <Renderer/Renderer.h>
 #include <imgui-test/imgui.h>
@@ -12,7 +12,7 @@
 
 #include <vector>
 
-Sphere::Sphere(std::string name, float radius, float mass, glm::vec3 position,
+UVSphere::UVSphere(std::string name, float radius, float mass, glm::vec3 position,
 			   glm::vec3 velocity, std::string shader_path)
 	: PObject(mass, radius, position, velocity), m_name(name),
 	  m_shader_path(shader_path)
@@ -20,7 +20,7 @@ Sphere::Sphere(std::string name, float radius, float mass, glm::vec3 position,
 	reset();
 }
 
-void Sphere::generate_uv_sphere(const float radius, const int stacks,
+void UVSphere::generate(const float radius, const int stacks,
 								const int slices)
 {
 	m_vertices.clear();
@@ -145,7 +145,7 @@ void Sphere::generate_uv_sphere(const float radius, const int stacks,
 				normals.z);
 }
 
-void Sphere::reset()
+void UVSphere::reset()
 {
 	m_position = m_initial_position;
 	m_velocity = m_initial_velocity;
@@ -157,16 +157,16 @@ void Sphere::reset()
 	m_shader.reset(Zyklon::Shader::create(m_shader_path));
 
 	// generate_circle(m_segments, m_radius, m_center_x, m_center_y);
-	generate_uv_sphere(m_radius, m_stacks, m_slices);
+	generate(m_radius, m_stacks, m_slices);
 }
 
-void Sphere::set_shader(std::string shader_path)
+void UVSphere::set_shader(std::string shader_path)
 {
 	m_shader_path = shader_path;
 	m_shader.reset(Zyklon::Shader::create(m_shader_path));
 }
 
-void Sphere::update_shader(float time)
+void UVSphere::update_shader(float time)
 {
 	m_texture->bind(m_slot);
 	m_shader->set_uniform_1i("u_Texture", m_slot);
@@ -183,12 +183,12 @@ void Sphere::update_shader(float time)
 	m_shader->set_uniform_3fv("u_stretch", m_stretch);
 }
 
-void Sphere::render(glm::mat4 transform)
+void UVSphere::render(glm::mat4 transform)
 {
 	Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 }
 
-void Sphere::render_gui()
+void UVSphere::render_gui()
 {
 	ImGui::Begin(m_name.c_str());
 	ImGui::ColorPicker3("sphere color", glm::value_ptr(m_color), 0);
@@ -199,15 +199,15 @@ void Sphere::render_gui()
 	ImGui::SliderFloat("ambient light intensity", &m_ambient_light_intensity,
 					   0.0f, 1.0f, "%.3f");
 	if (ImGui::SliderFloat("radius", &m_radius, 1.0f, 100.0f, "%.2f")) {
-		generate_uv_sphere(m_radius, m_stacks, m_slices);
+		generate(m_radius, m_stacks, m_slices);
 	}
 
 	if (ImGui::SliderInt("stacks", &m_stacks, 0, 100, "%d")) {
-		generate_uv_sphere(m_radius, m_stacks, m_slices);
+		generate(m_radius, m_stacks, m_slices);
 	}
 
 	if (ImGui::SliderInt("slices", &m_slices, 0, 100, "%d")) {
-		generate_uv_sphere(m_radius, m_stacks, m_slices);
+		generate(m_radius, m_stacks, m_slices);
 	}
 	// ImGui::Text("Fun transformations!");
 	// ImGui::SliderFloat3("stretching", glm::value_ptr(m_stretch), 0.0f, 10.0f,

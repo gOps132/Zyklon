@@ -38,10 +38,10 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	{
 		float random_x = dis(gen);
 		float random_y = dis(gen);
-		auto sphere = std::make_shared<Sphere>(
+		auto sphere = std::make_shared<HexagonalSphere>(
 			"sphere " + std::to_string(i), 1.0f, 1.0f,
 			glm::vec3(random_x, random_y, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-			"examples/Gravity/src/Shaders/Polygon.shader");
+			"examples/Gravity/src/Shaders/toon.shader");
 		sphere->set_texture(ball_textures[i], i);
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);

@@ -11,7 +11,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCE
 	src/Gravity.cpp
-	src/Sphere.cpp
+	src/UVSphere.cpp
+	src/HexagonalSphere.cpp
 	src/Physics.cpp
 )
 
