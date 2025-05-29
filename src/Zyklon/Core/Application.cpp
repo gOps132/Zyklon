@@ -27,28 +27,28 @@ Application::Application()
 	s_instance = this;
 	m_window = std::unique_ptr<Window>(Window::create());
 
-	m_window->set_event_callback(BIND_EVENT_FN(Application::on_event));
-	m_window->set_vsync(false);
+	m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+	m_window->setVsync(false);
 
 	m_imgui_layer = new ImGuiLayer;
-	push_overlay(m_imgui_layer);
+	pushOverlay(m_imgui_layer);
 }
 
-void Application::push_layer(Layer *layer) { m_layer_stack.push_layer(layer); }
+void Application::pushLayer(Layer *layer) { m_layer_stack.pushLayer(layer); }
 
-void Application::push_overlay(Layer *layer)
+void Application::pushOverlay(Layer *layer)
 {
-	m_layer_stack.push_overlay(layer);
+	m_layer_stack.pushOverlay(layer);
 }
 
-void Application::on_event(Event &e)
+void Application::onEvent(Event &e)
 {
 	EventDispatcher dispatcher(e);
 	dispatcher.Dispatch<WindowCloseEvent>(
-		BIND_EVENT_FN(Application::on_window_close));
+		BIND_EVENT_FN(Application::onWindowClose));
 
 	for (auto it = m_layer_stack.end(); it != m_layer_stack.begin();) {
-		(*--it)->on_event(e);
+		(*--it)->onEvent(e);
 		if (e.handled)
 			break;
 	}
@@ -57,25 +57,25 @@ void Application::on_event(Event &e)
 void Application::run()
 {
 	while (m_running) {
-		float time = m_window->get_time();
+		float time = m_window->getTime();
 		// calculate delta Time
 		Timestep m_timestep = time - m_last_frame_time;
 		m_last_frame_time = time;
 
 		for (Layer *layer : m_layer_stack)
-			layer->on_update(m_timestep);
+			layer->onUpdate(m_timestep);
 
 		// TODO: Putting this on a seperate render thread
 		m_imgui_layer->begin();
 		for (Layer *layer : m_layer_stack)
-			layer->on_imgui_render();
+			layer->onImguiRender();
 		m_imgui_layer->end();
 
-		m_window->on_update();
+		m_window->onUpdate();
 	}
 }
 
-bool Application::on_window_close(WindowCloseEvent &e)
+bool Application::onWindowClose(WindowCloseEvent &e)
 {
 	m_running = false;
 	return true;

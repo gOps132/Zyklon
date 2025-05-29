@@ -25,22 +25,22 @@ public:
 	Application();
 	virtual ~Application() {}
 
-	static Application *create_application();
+	static Application *createApplication();
 
 	/* Main run Loop */
 	void run();
 
-	void on_event(Event &e);
+	void onEvent(Event &e);
 
-	void push_layer(Layer *p_layer);
-	void push_overlay(Layer *p_layer);
+	void pushLayer(Layer *p_layer);
+	void pushOverlay(Layer *p_layer);
 
-	inline Window &get_window() { return *m_window; }
+	inline Window &getWindow() { return *m_window; }
 
 	inline static Application &get() { return *s_instance; }
 
 private:
-	bool on_window_close(WindowCloseEvent &e);
+	bool onWindowClose(WindowCloseEvent &e);
 private:
 	std::unique_ptr<Window> m_window;
 	ImGuiLayer *m_imgui_layer;

@@ -17,13 +17,13 @@ class ExampleLayer : public Zyklon::Layer {
 public:
 	ExampleLayer();
 
-	virtual void on_update(Zyklon::Timestep ts) override;
-	virtual void on_event(Zyklon::Event &event) override;
-	virtual void on_imgui_render() override;
-	void reset_state();
+	virtual void onUpdate(Zyklon::Timestep ts) override;
+	virtual void onEvent(Zyklon::Event &event) override;
+	virtual void onImguiRender() override;
+	void resetState();
 private:
 	std::shared_ptr<SystemState> m_planets;
-	std::vector<std::shared_ptr<HexagonalSphere>> m_sphere;
+	std::vector<std::shared_ptr<UVSphere>> m_sphere;
 
 	unsigned int index = 0;
 	bool look_at = false;
@@ -40,8 +40,8 @@ private:
 	float m_camera_rotation = 0.0f;
 	float m_fovy = 45.0f; // Field of view in the vertical direction
 	float m_aspect_ratio =
-		Zyklon::Application::get().get_window().get_width() / 
-		Zyklon::Application::get().get_window().get_height(); // 1.5
+		Zyklon::Application::get().getWindow().getWidth() / 
+		Zyklon::Application::get().getWindow().getHeight(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 	float m_camera_speed = 10.0f;
@@ -51,7 +51,7 @@ private:
 
 class Gravity : public Zyklon::Application {
 public:
-	Gravity() { push_layer(new ExampleLayer()); }
+	Gravity() { pushLayer(new ExampleLayer()); }
 
 	virtual ~Gravity() override { ZYKLON_INFO("Stopped application"); }
 };

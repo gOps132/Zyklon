@@ -46,15 +46,15 @@ enum EventCategory {
 
 /* Event subclass helper macros for overriding member functions */
 #define EVENT_CLASS_TYPE(type)                                                 \
-	static EventType get_static_type() { return EventType::type; }             \
-	virtual EventType get_event_type() const override                          \
+	static EventType getStaticType() { return EventType::type; }             \
+	virtual EventType getEventType() const override                          \
 	{                                                                          \
-		return get_static_type();                                              \
+		return getStaticType();                                              \
 	}                                                                          \
-	virtual const char *get_name() const override { return #type; }
+	virtual const char *getName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category)                                         \
-	virtual int get_category_flags() const override { return category; }
+	virtual int getCategoryFlags() const override { return category; }
 
 /* Base Class For Events */
 class ZYKLON_EXPORT Event {
@@ -65,15 +65,15 @@ public:
 
 	bool handled = false;
 
-	virtual EventType get_event_type() const = 0;
-	virtual const char *get_name() const = 0;
-	virtual int get_category_flags() const = 0;
+	virtual EventType getEventType() const = 0;
+	virtual const char *getName() const = 0;
+	virtual int getCategoryFlags() const = 0;
 
-	virtual std::string to_string() const { return get_name(); }
+	virtual std::string toString() const { return getName(); }
 
-	inline bool is_in_category(EventCategory category)
+	inline bool isInCategory(EventCategory category)
 	{
-		return get_category_flags() & category;
+		return getCategoryFlags() & category;
 	}
 };
 
@@ -89,7 +89,7 @@ public:
 
 	template <typename T> bool Dispatch(EventFn<T> func)
 	{
-		if (m_event.get_event_type() == T::get_static_type()) {
+		if (m_event.getEventType() == T::getStaticType()) {
 			m_event.handled = func(*static_cast<T *>(&m_event));
 			return true;
 		}
@@ -99,7 +99,7 @@ public:
 
 inline std::ostream &operator<<(std::ostream &os, const Event &e)
 {
-	return os << e.to_string();
+	return os << e.toString();
 }
 
 } // namespace Zyklon

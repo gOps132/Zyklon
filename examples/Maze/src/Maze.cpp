@@ -8,7 +8,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-Zyklon::Application *Zyklon::Application::create_application()
+Zyklon::Application *Zyklon::Application::createApplication()
 {
 	return new Maze();
 }
@@ -16,10 +16,10 @@ Zyklon::Application *Zyklon::Application::create_application()
 ExampleLayer::ExampleLayer()
 	: Layer("Example"), m_camera(new Zyklon::PerspectiveCamera(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane))
 {
-	reset_state();
+	resetState();
 }
 
-void ExampleLayer::reset_state()
+void ExampleLayer::resetState()
 {
 	m_square_vertex_array.reset(Zyklon::VertexArray::create());
 
@@ -41,29 +41,29 @@ void ExampleLayer::reset_state()
 
 	m_square_vertex_buffer.reset(
 		Zyklon::VertexBuffer::create(square_vertices, sizeof(square_vertices)));
-	m_square_vertex_buffer->set_layout({
+	m_square_vertex_buffer->setLayout({
 		{Zyklon::ShaderDataType::Float3, "a_Position", false},
 		{Zyklon::ShaderDataType::Float2, "a_Tex", false}
 	});
-	m_square_vertex_array->add_vertex_bfr(m_square_vertex_buffer);
+	m_square_vertex_array->addVertexBfr(m_square_vertex_buffer);
 
-	m_square_shader->set_uniform_3fv("light_color", glm::vec3(0.5,1.0,1.0));
+	m_square_shader->setUniform3fv("light_color", glm::vec3(0.5,1.0,1.0));
 
 	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
 	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
 	m_camera_rotation = 0.0f;
 
-	m_camera->set_position(m_camera_position);
+	m_camera->setPosition(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
 	m_square_index_buffer.reset(Zyklon::IndexBuffer::create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
-	m_square_vertex_array->set_index_bfr(m_square_index_buffer);
+	m_square_vertex_array->setIndexBfr(m_square_index_buffer);
 }
 
 // GAMELOOP
-void ExampleLayer::on_update(Zyklon::Timestep ts)
+void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 {
-	float time = Zyklon::Application::get().get_window().get_time();
+	float time = Zyklon::Application::get().getWindow().getTime();
 	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
     float amplitude = 0.2f; // Adjust for desired oscillation range
 
@@ -74,8 +74,8 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 	// 	cos(frequency * time);
 
 	// ZYKLON_INFO("ts: {0}, value: {1}",
-	// 	ts.get_seconds(),
-	// 	(cos(frequency * Zyklon::Application::get().get_window().get_time())));
+	// 	ts.getSeconds(),
+	// 	(cos(frequency * Zyklon::Application::get().getWindow().getTime())));
 
 	m_model = glm::translate(glm::mat4(1.0f), m_model_position);
 	// m_model = glm::rotate(
@@ -85,36 +85,36 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 
 	float camera_speed = 10.0f;
 	float camera_rotation_speed = 1.5f;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_W))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_W))
 		m_model_position.y -= m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_S))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_S))
 		m_model_position.y += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_A))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_A))
 		m_model_position.x -= m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_D))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_D))
 		m_model_position.x += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_UP))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_UP))
 		m_camera_position.z += m_camera_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_DOWN))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_DOWN))
 		m_camera_position.z -= m_camera_speed * ts;
 
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_LEFT))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_LEFT))
 		m_camera_rotation -= m_camera_rotation_speed * ts;
-	if (Zyklon::Input::key_pressed(ZYKLON_KEY_RIGHT))
+	if (Zyklon::Input::keyPressed(ZYKLON_KEY_RIGHT))
 		m_camera_rotation += m_camera_rotation_speed * ts;
 
-	m_camera->set_position(m_camera_position);
+	m_camera->setPosition(m_camera_position);
 	m_camera->set_rotation(m_camera_rotation);
 
-	m_square_shader->set_uniform_1f("u_time", time);
-	m_square_shader->set_uniform_3fv("u_color", {m_color[0], m_color[1], m_color[2]});
+	m_square_shader->setUniform1f("u_time", time);
+	m_square_shader->setUniform3fv("u_color", {m_color[0], m_color[1], m_color[2]});
 
-	Zyklon::RenderCommand::set_clear_color({0.1f, 0.1f, 0.1f, 1.0f});
+	Zyklon::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
 
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-	Zyklon::Renderer::begin_scene(*m_camera);
+	Zyklon::Renderer::beginScene(*m_camera);
 		// for (int i = 0; i < 5; i++)
 		// {
 		// 	for (int y = 0; y < 5; y++)
@@ -125,23 +125,23 @@ void ExampleLayer::on_update(Zyklon::Timestep ts)
 				Zyklon::Renderer::submit(m_square_shader, m_square_vertex_array, transform);
 		// 	}
 		// }
-	Zyklon::Renderer::end_scene();
+	Zyklon::Renderer::endScene();
 	// m_square_shader->bind();
 }
 
-void ExampleLayer::on_event(Zyklon::Event &event)
+void ExampleLayer::onEvent(Zyklon::Event &event)
 {
-	// if(event.get_event_type() == Zyklon::EventType::WindowResize)
+	// if(event.getEventType() == Zyklon::EventType::WindowResize)
 	// {
 	// }
 	// ZYKLON_TRACE("{0}", event);
 }
 
-void ExampleLayer::on_imgui_render()
+void ExampleLayer::onImguiRender()
 {
 	ImGui::Begin("Shader Uniforms");
 	ImGui::ColorPicker3("color", m_color, 0);
 	if (ImGui::Button("reset"))
-		reset_state();
+		resetState();
 	ImGui::End();
 }

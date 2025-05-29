@@ -7,10 +7,10 @@ class ExampleLayer : public Zyklon::Layer {
 public:
 	ExampleLayer();
 
-	virtual void on_update(Zyklon::Timestep ts) override;
-	virtual void on_event(Zyklon::Event &event) override;
-	virtual void on_imgui_render() override;
-	void reset_state();
+	virtual void onUpdate(Zyklon::Timestep ts) override;
+	virtual void onEvent(Zyklon::Event &event) override;
+	virtual void onImguiRender() override;
+	void resetState();
 private:
 	std::shared_ptr<Zyklon::Shader> m_grid_shader;
 	std::shared_ptr<Zyklon::VertexBuffer> m_grid_vertex_bfr;
@@ -22,8 +22,8 @@ private:
 
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
-		(float)Zyklon::Application::get().get_window().get_width() / 
-		(float)Zyklon::Application::get().get_window().get_height(); // 1.5
+		(float)Zyklon::Application::get().getWindow().getWidth() / 
+		(float)Zyklon::Application::get().getWindow().getHeight(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 
@@ -37,7 +37,7 @@ private:
 
 class Grid : public Zyklon::Application {
 public:
-	Grid() { push_layer(new ExampleLayer()); }
+	Grid() { pushLayer(new ExampleLayer()); }
 
 	virtual ~Grid() override { ZYKLON_INFO("Stopped grid application"); }
 };

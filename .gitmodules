@@ -16,3 +16,12 @@
 [submodule "lib/stb"]
 	path = lib/stb
 	url = git@github.com:gOps132/stb.git
+[submodule "examples/Gravity/lib/polygon"]
+	path = examples/Gravity/lib/polygon
+	url = https://github.com/boostorg/polygon.git
+[submodule "lib/cgal"]
+	path = lib/cgal
+	url = https://github.com/CGAL/cgal.git
+[submodule "lib/voro"]
+	path = lib/voro
+	url = https://github.com/chr1shr/voro.git

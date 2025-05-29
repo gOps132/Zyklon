@@ -74,8 +74,18 @@ Not guranteed to work on windows, I don't even know what batch files are.
 
 Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazingly useful content.``
 
+### Naming Convention
+
+- classes, structs and enums: PascalCase
+
+- methods and functions: camelCase
+
+- properties and variables: snake_case
+
 ### TODOS:
 
+[ ] Add an object system with default primitivess
+[ ] Add a physics system
+[ ] Code base for platform and graphics API'S is getting kinda big so refractor those into its
+	own directory
 [ ] Add uniform optimizations to openGL API
-[/] Resolve viewport stretching
-[ ] add a physics system

@@ -103,7 +103,7 @@ namespace Zyklon
 	}
 
 
-	void OpenGLTexture2D::set_data(void* p_data, uint32_t p_size)
+	void OpenGLTexture2D::setData(void* p_data, uint32_t p_size)
 	{
         uint32_t bpp = m_data_format == GL_RGBA ? 4 : 3;
         ZYKLON_CORE_ASSERT(p_size == m_width * m_height * bpp, "Data must be entire texture!");

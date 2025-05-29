@@ -27,17 +27,17 @@ namespace Zyklon
 		virtual ~Texture() = default;
 		virtual const TextureSpecification& get_specification() const = 0;
 		
-		virtual uint32_t get_width() const = 0;
-		virtual uint32_t get_height() const = 0;
-		virtual uint32_t get_renderer_id() const = 0;
+		virtual uint32_t getWidth() const = 0;
+		virtual uint32_t getHeight() const = 0;
+		virtual uint32_t getRendererID() const = 0;
 
-		virtual const std::string& get_path() const = 0;
+		virtual const std::string& getPath() const = 0;
 
-		virtual void set_data(void* p_data, uint32_t p_size) = 0;
+		virtual void setData(void* p_data, uint32_t p_size) = 0;
 
 		virtual void bind(uint32_t slot = 0) const = 0;
 
-		virtual bool is_loaded() const = 0;
+		virtual bool isLoaded() const = 0;
 
 		virtual bool operator==(const Texture& p_other) const = 0;
 	};

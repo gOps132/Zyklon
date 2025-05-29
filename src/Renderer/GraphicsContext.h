@@ -12,7 +12,7 @@ public:
 	virtual ~GraphicsContext() {}
 
 	virtual void init() = 0;
-	virtual void swap_buffers() = 0;
+	virtual void swapBuffers() = 0;
 
 	static GraphicsContext *create(GLFWwindow *p_window);
 };

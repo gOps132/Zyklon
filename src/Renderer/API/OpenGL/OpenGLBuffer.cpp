@@ -6,7 +6,7 @@
 
 namespace Zyklon {
 
-GLenum OpenGLHelperFunc::shader_type_to_opengl_typedef(ShaderDataType p_type)
+GLenum OpenGLHelperFunc::shaderTypeToOpenGLTypedef(ShaderDataType p_type)
 {
 	switch (p_type) {
 	case ShaderDataType::Float:

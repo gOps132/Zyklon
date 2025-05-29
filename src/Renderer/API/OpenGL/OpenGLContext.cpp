@@ -29,6 +29,6 @@ void OpenGLContext::init()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void OpenGLContext::swap_buffers() { glfwSwapBuffers(m_window_handler); }
+void OpenGLContext::swapBuffers() { glfwSwapBuffers(m_window_handler); }
 
 } // namespace Zyklon

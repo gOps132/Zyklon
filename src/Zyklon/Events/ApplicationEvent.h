@@ -14,10 +14,10 @@ public:
 	{
 	}
 
-	inline unsigned int get_width() const { return m_Width; }
-	inline unsigned int get_height() const { return m_Height; }
+	inline unsigned int getWidth() const { return m_Width; }
+	inline unsigned int getHeight() const { return m_Height; }
 
-	virtual std::string to_string() const override
+	virtual std::string toString() const override
 	{
 		std::stringstream ss;
 		ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;

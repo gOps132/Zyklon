@@ -24,33 +24,36 @@ public:
 	void reset();
 
 	void generate(const float p_radius, const int p_resolution);
-	void create_icosahedron(const float p_radius);
+	void createIcosahedron(const float p_radius);
 	void subdivide();
+	void generateVoronoiCells();
 
-	void set_texture(const std::string& p_path, int p_slot) 
+	glm::vec2 calculateUV(const glm::vec3& uv);
+
+	void setTexture(const std::string& p_path, int p_slot) 
 	{
 		m_slot = p_slot;
 		m_texture = Zyklon::Texture2D::create(p_path); 
 	}
 	
-	void set_shader(std::string shader_path);
-	void update_shader(float time);
+	void setShader(std::string shader_path);
+	void updateShader(float time);
 
 	void render(glm::mat4 transform);
-	void render_gui();
+	void renderGUI();
 
-	void set_resolution(int p_res)
+	void setResolution(int p_res)
 	{
 		m_resolution = p_res;
 	}
 
-	void set_model_matrix(const glm::mat4 &model_matrix)
+	void setModelMatrix(const glm::mat4 &model_matrix)
 	{
 		m_model_matrix = model_matrix;
 	}
 
-	const glm::mat4 &get_model_matrix() const { return m_model_matrix; }
-    const Zyklon::Shader& get_shader() const { return *m_shader; }
+	const glm::mat4 &getModelMatrix() const { return m_model_matrix; }
+    const Zyklon::Shader& getShader() const { return *m_shader; }
 private:
 	std::string m_name;
 	std::string m_shader_path;

@@ -13,8 +13,8 @@ public:
 
 	operator float() { return m_time; }
 	
-	float get_seconds() { return m_time; }
-	float get_milliseconds() { return m_time * 1000.0f; }
+	float getSeconds() { return m_time; }
+	float getMilliseconds() { return m_time * 1000.0f; }
 
 private:
 	float m_time;

@@ -17,21 +17,21 @@ namespace Zyklon
 		virtual ~OpenGLTexture2D();
 
 		virtual const TextureSpecification& get_specification() const override { return m_specification; }
-		virtual uint32_t get_width() const override { return m_width; }
-		virtual uint32_t get_height() const override { return m_height; }
-		virtual uint32_t get_renderer_id() const override { return m_renderer_id; }
+		virtual uint32_t getWidth() const override { return m_width; }
+		virtual uint32_t getHeight() const override { return m_height; }
+		virtual uint32_t getRendererID() const override { return m_renderer_id; }
 
-		virtual const std::string& get_path() const override { return m_path; }
+		virtual const std::string& getPath() const override { return m_path; }
 
-		virtual void set_data(void* p_data, uint32_t p_size);
+		virtual void setData(void* p_data, uint32_t p_size);
 
 		virtual void bind(uint32_t slot = 0) const override;
 
-		virtual bool is_loaded() const override { return m_isloaded; }
+		virtual bool isLoaded() const override { return m_isloaded; }
 
 		virtual bool operator==(const Texture& p_other) const
 		{
-			return m_renderer_id == p_other.get_renderer_id();
+			return m_renderer_id == p_other.getRendererID();
 		}
 
 	private:

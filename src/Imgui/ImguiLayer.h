@@ -16,10 +16,10 @@ public:
 	ImGuiLayer();
 	~ImGuiLayer();
 
-	virtual void on_attach() override;
-	virtual void on_detach() override;
+	virtual void onAttach() override;
+	virtual void onDetach() override;
 
-	virtual void on_imgui_render() override;
+	virtual void onImguiRender() override;
 
 	/* Layers to do their own Imgui Rendering */
 	/* Begin a new frame */

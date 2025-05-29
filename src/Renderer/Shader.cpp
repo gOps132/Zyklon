@@ -9,7 +9,7 @@ namespace Zyklon {
 
 Shader *Shader::create(const std::string &p_filepath)
 {
-	switch (Renderer::get_api()) {
+	switch (Renderer::getApi()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
 		return nullptr;
@@ -20,7 +20,7 @@ Shader *Shader::create(const std::string &p_filepath)
 	return nullptr;
 }
 
-ShaderProgramSource Shader::parse_shader(const std::string &p_filepath)
+ShaderProgramSource Shader::parseShader(const std::string &p_filepath)
 {
     enum class ShaderType { NONE = -1, VERTEX = 0, FRAGMENT = 1 };
 

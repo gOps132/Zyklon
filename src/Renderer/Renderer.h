@@ -15,14 +15,14 @@ namespace Zyklon {
 class Renderer {
 public:
 // TODO: setup basic polymorphism for both perspective and orthographic camera
-	static void begin_scene(Camera& p_camera);
-	static void end_scene();
+	static void beginScene(Camera& p_camera);
+	static void endScene();
 
 	static void submit(const std::shared_ptr<Shader> &p_shader, const std::shared_ptr<VertexArray> &p_vertex_array, const glm::mat4& p_transform = glm::mat4(1.0f));
-	static void submit_vertex(const std::shared_ptr<Shader> &p_shader, const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices, const glm::mat4& p_transform = glm::mat4(1.0f));
+	static void submitVertex(const std::shared_ptr<Shader> &p_shader, const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t p_indices, const glm::mat4& p_transform = glm::mat4(1.0f));
 
 	/* Wrapper for definitions */
-	inline static RendererAPI::API get_api() { return RendererAPI::get_api(); }
+	inline static RendererAPI::API getApi() { return RendererAPI::getApi(); }
 
 private:
 	struct SceneData {

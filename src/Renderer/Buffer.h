@@ -17,7 +17,7 @@ enum class ShaderDataType : uint32_t {
 		Struct
 };
 
-static uint32_t shader_data_type_size(ShaderDataType p_type);
+static uint32_t shaderDataTypeSize(ShaderDataType p_type);
 
 // Data Structure that holds vertex attributes.
 struct BufferElement {
@@ -30,7 +30,7 @@ struct BufferElement {
 	BufferElement(ShaderDataType p_type, const std::string &p_name,
 				  bool p_normalized);
 
-	uint32_t get_component_count() const;
+	uint32_t getComponentCount() const;
 };
 
 class BufferLayout {
@@ -38,13 +38,13 @@ public:
 	BufferLayout() = default;
 	BufferLayout(const std::initializer_list<BufferElement> &p_element);
 
-	inline const std::vector<BufferElement> &get_elements() const
+	inline const std::vector<BufferElement> &getElements() const
 	{
 		return m_elements;
 	}
-	inline const uint32_t &get_stride() const { return m_stride; }
+	inline const uint32_t &getStride() const { return m_stride; }
 
-	void calc_offsets_and_strides();
+	void calcOffsetsAndStrides();
 
 	std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
 	std::vector<BufferElement>::iterator end() { return m_elements.end(); }
@@ -69,8 +69,8 @@ public:
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
 
-	virtual void set_layout(const BufferLayout &layout) = 0;
-	virtual const BufferLayout &get_layout() const = 0;
+	virtual void setLayout(const BufferLayout &layout) = 0;
+	virtual const BufferLayout &getLayout() const = 0;
 
 	static VertexBuffer *create(float *vertices, size_t size);
 };
@@ -82,7 +82,7 @@ public:
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
 
-	inline virtual uint32_t get_count() const = 0;
+	inline virtual uint32_t getCount() const = 0;
 
 	static IndexBuffer *create(uint32_t *indices, size_t size);
 };

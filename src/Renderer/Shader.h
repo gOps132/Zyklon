@@ -21,21 +21,21 @@ public:
 	virtual void bind() = 0;
 	virtual void unbind() = 0;
 
-	virtual void set_uniform_1i(const std::string &name, const int value) = 0;
+	virtual void setUniform1i(const std::string &name, const int value) = 0;
 
-	virtual void set_uniform_1f(const std::string &name, const float value) = 0;
+	virtual void setUniform1f(const std::string &name, const float value) = 0;
 
-	virtual void set_uniform_2f(const std::string &name, const float v0, const float v1) = 0;
+	virtual void setUniform2f(const std::string &name, const float v0, const float v1) = 0;
 
-	virtual void set_uniform_3fv(const std::string &name, const glm::vec3 &buffer) = 0;
+	virtual void setUniform3fv(const std::string &name, const glm::vec3 &buffer) = 0;
 
-	virtual void set_uniform_4fv(const std::string &name, const glm::vec4 &buffer) = 0;
+	virtual void setUniform4fv(const std::string &name, const glm::vec4 &buffer) = 0;
 
-	virtual void set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer) = 0;
+	virtual void setUniformMatrix4fv(const std::string &name, const glm::mat4 &buffer) = 0;
 
 	static Shader *create(const std::string &p_filepath);
 
-	static ShaderProgramSource parse_shader(const std::string &p_filePath);
+	static ShaderProgramSource parseShader(const std::string &p_filePath);
 private:
 	uint32_t m_renderer_id;
 };

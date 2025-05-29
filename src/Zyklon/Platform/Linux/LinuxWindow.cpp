@@ -54,7 +54,7 @@ LinuxWindow::LinuxWindow(const WindowProps &p_props)
 	m_context->init();
 
 	glfwSetWindowUserPointer(m_window, &m_data);
-	set_vsync(true);
+	setVsync(true);
 
 	// Set GLFW callback
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow *p_window, int p_width,
@@ -136,7 +136,7 @@ LinuxWindow::LinuxWindow(const WindowProps &p_props)
 	});
 }
 
-void LinuxWindow::set_vsync(bool p_enabled)
+void LinuxWindow::setVsync(bool p_enabled)
 {
 	glfwSwapInterval(p_enabled);
 	m_data.vsync = p_enabled;
@@ -146,13 +146,13 @@ bool LinuxWindow::vsync() const { return m_data.vsync; }
 
 LinuxWindow::~LinuxWindow() { glfwDestroyWindow(m_window); }
 
-void LinuxWindow::on_update()
+void LinuxWindow::onUpdate()
 {
 	glfwPollEvents();
-	m_context->swap_buffers();
+	m_context->swapBuffers();
 }
 
-float LinuxWindow::get_time() 
+float LinuxWindow::getTime() 
 {
 	return glfwGetTime();
 }

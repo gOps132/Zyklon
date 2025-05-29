@@ -10,7 +10,7 @@
 namespace Zyklon {
 GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)
 {
-	switch (Renderer::get_api()) {
+	switch (Renderer::getApi()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Graphics Context Available ");
 		return nullptr;

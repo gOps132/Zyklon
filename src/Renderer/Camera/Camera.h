@@ -16,8 +16,8 @@ public:
 		if (m_needs_update)
 			recalculate_view_matrix();
 	}
-	const glm::vec3& get_position() { return m_position; }
-	void set_position(const glm::vec3& p_position) 
+	const glm::vec3& getPosition() { return m_position; }
+	void setPosition(const glm::vec3& p_position) 
 	{ 
 		m_needs_update = true;
 		m_position = p_position;

@@ -12,7 +12,7 @@ namespace Zyklon {
 
 VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 {
-	switch (RendererAPI::get_api()) {
+	switch (RendererAPI::getApi()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Renderer API is supported. !");
 		return nullptr;
@@ -25,7 +25,7 @@ VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 
 IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
 {
-	switch (Renderer::get_api()) {
+	switch (Renderer::getApi()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Renderer API is supported!");
 		return nullptr;
@@ -36,7 +36,7 @@ IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
 	return nullptr;
 }
 
-uint32_t shader_data_type_size(ShaderDataType p_type)
+uint32_t shaderDataTypeSize(ShaderDataType p_type)
 {
 	switch (p_type) {
 	case ShaderDataType::Float:
@@ -70,7 +70,7 @@ uint32_t shader_data_type_size(ShaderDataType p_type)
 BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name,
 							 bool p_normalized = false)
 	: name(p_name), type(p_type), offset(0),
-	  size(shader_data_type_size(p_type)), normalized(p_normalized)
+	  size(shaderDataTypeSize(p_type)), normalized(p_normalized)
 {
 }
 
@@ -78,10 +78,10 @@ BufferLayout::BufferLayout(
 	const std::initializer_list<BufferElement> &p_element)
 	: m_elements(p_element)
 {
-	calc_offsets_and_strides();
+	calcOffsetsAndStrides();
 }
 
-uint32_t BufferElement::get_component_count() const
+uint32_t BufferElement::getComponentCount() const
 {
 	switch (type) {
 	case ShaderDataType::Float:
@@ -111,7 +111,7 @@ uint32_t BufferElement::get_component_count() const
 	return 0;
 }
 
-void BufferLayout::calc_offsets_and_strides()
+void BufferLayout::calcOffsetsAndStrides()
 {
 	uint32_t offset = 0;
 	m_stride = 0;

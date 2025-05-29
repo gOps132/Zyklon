@@ -14,7 +14,7 @@
 namespace Zyklon 
 {
 
-void OpenGLShader::set_uniform_1i(const std::string &name, const int value)
+void OpenGLShader::setUniform1i(const std::string &name, const int value)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -23,7 +23,7 @@ void OpenGLShader::set_uniform_1i(const std::string &name, const int value)
 }
 
 
-void OpenGLShader::set_uniform_1f(const std::string &name, const float value)
+void OpenGLShader::setUniform1f(const std::string &name, const float value)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -31,7 +31,7 @@ void OpenGLShader::set_uniform_1f(const std::string &name, const float value)
 		GLCall(glUniform1f(location, value));
 }
 
-void OpenGLShader::set_uniform_2f(const std::string &name, const float v0, const float v1)
+void OpenGLShader::setUniform2f(const std::string &name, const float v0, const float v1)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -40,7 +40,7 @@ void OpenGLShader::set_uniform_2f(const std::string &name, const float v0, const
 }
 
 
-void OpenGLShader::set_uniform_3fv(const std::string &name, const glm::vec3 &buffer)
+void OpenGLShader::setUniform3fv(const std::string &name, const glm::vec3 &buffer)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -48,7 +48,7 @@ void OpenGLShader::set_uniform_3fv(const std::string &name, const glm::vec3 &buf
 		GLCall(glUniform3f(location, buffer.x, buffer.y, buffer.z));
 }
 
-void OpenGLShader::set_uniform_4fv(const std::string &name, const glm::vec4 &buffer)
+void OpenGLShader::setUniform4fv(const std::string &name, const glm::vec4 &buffer)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -56,7 +56,7 @@ void OpenGLShader::set_uniform_4fv(const std::string &name, const glm::vec4 &buf
 		GLCall(glUniform4f(location, buffer.x, buffer.y, buffer.z, buffer.w));
 }
 
-void OpenGLShader::set_uniform_matrix_4fv(const std::string &name, const glm::mat4 &buffer)
+void OpenGLShader::setUniformMatrix4fv(const std::string &name, const glm::mat4 &buffer)
 {
 	GLCall(glUseProgram(m_renderer_id));
 	GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
@@ -66,7 +66,7 @@ void OpenGLShader::set_uniform_matrix_4fv(const std::string &name, const glm::ma
 
 OpenGLShader::OpenGLShader(const std::string &p_filepath)
 {
-	m_shader_source = parse_shader(p_filepath);
+	m_shader_source = parseShader(p_filepath);
 
 	// create an empty vertex shader handle
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);

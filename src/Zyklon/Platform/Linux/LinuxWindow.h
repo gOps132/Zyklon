@@ -16,29 +16,29 @@ class LinuxWindow : public Window {
 	LinuxWindow(const WindowProps &props);
 	virtual ~LinuxWindow();
 
-	virtual void on_update() override;
+	virtual void onUpdate() override;
 
-	inline virtual unsigned int get_width() const override
+	inline virtual unsigned int getWidth() const override
 	{
 		return m_data.width;
 	}
-	inline virtual unsigned int get_height() const override
+	inline virtual unsigned int getHeight() const override
 	{
 		return m_data.height;
 	}
-	virtual float get_time() override;
+	virtual float getTime() override;
 
 	// Window attributes
 	inline virtual void
-	set_event_callback(const EventCallbackFn &p_callback) override
+	setEventCallback(const EventCallbackFn &p_callback) override
 	{
 		m_data.event_callback = p_callback;
 	}
-	virtual void set_vsync(bool p_enabled) override;
+	virtual void setVsync(bool p_enabled) override;
 	virtual bool vsync() const override;
 
 	/* Returns the GLFW window pointer */
-	inline virtual void *get_native_window() const override { return m_window; }
+	inline virtual void *getNativeWindow() const override { return m_window; }
 
   private:  
 	GLFWwindow *m_window;

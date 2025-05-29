@@ -7,12 +7,12 @@ namespace Zyklon {
 
 class LinuxInput : public Input {
 protected:
-	virtual bool key_pressed_impl(int keycode) override;
+	virtual bool keyPressedImpl(int keycode) override;
 
-	virtual bool mouse_btn_pressed_impl(int button) override;
-	virtual std::pair<float, float> get_mouse_pos_impl() override;
-	virtual float get_mouse_x_impl() override;
-	virtual float get_mouse_y_impl() override;
+	virtual bool mouseBtnPressedImpl(int button) override;
+	virtual std::pair<float, float> getMousePosImpl() override;
+	virtual float getMouseXImpl() override;
+	virtual float getMouseYImpl() override;
 };
 
 } // namespace Zyklon

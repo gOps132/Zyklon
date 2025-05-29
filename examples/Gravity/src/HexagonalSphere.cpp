@@ -6,6 +6,7 @@
 
 #include <Renderer/Renderer.h>
 #include <imgui-test/imgui.h>
+#include <voro++.hh>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -26,31 +27,30 @@ void HexagonalSphere::generate(const float p_radius, const int p_resolution)
 	m_indices.clear();
 
 	// make an icosahedron
-	create_icosahedron(p_radius);
+	createIcosahedron(p_radius);
 
     // Step 2: Subdivide the icosahedron
     for (int i = 0; i < p_resolution; ++i) {
         subdivide();
     }
 
-    // Step 3: Use Voronoi tessellation to form the hexagon
-    // (This step is complex and typically requires a Voronoi library or custom implementation)
-    // For simplicity, we'll skip this step in this example.
+    // Step 3: Use Voro++ to generate Voronoi cells
+    generateVoronoiCells();
 
     // Create buffers
     m_vertex_buffer.reset(Zyklon::VertexBuffer::create(m_vertices.data(), m_vertices.size() * sizeof(float)));
-    m_vertex_buffer->set_layout({
+    m_vertex_buffer->setLayout({
         {Zyklon::ShaderDataType::Float3, "a_position", false},
         {Zyklon::ShaderDataType::Float3, "a_normal", false},
         {Zyklon::ShaderDataType::Float2, "a_uv", false}
     });
-    m_vertex_array->add_vertex_bfr(m_vertex_buffer);
+    m_vertex_array->addVertexBfr(m_vertex_buffer);
 
     m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
-    m_vertex_array->set_index_bfr(m_index_buffer);
+    m_vertex_array->setIndexBfr(m_index_buffer);
 }
 
-void HexagonalSphere::create_icosahedron(const float p_radius)
+void HexagonalSphere::createIcosahedron(const float p_radius)
 {
 	const float t = (1.0 + std::sqrt(5.0)) / 2.0;
 
@@ -78,14 +78,15 @@ void HexagonalSphere::create_icosahedron(const float p_radius)
 
     for (auto& pos : positions) {
         pos = glm::normalize(pos) * p_radius;
+		glm::vec2 uv = calculateUV(pos);
         m_vertices.push_back(pos.x);
         m_vertices.push_back(pos.y);
         m_vertices.push_back(pos.z);
         m_vertices.push_back(pos.x);
         m_vertices.push_back(pos.y);
         m_vertices.push_back(pos.z);
-        m_vertices.push_back(0.0f); // Placeholder for UV coordinates
-        m_vertices.push_back(0.0f); // Placeholder for UV coordinates
+        m_vertices.push_back(1.0f - uv.x); // Placeholder for UV coordinates
+        m_vertices.push_back(1.0f - uv.y); // Placeholder for UV coordinates
     }
 
     m_indices = indices;
@@ -96,7 +97,7 @@ void HexagonalSphere::subdivide()
     std::unordered_map<uint64_t, uint32_t> middle_point_cache;
 
     auto get_middle_point = [&](uint32_t p1, uint32_t p2) -> uint32_t {
-        uint64_t key = (uint64_t)p1 << 32 | p2;
+		uint64_t key = (uint64_t)std::min(p1, p2) | ((uint64_t)std::max(p1, p2) << 32);
         if (middle_point_cache.find(key) != middle_point_cache.end()) {
             return middle_point_cache[key];
         }
@@ -104,6 +105,7 @@ void HexagonalSphere::subdivide()
         glm::vec3 point1 = glm::vec3(m_vertices[p1 * 8], m_vertices[p1 * 8 + 1], m_vertices[p1 * 8 + 2]);
         glm::vec3 point2 = glm::vec3(m_vertices[p2 * 8], m_vertices[p2 * 8 + 1], m_vertices[p2 * 8 + 2]);
         glm::vec3 middle = glm::normalize((point1 + point2) / 2.0f) * m_radius;
+        glm::vec2 uv = calculateUV(middle);
 
         uint32_t index = m_vertices.size() / 8;
         m_vertices.push_back(middle.x);
@@ -112,8 +114,8 @@ void HexagonalSphere::subdivide()
         m_vertices.push_back(middle.x);
         m_vertices.push_back(middle.y);
         m_vertices.push_back(middle.z);
-        m_vertices.push_back(0.0f); // Placeholder for UV coordinates
-        m_vertices.push_back(0.0f); // Placeholder for UV coordinates
+        m_vertices.push_back(1.0f - uv.x);
+        m_vertices.push_back(1.0f - uv.y);
 
         middle_point_cache[key] = index;
         return index;
@@ -149,6 +151,49 @@ void HexagonalSphere::subdivide()
     m_indices = new_indices;
 }
 
+void HexagonalSphere::generateVoronoiCells()
+{
+	// m_indices.clear();
+
+    // Define the container for the Voronoi cells
+    voro::container con(-1, 1, -1, 1, -1, 1, 10, 10, 10, false, false, false, 8);
+
+    // Add the vertices to the container
+    for (size_t i = 0; i < m_vertices.size(); i += 8) {
+        glm::vec3 pos(m_vertices[i], m_vertices[i + 1], m_vertices[i + 2]);
+        con.put(i / 8, pos.x, pos.y, pos.z);
+    }
+
+    // Compute the Voronoi cells
+    voro::c_loop_all vl(con);
+    voro::voronoicell_neighbor c;
+	if (vl.start()) do if (con.compute_cell(c, vl)) {
+		std::vector<int> neighbors;
+		c.neighbors(neighbors);
+	
+		int center_index = vl.pid();
+		for (size_t j = 0; j < neighbors.size(); ++j) {
+			if (neighbors[j] >= 0) {
+				int neighbor_index = neighbors[j];
+	
+				// Ensure correct mapping of neighbor indices
+				if (neighbor_index < m_vertices.size() / 8) {
+					m_indices.push_back(center_index);
+					m_indices.push_back(neighbor_index);
+				}
+			}
+		}
+	} while (vl.inc());
+}
+
+
+glm::vec2 HexagonalSphere::calculateUV(const glm::vec3& pos)
+{ 
+	float u = 0.5f + (std::atan2(pos.z, pos.x) / (2.0f * M_PI));
+    float v = 0.5f - (std::asin(pos.y) / M_PI);
+    return glm::vec2(u, v);
+}
+
 void HexagonalSphere::reset()
 {
 	m_position = m_initial_position;
@@ -163,27 +208,27 @@ void HexagonalSphere::reset()
 	generate(m_radius, m_resolution);
 }
 
-void HexagonalSphere::set_shader(std::string shader_path)
+void HexagonalSphere::setShader(std::string shader_path)
 {
 	m_shader_path = shader_path;
 	m_shader.reset(Zyklon::Shader::create(m_shader_path));
 }
 
-void HexagonalSphere::update_shader(float time)
+void HexagonalSphere::updateShader(float time)
 {
 	m_texture->bind(m_slot);
-	m_shader->set_uniform_1i("u_Texture", m_slot);
+	m_shader->setUniform1i("u_Texture", m_slot);
 
-	m_shader->set_uniform_1f("u_time", time);
+	m_shader->setUniform1f("u_time", time);
 
-	m_shader->set_uniform_3fv("u_color", m_color);
-	m_shader->set_uniform_3fv("u_ambient_light_color", m_ambient_light_color);
-	m_shader->set_uniform_1f("u_ambient_light_intensity",
+	m_shader->setUniform3fv("u_color", m_color);
+	m_shader->setUniform3fv("u_ambient_light_color", m_ambient_light_color);
+	m_shader->setUniform1f("u_ambient_light_intensity",
 							 m_ambient_light_intensity);
-	m_shader->set_uniform_3fv("u_directional_light_color",
+	m_shader->setUniform3fv("u_directional_light_color",
 							  m_directional_light_color);
 
-	m_shader->set_uniform_3fv("u_stretch", m_stretch);
+	m_shader->setUniform3fv("u_stretch", m_stretch);
 }
 
 void HexagonalSphere::render(glm::mat4 transform)
@@ -191,7 +236,7 @@ void HexagonalSphere::render(glm::mat4 transform)
 	Zyklon::Renderer::submit(m_shader, m_vertex_array, transform);
 }
 
-void HexagonalSphere::render_gui()
+void HexagonalSphere::renderGUI()
 {
 	ImGui::Begin(m_name.c_str());
 	ImGui::ColorPicker3("sphere color", glm::value_ptr(m_color), 0);

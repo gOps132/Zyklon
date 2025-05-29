@@ -7,10 +7,10 @@ class ExampleLayer : public Zyklon::Layer {
 public:
 	ExampleLayer();
 
-	virtual void on_update(Zyklon::Timestep ts) override;
-	virtual void on_event(Zyklon::Event &event) override;
-	virtual void on_imgui_render() override;
-	void reset_state();
+	virtual void onUpdate(Zyklon::Timestep ts) override;
+	virtual void onEvent(Zyklon::Event &event) override;
+	virtual void onImguiRender() override;
+	void resetState();
 private:
 	std::shared_ptr<Zyklon::Shader> m_cube_shader;
 	std::shared_ptr<Zyklon::VertexBuffer> m_cube_vertex_bfr;
@@ -22,8 +22,8 @@ private:
 
 	float m_fovy = glm::radians(45.0f); // Field of view in the vertical direction
 	float m_aspect_ratio =
-		Zyklon::Application::get().get_window().get_width() / 
-		Zyklon::Application::get().get_window().get_height(); // 1.5
+		Zyklon::Application::get().getWindow().getWidth() / 
+		Zyklon::Application::get().getWindow().getHeight(); // 1.5
 	float m_near_plane = 0.1f;          // Near clipping plane distance
 	float m_far_plane = 100.0f;         // Far clipping plane distance
 
@@ -37,7 +37,7 @@ private:
 
 class Sandbox : public Zyklon::Application {
 public:
-	Sandbox() { push_layer(new ExampleLayer()); }
+	Sandbox() { pushLayer(new ExampleLayer()); }
 
 	virtual ~Sandbox() override { ZYKLON_INFO("Stopped sandbox application"); }
 };

@@ -14,7 +14,7 @@ namespace Zyklon {
 
 union OpenGLHelperFunc {
 public:
-	static GLenum shader_type_to_opengl_typedef(ShaderDataType p_type);
+	static GLenum shaderTypeToOpenGLTypedef(ShaderDataType p_type);
 };
 
 class OpenGLVertexBuffer ZYKLON_OPENGL_FINAL : public VertexBuffer {
@@ -25,11 +25,11 @@ public:
 	virtual void bind() const override;
 	virtual void unbind() const override;
 
-	virtual void set_layout(const BufferLayout &p_layout) override
+	virtual void setLayout(const BufferLayout &p_layout) override
 	{
 		m_layout = p_layout;
 	}
-	virtual const BufferLayout &get_layout() const override { return m_layout; }
+	virtual const BufferLayout &getLayout() const override { return m_layout; }
 
 private:
 	uint32_t m_renderer_id;
@@ -43,7 +43,7 @@ public:
 
 	virtual void bind() const override;
 	virtual void unbind() const override;
-	inline virtual uint32_t get_count() const override { return m_count; }
+	inline virtual uint32_t getCount() const override { return m_count; }
 
 private:
 	uint32_t m_renderer_id;

@@ -26,18 +26,18 @@ public:
 
 	virtual ~Window() {}
 
-	virtual void on_update() = 0;
+	virtual void onUpdate() = 0;
 
-	virtual unsigned int get_width() const = 0;
-	virtual unsigned int get_height() const = 0;
-	virtual float get_time() = 0;
+	virtual unsigned int getWidth() const = 0;
+	virtual unsigned int getHeight() const = 0;
+	virtual float getTime() = 0;
 
 	/* Window attributes */
-	virtual void set_event_callback(const EventCallbackFn &callback) = 0;
-	virtual void set_vsync(bool enabled) = 0;
+	virtual void setEventCallback(const EventCallbackFn &callback) = 0;
+	virtual void setVsync(bool enabled) = 0;
 	virtual bool vsync() const = 0;
 
-	virtual void *get_native_window() const = 0;
+	virtual void *getNativeWindow() const = 0;
 
 	/* if don't specify windows properties it creates the default using windows
 	 * props */

@@ -10,43 +10,43 @@
 namespace Zyklon {
 Input *Input::s_instance = new LinuxInput();
 
-bool LinuxInput::key_pressed_impl(int keycode)
+bool LinuxInput::keyPressedImpl(int keycode)
 {
 	auto window = static_cast<GLFWwindow *>(
-		Application::get().get_window().get_native_window());
+		Application::get().getWindow().getNativeWindow());
 	auto state = glfwGetKey(window, keycode);
 
 	return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
-bool LinuxInput::mouse_btn_pressed_impl(int button)
+bool LinuxInput::mouseBtnPressedImpl(int button)
 {
 	auto window = static_cast<GLFWwindow *>(
-		Application::get().get_window().get_native_window());
+		Application::get().getWindow().getNativeWindow());
 	auto state = glfwGetMouseButton(window, button);
 
 	return state == GLFW_PRESS;
 }
 
-std::pair<float, float> LinuxInput::get_mouse_pos_impl()
+std::pair<float, float> LinuxInput::getMousePosImpl()
 {
 	auto window = static_cast<GLFWwindow *>(
-		Application::get().get_window().get_native_window());
+		Application::get().getWindow().getNativeWindow());
 	double xPos, yPos;
 	glfwGetCursorPos(window, &xPos, &yPos);
 
 	return {(float)xPos, (float)yPos};
 }
 
-float LinuxInput::get_mouse_x_impl()
+float LinuxInput::getMouseXImpl()
 {
-	auto [x, y] = get_mouse_pos_impl();
+	auto [x, y] = getMousePosImpl();
 	return x;
 }
 
-float LinuxInput::get_mouse_y_impl()
+float LinuxInput::getMouseYImpl()
 {
-	auto [x, y] = get_mouse_pos_impl();
+	auto [x, y] = getMousePosImpl();
 	return y;
 }
 

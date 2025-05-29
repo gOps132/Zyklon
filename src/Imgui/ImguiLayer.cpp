@@ -23,7 +23,7 @@ ImGuiLayer::ImGuiLayer() : Layer("Imgui Layer") {}
 
 ImGuiLayer::~ImGuiLayer() {}
 
-void ImGuiLayer::on_attach()
+void ImGuiLayer::onAttach()
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -54,7 +54,7 @@ void ImGuiLayer::on_attach()
 
 	Application &app = Application::get();
 	GLFWwindow *window =
-		static_cast<GLFWwindow *>(app.get_window().get_native_window());
+		static_cast<GLFWwindow *>(app.getWindow().getNativeWindow());
 
 	// Setup Platform/Renderer bindingss
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -69,7 +69,7 @@ void ImGuiLayer::on_attach()
 
 }
 
-void ImGuiLayer::on_detach()
+void ImGuiLayer::onDetach()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
@@ -89,7 +89,7 @@ void ImGuiLayer::end()
 
 	Application &app = Application::get();
 	io.DisplaySize =
-		ImVec2(app.get_window().get_width(), app.get_window().get_width());
+		ImVec2(app.getWindow().getWidth(), app.getWindow().getWidth());
 
 	// Rendering
 	ImGui::Render();
@@ -103,7 +103,7 @@ void ImGuiLayer::end()
 	}
 }
 
-void ImGuiLayer::on_imgui_render()
+void ImGuiLayer::onImguiRender()
 {
 	// static bool show = false;
 	// ImGui::ShowDemoWindow(&show);

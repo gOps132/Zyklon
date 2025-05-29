@@ -8,6 +8,12 @@ project(Zyklon
 		DESCRIPTION "Zyklon Game Engine Demo"
 		LANGUAGES CXX)
 
+# Ensure consistent runtime library settings
+if(MSVC)
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+endif()
+
 set(HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/header)
 set(VENDOR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor)
 
@@ -20,6 +26,7 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 add_subdirectory(lib/stb)
+add_subdirectory(lib/voro)
 
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/CompilerWarnings.cmake)
@@ -86,6 +93,7 @@ set(ZYKLON_CORE_FILES
 	${ZYKLON_DIRECTORY}/Core/Log.cpp
 	${ZYKLON_DIRECTORY}/Core/Layer.cpp
 	${ZYKLON_DIRECTORY}/Core/LayerStack.cpp
+	${ZYKLON_DIRECTORY}/Core/UUID.cpp
 )
 
 set(IMGUI_SOURCE_FILES
@@ -185,16 +193,19 @@ endif()
 
 set(IMGUI_EXAMPLES OFF)
 set(IMGUI_IMPL_SDL OFF)
+set(VORO_BUILD_SHARED_LIBS OFF)
 target_link_libraries(
 		${PROJECT_NAME}
 		PRIVATE		${EXTRA_LIBS}
-		PUBLIC		zyklon_profiler_header_only
 		PRIVATE		glfw
 		PRIVATE		glad
+		
+		PUBLIC		zyklon_profiler_header_only
 		PUBLIC		glm
 		PUBLIC		imgui-test
 		PUBLIC		spdlog
 		PUBLIC		stb
+		PUBLIC		voro++
 )
 
 target_precompile_headers(
