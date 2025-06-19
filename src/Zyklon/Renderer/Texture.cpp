@@ -6,7 +6,7 @@
 #include "RendererAPI.h"
 #include "Renderer.h"
 
-#include "API/OpenGL/OpenGLTexture.h"
+#include <Platform/OpenGL/OpenGLTexture.h>
 
 namespace Zyklon 
 {

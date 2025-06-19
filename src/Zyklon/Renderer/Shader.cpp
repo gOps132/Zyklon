@@ -3,7 +3,7 @@
 #include "Shader.h"
 
 #include "Renderer.h"
-#include "API/OpenGL/OpenGLShader.h"
+#include <Platform/OpenGL/OpenGLShader.h>
 
 namespace Zyklon {
 

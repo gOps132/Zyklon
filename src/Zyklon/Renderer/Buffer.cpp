@@ -3,7 +3,8 @@
 #include <glad/glad.h>
 
 #include "Renderer.h"
-#include "API/OpenGL/OpenGLBuffer.h"
+
+#include <Platform/OpenGL/OpenGLBuffer.h>
 
 #include "Buffer.h"
 

@@ -54,12 +54,25 @@ option(ZYKLON_ENABLE_OPENGL ON)
 # endif()
 
 set(ZYKLON_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon")
-set(IMGUI_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Imgui")
-set(RENDERER_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer")
+set(CORE_DIRECTORY		"${ZYKLON_DIRECTORY}/Core")
+set(IMGUI_DIRECTORY 	"${ZYKLON_DIRECTORY}/Imgui")
+set(RENDERER_DIRECTORY 	"${ZYKLON_DIRECTORY}/Renderer")
+set(COMPONENT_DIRECTORY "${ZYKLON_DIRECTORY}/Components")
+set(PLATFORM_DIRECTORY 	"${ZYKLON_DIRECTORY}/Platform")
 
 set(PLATFORM_SOURCES 
 	src/Zyklon/Platform/Linux/LinuxWindow.cpp
 	src/Zyklon/Platform/Linux/LinuxInput.cpp
+)
+
+set(OPENGL_SOURCE_FILES
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLContext.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLShader.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLBuffer.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLVertexArray.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLErrorManager.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLRendererAPI.cpp
+	${PLATFORM_DIRECTORY}/OpenGL/OpenGLTexture.cpp
 )
 
 set(RENDERER_SOURCE_FILES 
@@ -71,34 +84,32 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/VertexArray.cpp
 	${RENDERER_DIRECTORY}/RenderCommand.cpp
 	${RENDERER_DIRECTORY}/Texture.cpp
+	# ${RENDERER_DIRECTORY}/Mesh.cpp
+	# ${RENDERER_DIRECTORY}/Material.cpp
 
 	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/OrbitControls.cpp
 )
 
-set(OPENGL_SOURCE_FILES
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLContext.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLShader.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLBuffer.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLVertexArray.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLErrorManager.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLRendererAPI.cpp
-	${RENDERER_DIRECTORY}/API/OpenGL/OpenGLTexture.cpp
+set(IMGUI_SOURCE_FILES
+	${IMGUI_DIRECTORY}/ImguiLayer.cpp
+	${IMGUI_DIRECTORY}/ImguiBuild.cpp
 )
 
 set(ZYKLON_CORE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.cpp
-	${ZYKLON_DIRECTORY}/Core/Application.cpp
-	${ZYKLON_DIRECTORY}/Core/Log.cpp
-	${ZYKLON_DIRECTORY}/Core/Layer.cpp
-	${ZYKLON_DIRECTORY}/Core/LayerStack.cpp
-	${ZYKLON_DIRECTORY}/Core/UUID.cpp
+	${CORE_DIRECTORY}/Application.cpp
+	${CORE_DIRECTORY}/Log.cpp
+	${CORE_DIRECTORY}/Layer.cpp
+	${CORE_DIRECTORY}/LayerStack.cpp
+	${CORE_DIRECTORY}/UUID.cpp
+	# ${CORE_DIRECTORY}/GameObject.cpp
+	# ${CORE_DIRECTORY}/Scene.cpp
 )
 
-set(IMGUI_SOURCE_FILES
-	${IMGUI_DIRECTORY}/ImguiLayer.cpp
-	${IMGUI_DIRECTORY}/ImguiBuild.cpp
+set(ZYKLON_COMPONENT_FILES
+	${COMPONENT_DIRECTORY}/Component.cpp
 )
 
 set(ZYKLON_SOURCE_FILES
@@ -220,6 +231,7 @@ target_include_directories(${PROJECT_NAME}
 	PRIVATE		${RENDERER_DIRECTORY}
 	PRIVATE		${ZYKLON_DIRECTORY}
 	PRIVATE		${IMGUI_DIRECTORY}
+	PRIVATE		${PLATFORM_DIRECTORY}
 )
 
 # ------------------------------------------

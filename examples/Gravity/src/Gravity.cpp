@@ -26,8 +26,9 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 
 	std::vector<std::string> ball_textures = 
 	{
-		"d:\\pictures\\personal\\mog.png",
-		// "d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\earthpng.png", // warning: absolute directory
+		// "d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\renz.png", // warning: absolute directory
+		// "d:\\pictures\\personal\\mog.png",
+		"d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\earthpng.png", // warning: absolute directory
 		// "d:\\pictures\\personal\\derfpng.png"
 	};
 

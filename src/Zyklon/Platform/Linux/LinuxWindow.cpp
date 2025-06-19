@@ -6,7 +6,7 @@
 
 #include "LinuxWindow.h"
 
-#include <Renderer/API/OpenGL/OpenGLContext.h>
+#include <Platform/OpenGL/OpenGLContext.h>
 
 namespace Zyklon {
 

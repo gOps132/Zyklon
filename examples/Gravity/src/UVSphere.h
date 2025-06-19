@@ -4,10 +4,10 @@
 #include "Physics.h"
 
 // TODO: Make prototyping objects easier
-#include <Renderer/VertexArray.h>
-#include <Renderer/Buffer.h>
-#include <Renderer/Shader.h>
-#include <Renderer/Texture.h>
+#include <Zyklon/Renderer/VertexArray.h>
+#include <Zyklon/Renderer/Buffer.h>
+#include <Zyklon/Renderer/Shader.h>
+#include <Zyklon/Renderer/Texture.h>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"

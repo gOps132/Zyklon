@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "VertexArray.h"
 
-#include "API/OpenGL/OpenGLVertexArray.h"
+#include <Platform/OpenGL/OpenGLVertexArray.h>
 
 namespace Zyklon {
 

@@ -4,8 +4,7 @@
 #include "Renderer.h"
 #include "GraphicsContext.h"
 
-#include "API/OpenGL/OpenGLContext.h"
-
+#include <Platform/OpenGL/OpenGLContext.h>
 
 namespace Zyklon {
 GraphicsContext *GraphicsContext::create(GLFWwindow *p_window)

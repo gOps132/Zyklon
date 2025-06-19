@@ -14,7 +14,6 @@ namespace Zyklon {
 
 class Renderer {
 public:
-// TODO: setup basic polymorphism for both perspective and orthographic camera
 	static void beginScene(Camera& p_camera);
 	static void endScene();
 

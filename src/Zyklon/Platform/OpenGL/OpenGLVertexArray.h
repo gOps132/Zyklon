@@ -3,7 +3,7 @@
 
 #include <Zyklon/Core/Core.h>
 
-#include "Renderer/VertexArray.h"
+#include <Renderer/VertexArray.h>
 
 namespace Zyklon {
 class OpenGLVertexArray ZYKLON_OPENGL_FINAL : public VertexArray {

@@ -3,7 +3,7 @@
 
 #include <Zyklon/Core/Core.h>
 
-#include "Renderer/GraphicsContext.h"
+#include <Renderer/GraphicsContext.h>
 
 class GLFWwindow;
 namespace Zyklon {

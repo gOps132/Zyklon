@@ -6,11 +6,11 @@
 #include <Zyklon/Events/ApplicationEvent.h>
 #include <Zyklon/Events/Event.h>
 
-#include <Imgui/ImguiLayer.h>
+#include <Zyklon/Imgui/ImguiLayer.h>
 
-#include <Renderer/Buffer.h>
-#include <Renderer/Shader.h>
-#include <Renderer/VertexArray.h>
+#include <Zyklon/Renderer/Buffer.h>
+#include <Zyklon/Renderer/Shader.h>
+#include <Zyklon/Renderer/VertexArray.h>
 
 #include "LayerStack.h"
 #include "Window.h"

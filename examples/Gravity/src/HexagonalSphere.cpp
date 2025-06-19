@@ -4,7 +4,7 @@
 
 #include "HexagonalSphere.h"
 
-#include <Renderer/Renderer.h>
+#include <Zyklon/Renderer/Renderer.h>
 #include <imgui-test/imgui.h>
 #include <voro++.hh>
 

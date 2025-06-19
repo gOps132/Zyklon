@@ -4,7 +4,7 @@
 
 #include "UVSphere.h"
 
-#include <Renderer/Renderer.h>
+#include <Zyklon/Renderer/Renderer.h>
 #include <imgui-test/imgui.h>
 
 #define _USE_MATH_DEFINES

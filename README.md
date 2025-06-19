@@ -64,13 +64,9 @@ NOT TESTED ON WINDOWS
 
 CMake Version <= 3.14
 
-This project is made with the visual studio code IDE in a Unix machine.
-
 I made a specific task to run the currently selected executable at the workspace directory using vscode cmake-tools.
 
-Make sure to run the executable at the workspace directory.
-
-Not guranteed to work on windows, I don't even know what batch files are.
+VScode tasks are made to facilitate running the project in the workspace directory
 
 Many thanks to Master Cherno, Jason Turner, Craig Scott and etc. for the amazingly useful content.``
 

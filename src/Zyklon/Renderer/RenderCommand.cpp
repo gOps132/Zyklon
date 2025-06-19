@@ -1,6 +1,6 @@
 #include "RenderCommand.h"
 
-#include "API/OpenGL/OpenGLRendererAPI.h"
+#include <Platform/OpenGL/OpenGLRendererAPI.h>
 
 namespace Zyklon {
 

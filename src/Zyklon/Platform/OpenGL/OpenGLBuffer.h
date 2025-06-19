@@ -8,8 +8,6 @@
 
 #include <Renderer/Buffer.h>
 
-
-
 namespace Zyklon {
 
 union OpenGLHelperFunc {

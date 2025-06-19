@@ -3,7 +3,7 @@
 
 #include <Zyklon/Core/Core.h>
 
-#include "Renderer/RendererAPI.h"
+#include <Renderer/RendererAPI.h>
 
 namespace Zyklon {
 class OpenGLRendererAPI ZYKLON_OPENGL_FINAL : public RendererAPI {
