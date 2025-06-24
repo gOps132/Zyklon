@@ -35,7 +35,7 @@ bool GameObject::isActiveInHierarchy() const
 		if (!currentParent->isActive()) {
 			return false; // if any parent is not active, return false
 		}
-		currentParent = currentParent->getParent().lock(); // move to the next parent
+		currentParent = currentParent->getParent(); // move to the next parent
 	}
 	return true; // if no parent, the object is active in hierarchy
 }
@@ -68,7 +68,7 @@ void GameObject::setLocalScale(const glm::vec3& p_scale)
 	invalidateWorldTransform();
 }
 
-glm::mat4 GameObject::getLocalTransformationMatrix() const
+const glm::mat4& GameObject::getLocalTransformationMatrix()
 {
 	if (m_is_local_transformation_dirty) {
 		m_local_transformation_matrix = glm::translate(glm::mat4(1.0f), m_local_position) *
@@ -79,13 +79,17 @@ glm::mat4 GameObject::getLocalTransformationMatrix() const
 	return m_local_transformation_matrix;
 }
 
-glm::mat4 GameObject::getWorldTransformationMatrix() const
+const glm::mat4& GameObject::getWorldTransformationMatrix()
 {
 	if (m_is_world_transformation_dirty) {
 		if (auto parent = m_parent.lock()) {
 			m_world_transformation_matrix = parent->getWorldTransformationMatrix() * getLocalTransformationMatrix();
 		} else {
 			m_world_transformation_matrix = getLocalTransformationMatrix(); // no parent, use local matrix
+		}
+	}
+
+	return m_world_transformation_matrix;
 }
 
 
@@ -109,7 +113,7 @@ void GameObject::setParent(const Ref<GameObject> p_parent)
 	}
 
 	// set new parent weak_ptr
-	m_parent = weak_parent;
+	m_parent = p_parent;
 
 	// if new parent exists, add self to parents children
 	if (p_parent)
@@ -148,10 +152,10 @@ void GameObject::removeChild(const Ref<GameObject>& p_child)
 }
 
 template<typename T, typename... Args>
-Ref<T> GameObject::addComponent(Argss&& ...args)
+Ref<T> GameObject::addComponent(Args&& ...args)
 {
 	// create component
-	Ref<T> new_component = create_ref<T>(...args);
+	Ref<T> new_component = createRef<T>(...args);
 
 	// attach to game object
 	m_components.push_back(new_component);

@@ -20,7 +20,7 @@ public:
 	virtual void drawIndexed(const std::shared_ptr<VertexArray> &p_vertex_array) = 0;
 	virtual void drawArrays(const std::shared_ptr<VertexArray> &p_vertex_array, uint32_t indices) = 0;
 
-	inline static const API getApi() { return s_api; }
+	inline static const API getAPI() { return s_api; }
 
 private:
 	static API s_api;

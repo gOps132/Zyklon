@@ -9,7 +9,7 @@ namespace Zyklon {
 
 Shader *Shader::create(const std::string &p_filepath)
 {
-	switch (Renderer::getApi()) {
+	switch (Renderer::getAPI()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Shader is supported!");
 		return nullptr;

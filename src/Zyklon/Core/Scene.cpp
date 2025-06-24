@@ -1,15 +1,16 @@
-#include "Scene.h"
-
 #include <Renderer/Renderer.h>
 
+#include "Core.h"
+
+#include "Scene.h"
 #include "Log.h"
+#include "GameObject.h"
 
 namespace Zyklon {
 
 Scene::Scene(const std::string& p_name)
 	: m_name(p_name)
 {
-
 }
 
 Scene::~Scene()
@@ -20,16 +21,16 @@ Scene::~Scene()
 Ref<GameObject> Scene::createGameObject(const std::string& p_name)
 {
 	Ref<GameObject> new_game_object = createRef<GameObject>(p_name);
-
+	
 	// add to all objects map
 	m_all_game_objects[new_game_object->getUUID()] = new_game_object;
-
+	
 	// add to root of all game objects if no object has a parent;
 	if (!new_game_object->getParent())
 	{
 		m_root_game_objects.push_back(new_game_object);
 	}
-
+	
 	// set game object weak_ptr to this scene
 	new_game_object->setScene(weak_from_this());
 	
@@ -125,11 +126,7 @@ void Scene::render()
 		}
 	}
 
-	Renderer::endScene()
+	Renderer::endScene();
 }
-
-
-
-
 
 } // namespace Zyklon

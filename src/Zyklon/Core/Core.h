@@ -1,7 +1,7 @@
 #ifndef __CORE_H__
 #define __CORE_H__
 
-#include <memory>
+#include <zyklon_pch.h>
 
 #ifdef zyklon_ENABLE_ASSERTS
 #define ZYKLON_ASSERT(x, ...)                                                  \
@@ -33,7 +33,7 @@ namespace Zyklon
 	using Scope = std::unique_ptr<T>;
 	
 	template<typename T, typename ...Args>
-	constexpr Scope<T> create_scope(Args&& ... args)
+	constexpr Scope<T> createScope(Args&& ... args)
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
@@ -42,7 +42,7 @@ namespace Zyklon
 	using Ref = std::shared_ptr<T>;
 	
 	template<typename T, typename ...Args>
-	constexpr Ref<T> create_ref(Args&& ... args)
+	constexpr Ref<T> createRef(Args&& ... args)
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}

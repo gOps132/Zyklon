@@ -3,17 +3,20 @@
 
 #include <zyklon_pch.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include "Core.h"
 #include "UUID.H"
 #include "Scene.h"
-#include "Component.h"
+
+#include <Components/Component.h>
 
 namespace Zyklon {
 
-class GameObject {
+class GameObject : public std::enable_shared_from_this<GameObject> {
+	friend class Scene; // allow Scene to access private members
 public:
 	GameObject(const std::string& p_name = "GameObject");
 	virtual ~GameObject() {};
@@ -44,41 +47,40 @@ public:
 	const glm::vec3& getLocalScale() const { return m_local_scale; }
 	void setLocalScale(const glm::vec3& p_scale);
 
-	glm::mat4 getLocalTransformationMatrix() const;
-	glm::mat4 getWorldTransformationMatrix() const;
+	const glm::mat4& getLocalTransformationMatrix();
+	const glm::mat4& getWorldTransformationMatrix();
 
 	// --- HIERARCHY MANAGEMENT ---
 	void setParent(const Ref<GameObject> p_parent);
 	Ref<GameObject> getParent() const { return m_parent.lock(); }
-
 	void addChild(const Ref<GameObject>& p_child);
-	// remove child ownership, does not destroy the child
 	void removeChild(const Ref<GameObject> &p_child);
 
 	// --- COMPONENT MANAGEMENT ---
-	// add, get, getall, remove specific
+	// TODO: add, get, getall, remove specific
 	template<typename T, typename... Args>
-	Ref<T> addComponent(Argss&& ...args);
-
-protected:
+	Ref<T> addComponent(Args&& ...args);
+	
+	
+	protected:
 	// local transform
 	glm::vec3 m_local_position;
 	glm::quat m_local_rotation;
 	glm::vec3 m_local_scale;
 	mutable glm::mat4 m_local_transformation_matrix;
 	bool m_is_local_transformation_dirty = true;
-
+	
 	// world transform
 	mutable glm::mat4 m_world_transformation_matrix;
 	bool m_is_world_transformation_dirty = true;
-
+	
 	// scene
 	std::weak_ptr<Scene> m_scene;
-
+	
 	// hierarchy
 	std::weak_ptr<GameObject> m_parent;
 	std::vector<Ref<GameObject>> m_children;
-
+	
 	// components
 	std::vector<Ref<Component>> m_components;
 	
@@ -86,7 +88,7 @@ protected:
 	UUID m_uuid;
 	bool m_active;
 	uint32_t m_layer;
-
+	
 	// helper function to recalculate the world transformation matrix
 	void invalidateWorldTransform();
 };

@@ -60,10 +60,6 @@ set(RENDERER_DIRECTORY 	"${ZYKLON_DIRECTORY}/Renderer")
 set(COMPONENT_DIRECTORY "${ZYKLON_DIRECTORY}/Components")
 set(PLATFORM_DIRECTORY 	"${ZYKLON_DIRECTORY}/Platform")
 
-set(PLATFORM_SOURCES 
-	src/Zyklon/Platform/Linux/LinuxWindow.cpp
-	src/Zyklon/Platform/Linux/LinuxInput.cpp
-)
 
 set(OPENGL_SOURCE_FILES
 	${PLATFORM_DIRECTORY}/OpenGL/OpenGLContext.cpp
@@ -75,6 +71,12 @@ set(OPENGL_SOURCE_FILES
 	${PLATFORM_DIRECTORY}/OpenGL/OpenGLTexture.cpp
 )
 
+set(PLATFORM_SOURCES 
+	${PLATFORM_DIRECTORY}/Linux/LinuxWindow.cpp
+	${PLATFORM_DIRECTORY}/Linux/LinuxInput.cpp
+	${OPENGL_SOURCE_FILES}
+)
+
 set(RENDERER_SOURCE_FILES 
 	${RENDERER_DIRECTORY}/GraphicsContext.cpp
 	${RENDERER_DIRECTORY}/RendererAPI.cpp
@@ -84,8 +86,8 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/VertexArray.cpp
 	${RENDERER_DIRECTORY}/RenderCommand.cpp
 	${RENDERER_DIRECTORY}/Texture.cpp
-	# ${RENDERER_DIRECTORY}/Mesh.cpp
-	# ${RENDERER_DIRECTORY}/Material.cpp
+	${RENDERER_DIRECTORY}/Mesh.cpp
+	${RENDERER_DIRECTORY}/Material.cpp
 
 	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp
@@ -98,14 +100,13 @@ set(IMGUI_SOURCE_FILES
 )
 
 set(ZYKLON_CORE_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.cpp
 	${CORE_DIRECTORY}/Application.cpp
 	${CORE_DIRECTORY}/Log.cpp
 	${CORE_DIRECTORY}/Layer.cpp
 	${CORE_DIRECTORY}/LayerStack.cpp
 	${CORE_DIRECTORY}/UUID.cpp
-	# ${CORE_DIRECTORY}/GameObject.cpp
-	# ${CORE_DIRECTORY}/Scene.cpp
+	${CORE_DIRECTORY}/GameObject.cpp
+	${CORE_DIRECTORY}/Scene.cpp
 )
 
 set(ZYKLON_COMPONENT_FILES
@@ -113,8 +114,9 @@ set(ZYKLON_COMPONENT_FILES
 )
 
 set(ZYKLON_SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.cpp
 	${ZYKLON_CORE_FILES}
-	${OPENGL_SOURCE_FILES}
+	${ZYKLON_COMPONENT_FILES}
 	${IMGUI_SOURCE_FILES}
 	${RENDERER_SOURCE_FILES}
 	${PLATFORM_SOURCES}

@@ -12,19 +12,19 @@ namespace Zyklon
 {
 	Ref<Texture2D> Texture2D::create(const TextureSpecification& p_specification)
 	{
-		switch (Renderer::getApi())
+		switch (Renderer::getAPI())
 		{
 			case RendererAPI::API::None:	ZYKLON_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
-			case RendererAPI::API::OpenGL:	return create_ref<OpenGLTexture2D>(p_specification);
+			case RendererAPI::API::OpenGL:	return createRef<OpenGLTexture2D>(p_specification);
 		}
 	}
 	
 	Ref<Texture2D> Texture2D::create(const std::string& p_path)
 	{
-		switch (Renderer::getApi())
+		switch (Renderer::getAPI())
 		{
 			case RendererAPI::API::None:	ZYKLON_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
-			case RendererAPI::API::OpenGL:	return create_ref<OpenGLTexture2D>(p_path);
+			case RendererAPI::API::OpenGL:	return createRef<OpenGLTexture2D>(p_path);
 		}
 	}
 } // Zyklon

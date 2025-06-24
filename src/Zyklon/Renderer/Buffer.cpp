@@ -13,7 +13,7 @@ namespace Zyklon {
 
 VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 {
-	switch (RendererAPI::getApi()) {
+	switch (RendererAPI::getAPI()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Renderer API is supported. !");
 		return nullptr;
@@ -26,7 +26,7 @@ VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 
 IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
 {
-	switch (Renderer::getApi()) {
+	switch (Renderer::getAPI()) {
 	case RendererAPI::API::None:
 		ZYKLON_CORE_ASSERT(false, "No Renderer API is supported!");
 		return nullptr;
