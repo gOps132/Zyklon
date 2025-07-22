@@ -129,7 +129,7 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 		// 									 glm::vec3(0.0f, 0.5f, 0.0f)));
 		glm::mat4 transform =
 			glm::translate(sphere->getModelMatrix(),
-						   // glm::vec3(0.0f, 0.3f * bob_val, 0.0f))
+						   // glm::vec3(0.0f   , 0.3f * bob_val, 0.0f))
 						   sphere->getPosition()) *
 			scale;
 

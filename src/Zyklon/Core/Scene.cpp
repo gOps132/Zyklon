@@ -11,11 +11,24 @@ namespace Zyklon {
 Scene::Scene(const std::string& p_name)
 	: m_name(p_name)
 {
+	m_uuid = UUID(); // generate a new UUID for the scene
+	m_active_camera = nullptr; // no active camera by default
+	ZYKLON_CORE_INFO("Scene {0} created with UUID {1}", m_name, m_uuid);
+	
+	// initialize root game objects vector
+	m_root_game_objects.reserve(10); // reserve space for 10 root game objects
+	m_all_game_objects.reserve(100); // reserve space for 100 game objects
 }
 
 Scene::~Scene()
 {
-	
+	// clear all game objects
+	for (auto& pair : m_all_game_objects)
+	{
+		pair.second->setScene(std::weak_ptr<Scene>()); // reset scene reference in game object
+	}
+	m_all_game_objects.clear();
+	m_root_game_objects.clear();
 }
 
 Ref<GameObject> Scene::createGameObject(const std::string& p_name)
@@ -70,6 +83,28 @@ void Scene::destroyGameObject(const UUID& p_uuid)
  	}
 }
 
+void Scene::removeGameObject(Ref<GameObject> p_game_object)
+{
+	if (!p_game_object) return;
+
+	auto it = std::find_if(m_all_game_objects.begin(), m_all_game_objects.end(),
+		[&](const auto& pair) { return pair.second == p_game_object; });
+
+	if (it != m_all_game_objects.end())
+	{
+		m_all_game_objects.erase(it);
+	}
+}
+
+void Scene::removeGameObject(const UUID& p_uuid)
+{
+	auto it = m_all_game_objects.find(p_uuid);
+	if (it != m_all_game_objects.end())
+	{
+		m_all_game_objects.erase(it);
+	}
+}
+
 Ref<GameObject> Scene::getGameObject(const UUID& p_uuid)
 {
 	auto it = m_all_game_objects.find(p_uuid);
@@ -80,23 +115,24 @@ Ref<GameObject> Scene::getGameObject(const UUID& p_uuid)
 	return nullptr;
 }
 
+void Scene::addGameObject(const UUID& p_uuid, Ref<GameObject> p_game_object)
+{
+	m_all_game_objects[p_uuid] = p_game_object;
+}
+
+void Scene::clearAllGameObjects()
+{
+	m_all_game_objects.clear(); 
+	m_root_game_objects.clear();
+}
+
 // iterate through the maps value and find the game object
 void Scene::update(const float p_dt)
 {
-	for (const auto& pair : m_all_game_objects)
-	{
-		Ref<GameObject> game_object = pair.second;
-		if (game_object->isActiveInHierarchy())
-		{
-			// systems would typically handle updates here
-			// example:
-			// for (const auto& comp : game_object->getComponents)
-			// {
-			// 	if (comp->isActive())
-			// 	{
-			// 		comp->onUpdate(p_dt);
-			// 	}
-			// }
+	for (auto& [uuid, gameObject] : m_all_game_objects) {
+		for (auto& comp : gameObject->m_components) {
+			if (comp->isActive())
+				comp->onUpdate(p_dt);
 		}
 	}
 }

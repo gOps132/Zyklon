@@ -134,11 +134,11 @@ void UVSphere::generate(const float radius, const int stacks,
 		{{Zyklon::ShaderDataType::Float3, "a_position", false},
 		 {Zyklon::ShaderDataType::Float3, "a_normal", false},
 		 {Zyklon::ShaderDataType::Float2, "a_uv", false}});
-	m_vertex_array->addVertexBfr(m_vertex_buffer);
+	m_vertex_array->addVertexBuffer(m_vertex_buffer);
 
 	m_index_buffer.reset(
 		Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
-	m_vertex_array->setIndexBfr(m_index_buffer);
+	m_vertex_array->setIndexBuffer(m_index_buffer);
 
 	ZYKLON_INFO("Index: {0}, Vertex: {1}, Normal: ({2}, {3}, {4})",
 				m_indices.size(), m_vertices.size() / 8, normals.x, normals.y,

@@ -65,7 +65,7 @@ void ExampleLayer::resetState()
 		{Zyklon::ShaderDataType::Float3, "a_Position", false},
 		{Zyklon::ShaderDataType::Float2, "a_Tex", false}
 	});
-	m_square_vertex_array->addVertexBfr(m_square_vertex_buffer);
+	m_square_vertex_array->addVertexBuffer(m_square_vertex_buffer);
 
 	m_square_shader->setUniform3fv("light_color", glm::vec3(0.5,1.0,1.0));
 
@@ -77,7 +77,7 @@ void ExampleLayer::resetState()
 	m_camera->set_rotation(m_camera_rotation);
 
 	m_square_index_buffer.reset(Zyklon::IndexBuffer::create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
-	m_square_vertex_array->setIndexBfr(m_square_index_buffer);
+	m_square_vertex_array->setIndexBuffer(m_square_index_buffer);
 }
 
 void ExampleLayer::onUpdate(Zyklon::Timestep ts)

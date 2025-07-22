@@ -9,9 +9,12 @@
 #include "Shader.h"
 
 #include "Camera/Camera.h"
+#include ""
 
 namespace Zyklon {
 
+// TODO: Add support for multiple render targets, depth buffers, etc.
+// TODO: Modify for material and mesh class support
 class Renderer {
 public:
 	static void beginScene(Camera& p_camera);

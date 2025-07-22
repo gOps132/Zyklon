@@ -16,6 +16,11 @@ void Renderer::beginScene(Camera& p_camera)
 
 void Renderer::endScene() {}
 
+void Renderer::submit(const Ref<Material>& p_material, const Ref<Mesh>& p_mesh, const glm::mat4& p_transform)
+{
+	
+}
+
 void Renderer::submit(const std::shared_ptr<Shader> &p_shader, const std::shared_ptr<VertexArray> &p_vertex_array, const glm::mat4& p_transform)
 {
 	p_shader->bind();

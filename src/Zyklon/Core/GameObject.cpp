@@ -19,7 +19,25 @@ GameObject::GameObject(const std::string& p_name)
 
 void GameObject::setUUID(const UUID& p_uuid)
 {	
+	if (m_uuid == p_uuid) {
+		ZYKLON_CORE_WARN("GameObject {0} already has UUID {1}, not changing", m_name, p_uuid);
+		return; // no change needed
+	}
+	// dont assign if UUID is default value
+	if (p_uuid == UUID()) {
+		ZYKLON_CORE_ERROR("Cannot set UUID to default value");
+		return;
+	}
+	// if scene is not set, we cannot update the UUID in the scene
+	if (!m_scene.lock()) {
+		ZYKLON_CORE_ERROR("Cannot set UUID, scene is not set for GameObject {0}", m_name);
+		return;
+	}
 	m_uuid = p_uuid;
+	if (auto scene = m_scene.lock()) {
+		scene->removeGameObject(shared_from_this()); // remove old UUID from scene
+		scene->addGameObject(p_uuid, shared_from_this()); // add new UUID to scene
+	}
 }
 
 void GameObject::setActive(bool p_active)
@@ -154,21 +172,41 @@ void GameObject::removeChild(const Ref<GameObject>& p_child)
 template<typename T, typename... Args>
 Ref<T> GameObject::addComponent(Args&& ...args)
 {
-	// create component
-	Ref<T> new_component = createRef<T>(...args);
+    auto comp = createRef<T>(args...);
+    comp->m_owner = shared_from_this();
+	comp->m_scene = m_scene;
+	m_components.push_back(comp);
+    comp->onAttach();
+    return comp;
+}
 
-	// attach to game object
-	m_components.push_back(new_component);
-	new_component->onAttach(shared_from_this());
+template<typename T>
+Ref<T> GameObject::getComponent()
+{
+    for (const auto& comp : m_components)
+    {
+		auto casted = std::dynamic_pointer_cast<T>(comp);
+		if (casted) return casted; // return the first component of type T
+    }
+    return nullptr;
+}
 
-	// set scene reference
-	Ref<Scene> scene_ptr = m_scene.lock();
-	if (scene_ptr)
-	{
-		new_component->m_scene = scene_ptr;
+void GameObject::removeComponent(const Ref<Component>& p_component)
+{
+	if (!p_component) {
+		ZYKLON_CORE_ERROR("Cannot remove null component from GameObject {0}", m_name);
+		return;
 	}
 
-	return new_component;
+	auto it = std::remove_if(m_components.begin(), m_components.end(),
+		[&](const Ref<Component>& comp) { return comp == p_component; });
+
+	if (it != m_components.end()) {
+		p_component->onDetach(); // call onDetach before removing
+		m_components.erase(it, m_components.end());
+	} else {
+		ZYKLON_CORE_WARN("Component not found in GameObject {0}", m_name);
+	}
 }
 
 } // namespace Zyklon

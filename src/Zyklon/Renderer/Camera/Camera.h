@@ -10,7 +10,16 @@ namespace Zyklon
 class Camera
 {
 public:
+	Camera(const std::string p_name = "Camera")
+		: m_position(0.0f, 0.0f, 0.0f),
+		  m_rotation(0.0f), 
+		  m_needs_update(true),
+		  m_name(p_name)
+	{}
 	virtual ~Camera() {}
+
+	std::string& getName() { return m_name; }
+	void setName(const std::string& p_name) { m_name = p_name; }
 
 	void update() {
 		if (m_needs_update)
@@ -47,6 +56,9 @@ public:
 	virtual void recalculate_view_matrix() = 0;
 	virtual void recalculate_perspective_matrix(float p_fovy, float p_aspect_ratio, float p_near_plane, float p_far_plane) = 0;
 public:
+	std::string m_name;
+protected:
+	// Projection and view matrices
 	glm::mat4 m_projection_matrix;
 	glm::mat4 m_view_matrix;
 	glm::mat4 m_view_projection_matrix;

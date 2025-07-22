@@ -59,7 +59,7 @@ void Application::run()
 	while (m_running) {
 		float time = m_window->getTime();
 		// calculate delta Time
-		Timestep m_timestep = time - m_last_frame_time;
+		m_timestep = time - m_last_frame_time;
 		m_last_frame_time = time;
 
 		for (Layer *layer : m_layer_stack)

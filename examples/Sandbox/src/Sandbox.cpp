@@ -86,7 +86,7 @@ void ExampleLayer::resetState()
 		{Zyklon::ShaderDataType::Float3, "a_Position", false},
 		{Zyklon::ShaderDataType::Float2, "a_Normal", false}
 	});
-	m_cube_vertex_array->addVertexBfr(m_cube_vertex_bfr);
+	m_cube_vertex_array->addVertexBuffer(m_cube_vertex_bfr);
 
 	m_cube_shader->setUniform3fv("light_color", glm::vec3(0.5,1.0,1.0));
 
@@ -100,7 +100,7 @@ void ExampleLayer::resetState()
 	m_camera->setPosition(m_camera_position);
 
 	// m_cube_index_bfr.reset(IndexBuffer::create(cube_indices, sizeof(cube_indices) / sizeof(uint32_t)));
-	// m_cube_vertex_array->setIndexBfr(m_cube_index_bfr);	
+	// m_cube_vertex_array->setIndexBuffer(m_cube_index_bfr);	
 }
 
 // GAMELOOP

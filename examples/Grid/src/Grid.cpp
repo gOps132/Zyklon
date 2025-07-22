@@ -49,14 +49,14 @@ void ExampleLayer::resetState()
 		{Zyklon::ShaderDataType::Float3, "a_Position", false},
 		{Zyklon::ShaderDataType::Float2, "a_Tex", false}
 	});
-	m_grid_vertex_arr->addVertexBfr(m_grid_vertex_bfr);
+	m_grid_vertex_arr->addVertexBuffer(m_grid_vertex_bfr);
 
 	m_grid_shader->setUniform3fv("light_color", glm::vec3(0.5,1.0,1.0));
 
 	m_camera->setPosition(m_camera_position);
 
 	m_grid_index_bfr.reset(Zyklon::IndexBuffer::create(grid_indices, sizeof(grid_indices) / sizeof(uint32_t)));
-	m_grid_vertex_arr->setIndexBfr(m_grid_index_bfr);
+	m_grid_vertex_arr->setIndexBuffer(m_grid_index_bfr);
 }
 
 // GAMELOOP

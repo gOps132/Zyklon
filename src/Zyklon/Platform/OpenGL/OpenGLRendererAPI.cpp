@@ -22,7 +22,7 @@ void OpenGLRendererAPI::clear()
 void OpenGLRendererAPI::drawIndexed(
 	const std::shared_ptr<VertexArray> &p_vertex_array)
 {
-	glDrawElements(GL_TRIANGLES, p_vertex_array->getIndexBfr()->getCount(),
+	glDrawElements(GL_TRIANGLES, p_vertex_array->getIndexBuffer()->getCount(),
 				   GL_UNSIGNED_INT, nullptr);
 }
 

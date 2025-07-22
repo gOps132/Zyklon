@@ -44,10 +44,10 @@ void HexagonalSphere::generate(const float p_radius, const int p_resolution)
         {Zyklon::ShaderDataType::Float3, "a_normal", false},
         {Zyklon::ShaderDataType::Float2, "a_uv", false}
     });
-    m_vertex_array->addVertexBfr(m_vertex_buffer);
+    m_vertex_array->addVertexBuffer(m_vertex_buffer);
 
     m_index_buffer.reset(Zyklon::IndexBuffer::create(m_indices.data(), m_indices.size()));
-    m_vertex_array->setIndexBfr(m_index_buffer);
+    m_vertex_array->setIndexBuffer(m_index_buffer);
 }
 
 void HexagonalSphere::createIcosahedron(const float p_radius)

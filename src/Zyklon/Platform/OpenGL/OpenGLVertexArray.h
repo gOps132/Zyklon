@@ -15,16 +15,16 @@ public:
 	virtual void unbind() override;
 
 	virtual void
-	addVertexBfr(const std::shared_ptr<VertexBuffer> &p_vertex_bfr) override;
+	addVertexBuffer(const std::shared_ptr<VertexBuffer> &p_vertex_bfr) override;
 	virtual void
-	setIndexBfr(const std::shared_ptr<IndexBuffer> &p_index_bfr) override;
+	setIndexBuffer(const std::shared_ptr<IndexBuffer> &p_index_bfr) override;
 
 	virtual const std::vector<std::shared_ptr<VertexBuffer>> &
-	getVertexBfr() const override
+	getVertexBuffer() const override
 	{
 		return m_vertex_bfr;
 	}
-	virtual const std::shared_ptr<IndexBuffer> &getIndexBfr() const override
+	virtual const std::shared_ptr<IndexBuffer> &getIndexBuffer() const override
 	{
 		return m_index_bfr;
 	}

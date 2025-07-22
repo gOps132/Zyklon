@@ -46,7 +46,7 @@ private:
 	ImGuiLayer *m_imgui_layer;
 	bool m_running = true;
 	LayerStack m_layer_stack;
-	
+
 	Timestep m_timestep;
 	float m_last_frame_time = 0.0f;
 private:

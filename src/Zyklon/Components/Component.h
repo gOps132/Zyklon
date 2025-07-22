@@ -12,9 +12,13 @@ public:
 	Component(const std::string& p_name = "Component");
 	virtual ~Component() = default;
 
+	bool isActive() const { return m_active; }
+	void setActive(bool p_active);
+	
 	virtual void onAttach() {}
 	virtual void onDetach() {}
 	virtual void onUpdate(float p_delta_time) {}
+
 protected:
 	std::string m_name;
 	bool m_active = true;

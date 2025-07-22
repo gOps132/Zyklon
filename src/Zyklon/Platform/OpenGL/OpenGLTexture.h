@@ -16,7 +16,7 @@ namespace Zyklon
 		OpenGLTexture2D(const std::string& p_path);
 		virtual ~OpenGLTexture2D();
 
-		virtual const TextureSpecification& get_specification() const override { return m_specification; }
+		virtual const TextureSpecification& getSpecification() const override { return m_specification; }
 		virtual uint32_t getWidth() const override { return m_width; }
 		virtual uint32_t getHeight() const override { return m_height; }
 		virtual uint32_t getRendererID() const override { return m_renderer_id; }

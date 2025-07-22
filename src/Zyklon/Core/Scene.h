@@ -24,11 +24,17 @@ public:
 	const std::string& getName() const { return m_name; }
 
 	Ref<GameObject> createGameObject(const std::string& p_name = "Game Object");
+
 	void destroyGameObject(Ref<GameObject> p_game_object);
 	void destroyGameObject(const UUID& p_uuid);
+
+	void removeGameObject(Ref<GameObject> p_game_object);
+	void removeGameObject(const UUID& p_uuid); 
 	
 	Ref<GameObject> getGameObject(const UUID& p_uuid);
-	const std::unordered_map<UUID, Ref<GameObject>>& getAllGameObjects() const { return m_all_game_objects; }
+	void addGameObject(const UUID& p_uuid, Ref<GameObject> p_game_object);
+	const auto& getAllGameObjects() const { return m_all_game_objects; }
+	void clearAllGameObjects();
 
 	void update(const float p_dt);
 	void render();
@@ -36,12 +42,17 @@ public:
 	// camera management
 	void setActiveCamera(const Ref<Camera> p_camera) { m_active_camera = p_camera; }
 	const Ref<Camera> getActiveCamera() const { return m_active_camera; } 
+
+	void setUUID(const UUID& p_uuid) { m_uuid = p_uuid; }
+	const UUID& getUUID() const { return m_uuid; }
+
 private:
+	UUID m_uuid;
 	std::string m_name;
 	Ref<Camera> m_active_camera;
 	std::vector<Ref<GameObject>> m_root_game_objects; // game objects without parents
 	std::unordered_map<UUID, Ref<GameObject>> m_all_game_objects; // all game objects in the scene with mapped UUID S
-};
+}; 
 
 }
 #endif // __SCENE_H__

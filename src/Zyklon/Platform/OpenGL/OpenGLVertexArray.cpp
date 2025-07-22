@@ -21,7 +21,7 @@ void OpenGLVertexArray::bind() { GLCall(glBindVertexArray(m_renderer_id)); }
 
 void OpenGLVertexArray::unbind() { GLCall(glBindVertexArray(0)); }
 
-void OpenGLVertexArray::addVertexBfr(
+void OpenGLVertexArray::addVertexBuffer(
 	const std::shared_ptr<VertexBuffer> &p_vertex_bfr)
 {
 	ZYKLON_CORE_ASSERT(p_vertex_bfr->getLayout().getElements().size(),
@@ -45,7 +45,7 @@ void OpenGLVertexArray::addVertexBfr(
 	m_vertex_bfr.push_back(p_vertex_bfr);
 }
 
-void OpenGLVertexArray::setIndexBfr(
+void OpenGLVertexArray::setIndexBuffer(
 	const std::shared_ptr<IndexBuffer> &p_index_bfr)
 {
 	GLCall(glBindVertexArray(m_renderer_id));

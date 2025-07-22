@@ -57,12 +57,14 @@ public:
 	void removeChild(const Ref<GameObject> &p_child);
 
 	// --- COMPONENT MANAGEMENT ---
-	// TODO: add, get, getall, remove specific
 	template<typename T, typename... Args>
 	Ref<T> addComponent(Args&& ...args);
 	
-	
-	protected:
+	template<typename T> 
+	Ref<T> getComponent();
+
+	void removeComponent(const Ref<Component>& p_component);
+protected:
 	// local transform
 	glm::vec3 m_local_position;
 	glm::quat m_local_rotation;
