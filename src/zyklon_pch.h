@@ -10,6 +10,8 @@
 //--------------------------------------
 #include <stdint.h>
 
+#include <typeindex>
+
 #include <memory>
 
 #include <utility>
@@ -29,8 +31,11 @@
 #include <unordered_set>
 
 #include <filesystem>
+
 #include <fstream>
+
 #include <iostream>
+
 #include <sstream>
 
 #include "Zyklon/Core/Log.h"

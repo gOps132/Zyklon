@@ -22,7 +22,7 @@
 #endif
 
 #ifndef ZYKLON_DEPRECATED
-#  define ZYKLON_DEPRECATED __declspec(deprecated)
+#  define ZYKLON_DEPRECATED __attribute__ ((__deprecated__))
 #endif
 
 #ifndef ZYKLON_DEPRECATED_EXPORT
@@ -33,6 +33,7 @@
 #  define ZYKLON_DEPRECATED_NO_EXPORT ZYKLON_NO_EXPORT ZYKLON_DEPRECATED
 #endif
 
+/* NOLINTNEXTLINE(readability-avoid-unconditional-preprocessor-if) */
 #if 0 /* DEFINE_NO_DEPRECATED */
 #  ifndef ZYKLON_NO_DEPRECATED
 #    define ZYKLON_NO_DEPRECATED

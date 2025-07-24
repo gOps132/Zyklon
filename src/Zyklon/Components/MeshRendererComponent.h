@@ -2,22 +2,30 @@
 #define __MESHRENDERERCOMPONENT_H__
 
 #include "Component.h"
+
+#include <Zyklon/Core/Core.h>
 #include <Zyklon/Renderer/Mesh.h>
-#include <Zyklon/Renderer/Material.h>
+#include <Zyklon/Renderer/Material/Material.h>
 
 namespace Zyklon {
 
-class MeshRendererComponent : public Component
-{
+class MeshRendererComponent : public Component {
 public:
-	MeshRendererComponent();
+	MeshRendererComponent(const Ref<Mesh> &p_mesh = nullptr,
+						  const Ref<Material> &p_material = nullptr);
 	virtual ~MeshRendererComponent() = default;
 
-	virtual void onAttach() override;
-	virtual void onDetach() override;
+	Ref<Mesh> getMesh() { return m_mesh; }
+	void setMesh(Ref<Mesh> &p_mesh) { m_mesh = p_mesh; }
+
+	Ref<Material> getMaterial() { return m_material; }
+	void setMaterial(Ref<Material> &p_material) { m_material = p_material; }
+
 	virtual void onUpdate(float p_delta_time) override;
+
 private:
-	
+	Ref<Mesh> m_mesh;
+	Ref<Material> m_material;
 };
 
 } // namespace Zyklon

@@ -11,10 +11,9 @@ Zyklon::Application *Zyklon::Application::createApplication()
 
 ExampleLayer::ExampleLayer() : Layer("Example")
 {
-	m_aspect_ratio = static_cast<float>(
-						 Zyklon::Application::get().getWindow().getWidth()) /
-					 static_cast<float>(
-						 Zyklon::Application::get().getWindow().getHeight());
+	m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().getWindow().getWidth()) /
+		static_cast<float>(Zyklon::Application::get().getWindow().getHeight());
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(
 		glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
@@ -24,16 +23,11 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(-5.0, 5.0);
 
-	std::vector<std::string> ball_textures = 
-	{
-		// "d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\renz.png", // warning: absolute directory
-		// "d:\\pictures\\personal\\mog.png",
-		"d:\\dev\\projects\\Zyklon\\examples\\Gravity\\images\\earthpng.png", // warning: absolute directory
-		// "d:\\pictures\\personal\\derfpng.png"
+	std::vector<std::string> ball_textures = {
+		"examples/Gravity/images/earthpng.png",
 	};
 
-	for (int i = 0; i < ball_textures.size(); i++)
-	{
+	for (int i = 0; i < ball_textures.size(); i++) {
 		float random_x = static_cast<float>(dis(gen));
 		float random_y = static_cast<float>(dis(gen));
 		auto sphere = std::make_shared<UVSphere>(
@@ -44,16 +38,15 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		m_sphere.push_back(sphere);
 		m_planets->add_physical_object(sphere);
 	}
-	
+
 	resetState();
 }
 
 void ExampleLayer::resetState()
 {
-	m_aspect_ratio = static_cast<float>(
-						 Zyklon::Application::get().getWindow().getWidth()) /
-					 static_cast<float>(
-						 Zyklon::Application::get().getWindow().getHeight());
+	m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().getWindow().getWidth()) /
+		static_cast<float>(Zyklon::Application::get().getWindow().getHeight());
 	m_camera->recalculate_perspective_matrix(
 		glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 
@@ -69,7 +62,7 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 	float time = Zyklon::Application::get().getWindow().getTime();
 	// float frequency = 0.4f; // Adjust for desired oscillation speed (higher =
 	// faster) float amplitude = 0.4f; // Adjust for desired oscillation range
-																												
+
 	if (Zyklon::Input::keyPressed(ZYKLON_KEY_UP)) {
 		m_camera_position.z += m_camera_speed * ts;
 	}
@@ -103,7 +96,7 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 		m_camera->setPosition(m_camera_position);
 		m_camera->update();
 	}
-	
+
 	for (auto sphere : m_sphere) {
 		sphere->updateShader(time);
 	}
@@ -121,7 +114,7 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 	// float rotation_speed = 2.0f;
 	// float rotation_angle = glm::radians(20.0f) * ts * rotation_speed;
 	// double bob_val = std::cos(static_cast<double>(frequency) *
-	// static_cast<double>(time));	
+	// static_cast<double>(time));
 
 	for (auto sphere : m_sphere) {
 		// sphere->setModelMatrix(glm::rotate(sphere->getModelMatrix(),
@@ -168,14 +161,21 @@ void ExampleLayer::onEvent(Zyklon::Event &event)
 			[&](Zyklon::MouseMovedEvent &e) {
 				// is_moving = true;
 				mouse_current = {e.getX(), e.getY()};
-				if(is_mouse_down) {
+				if (is_mouse_down) {
 					if (look_at) {
 						glm::vec2 delta = mouse_current - mouse_previous;
-						m_orbit->update(delta.x, delta.y); // probably need to adjust sensitivity
-					} else {
+						m_orbit->update(
+							delta.x,
+							delta.y); // probably need to adjust sensitivity
+					}
+					else {
 						glm::vec2 delta = mouse_current - mouse_previous;
-						m_camera_position.x += static_cast<float>(delta.x) * 0.10; // Adjust sensitivity as needed
-						m_camera_position.y -= static_cast<float>(delta.y) * 0.10; // Adjust sensitivity as needed
+						m_camera_position.x +=
+							static_cast<float>(delta.x) *
+							0.10; // Adjust sensitivity as needed
+						m_camera_position.y -=
+							static_cast<float>(delta.y) *
+							0.10; // Adjust sensitivity as needed
 						m_camera->setPosition(m_camera_position);
 						m_camera->update();
 					}
@@ -192,16 +192,21 @@ void ExampleLayer::onEvent(Zyklon::Event &event)
 				float y = e.getYOffset();
 				// ZYKLON_INFO("scrolled to: x: {0}, y: {1}", x, y);
 				if (look_at) {
-					m_orbit->get_distance() -= static_cast<float>(y) * 0.10; // Adjust sensitivity as needed
-				} else {
-					m_camera_position.z -= static_cast<float>(y) * 0.10f; // Adjust sensitivity as needed
+					m_orbit->get_distance() -=
+						static_cast<float>(y) *
+						0.10; // Adjust sensitivity as needed
+				}
+				else {
+					m_camera_position.z -=
+						static_cast<float>(y) *
+						0.10f; // Adjust sensitivity as needed
 				}
 
 				m_camera->setPosition(m_camera_position);
 				m_camera->update();
 
 				return true; // Return true if the event was handled
-		});
+			});
 
 		if (event.getEventType() == Zyklon::EventType::KeyPressed &&
 			Zyklon::Input::keyPressed(ZYKLON_KEY_Q)) {
@@ -217,7 +222,6 @@ void ExampleLayer::onEvent(Zyklon::Event &event)
 		if (event.getEventType() == Zyklon::EventType::MouseButtonRelease) {
 			is_mouse_down = false;
 		}
-		
 	}
 }
 

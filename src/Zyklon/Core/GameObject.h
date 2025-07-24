@@ -8,7 +8,7 @@
 #include <glm/gtc/quaternion.hpp>
 
 #include "Core.h"
-#include "UUID.H"
+#include "UUID.h"
 #include "Scene.h"
 
 #include <Components/Component.h>
@@ -18,52 +18,52 @@ namespace Zyklon {
 class GameObject : public std::enable_shared_from_this<GameObject> {
 	friend class Scene; // allow Scene to access private members
 public:
-	GameObject(const std::string& p_name = "GameObject");
+	GameObject(const std::string &p_name = "GameObject");
 	virtual ~GameObject() {};
-	
-	// --- IDENTIFICATION --- 
-	const std::string& getName() const { return m_name; }
-	void setName(const std::string& p_name) { m_name = p_name; }
-	
-	const UUID& getUUID() const { return m_uuid; }
-	void setUUID(const UUID& p_uuid);
+
+	// --- IDENTIFICATION ---
+	const std::string &getName() const { return m_name; }
+	void setName(const std::string &p_name) { m_name = p_name; }
+
+	const UUID &getUUID() const { return m_uuid; }
+	void setUUID(const UUID &p_uuid);
 
 	void setScene(const std::weak_ptr<Scene> p_scene) { m_scene = p_scene; }
 	Ref<Scene> getScene() const { return m_scene.lock(); }
 
 	// --- ACTIVE STATUS ---
-	virtual void setActive(bool p_active); 
+	virtual void setActive(bool p_active);
 	bool isActive() const { return m_active; }
-	bool isActiveInHierarchy() const; // checks if the object and all its parents are active
+	bool isActiveInHierarchy()
+		const; // checks if the object and all its parents are active
 
 	// --- TRANSFORMATION ---
-	const glm::vec3& getLocalPosition() const { return m_local_position; }
-	void setLocalPosition(const glm::vec3& p_position);
+	const glm::vec3 &getLocalPosition() const { return m_local_position; }
+	void setLocalPosition(const glm::vec3 &p_position);
 
-	const glm::quat& getLocalRotation() const { return m_local_rotation; }
-	void setLocalRotation(const glm::quat& p_rotation);
-	void setLocalRotation(const glm::vec3& p_euler_angle);
+	const glm::quat &getLocalRotation() const { return m_local_rotation; }
+	void setLocalRotation(const glm::quat &p_rotation);
+	void setLocalRotation(const glm::vec3 &p_euler_angle);
 
-	const glm::vec3& getLocalScale() const { return m_local_scale; }
-	void setLocalScale(const glm::vec3& p_scale);
+	const glm::vec3 &getLocalScale() const { return m_local_scale; }
+	void setLocalScale(const glm::vec3 &p_scale);
 
-	const glm::mat4& getLocalTransformationMatrix();
-	const glm::mat4& getWorldTransformationMatrix();
+	const glm::mat4 &getLocalTransformationMatrix();
+	const glm::mat4 &getWorldTransformationMatrix();
 
 	// --- HIERARCHY MANAGEMENT ---
 	void setParent(const Ref<GameObject> p_parent);
 	Ref<GameObject> getParent() const { return m_parent.lock(); }
-	void addChild(const Ref<GameObject>& p_child);
+	void addChild(const Ref<GameObject> &p_child);
 	void removeChild(const Ref<GameObject> &p_child);
 
 	// --- COMPONENT MANAGEMENT ---
-	template<typename T, typename... Args>
-	Ref<T> addComponent(Args&& ...args);
-	
-	template<typename T> 
-	Ref<T> getComponent();
+	template <typename T, typename... Args> Ref<T> addComponent(Args &&...args);
 
-	void removeComponent(const Ref<Component>& p_component);
+	template <typename T> Ref<T> getComponent();
+
+	void removeComponent(const Ref<Component> &p_component);
+
 protected:
 	// local transform
 	glm::vec3 m_local_position;
@@ -71,30 +71,31 @@ protected:
 	glm::vec3 m_local_scale;
 	mutable glm::mat4 m_local_transformation_matrix;
 	bool m_is_local_transformation_dirty = true;
-	
+
 	// world transform
 	mutable glm::mat4 m_world_transformation_matrix;
 	bool m_is_world_transformation_dirty = true;
-	
+
 	// scene
 	std::weak_ptr<Scene> m_scene;
-	
+
 	// hierarchy
 	std::weak_ptr<GameObject> m_parent;
 	std::vector<Ref<GameObject>> m_children;
-	
+
 	// components
 	std::vector<Ref<Component>> m_components;
-	
+	std::unordered_map<std::type_index, Ref<Component>> m_component_map;
+
 	std::string m_name;
 	UUID m_uuid;
 	bool m_active;
 	uint32_t m_layer;
-	
+
 	// helper function to recalculate the world transformation matrix
 	void invalidateWorldTransform();
 };
 
-}
+} // namespace Zyklon
 
 #endif // __GAMEOBJECT_H__
