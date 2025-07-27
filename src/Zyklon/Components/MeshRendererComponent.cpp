@@ -3,6 +3,8 @@
 #include <Zyklon/Core/GameObject.h>
 #include <Zyklon/Core/Scene.h>
 
+#include <imgui-test/imgui.h>
+
 namespace Zyklon {
 MeshRendererComponent::MeshRendererComponent(const Ref<Mesh> &p_mesh,
 											 const Ref<Material> &p_material)
@@ -12,5 +14,12 @@ MeshRendererComponent::MeshRendererComponent(const Ref<Mesh> &p_mesh,
 }
 
 void MeshRendererComponent::onUpdate(float p_delta_time) {}
+
+void MeshRendererComponent::onImguiRender()
+{
+	ImGui::Text("Mesh Renderer");
+	if (m_material)
+		m_material->renderGUI();
+}
 
 } // namespace Zyklon

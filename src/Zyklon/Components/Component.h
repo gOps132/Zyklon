@@ -28,6 +28,7 @@ public:
 	virtual void onAttach() {}
 	virtual void onDetach() {}
 	virtual void onUpdate(float p_delta_time) {}
+	virtual void onImguiRender() {}
 
 	Ref<GameObject> getOwner() const { return m_owner.lock(); }
 	Ref<Scene> getScene() const { return m_scene.lock(); }

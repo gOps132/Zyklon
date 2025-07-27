@@ -30,6 +30,7 @@ public:
 
 	// manages the data and flags that the rendering system will consume
 	virtual void onUpdate(float p_delta_time) override;
+	virtual void onImguiRender() override;
 
 private:
 	Ref<Mesh> m_mesh;

@@ -31,10 +31,6 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	Zyklon::SceneManager::getInstance().addScene(m_my_scene);
 	Zyklon::SceneManager::getInstance().setCurrentScene(m_my_scene);
 
-	// HACK
-	Zyklon::SceneManager::getInstance().getCurrentScene()->setActiveCamera(
-		m_camera);
-
 	m_shader = Zyklon::Ref<Zyklon::Shader>(
 		Zyklon::Shader::create("examples/Gravity/src/Shaders/Polygon.shader"));
 	m_texture = Zyklon::Ref<Zyklon::Texture2D>(
@@ -50,14 +46,14 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	std::uniform_real_distribution<> dis_vel(
 		-0.01, 0.01); // Smaller range for velocities
 
-	int num_spheres = 1; // Example: Create 5 spheres
+	int num_spheres = 2; // Example: Create 5 spheres
 
 	for (int i = 0; i < num_spheres; i++) {
 		float random_x_pos = static_cast<float>(dis_pos(gen));
 		float random_y_pos = static_cast<float>(dis_pos(gen));
 		float random_z_pos = static_cast<float>(dis_pos(gen));
-		// glm::vec3 initial_pos = {random_x_pos, random_y_pos, random_z_pos};
-		glm::vec3 initial_pos = {0.0f, 0.0f, 0.0f};
+		glm::vec3 initial_pos = {random_x_pos, random_y_pos, random_z_pos};
+		// glm::vec3 initial_pos = {0.0f, 0.0f, 0.0f};
 
 		float random_x_vel = static_cast<float>(dis_vel(gen));
 		float random_y_vel = static_cast<float>(dis_vel(gen));
@@ -66,7 +62,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 
 		float radius = 5.0f;
 		float mass =
-			100.0f + static_cast<float>(dis_pos(gen)); // Vary mass slightly
+			200.0f + static_cast<float>(dis_pos(gen)); // Vary mass slightly
 
 		auto p_object =
 			std::make_shared<PObject>(mass, radius, initial_pos, initial_vel);
@@ -130,9 +126,11 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 
 void ExampleLayer::onEvent(Zyklon::Event &event)
 {
-	m_orbit->onEvent(
-		event); // Let orbit controls handle mouse/keyboard camera events
+	if (!ImGui::IsAnyWindowFocused()) {
 
+		m_orbit->onEvent(
+			event); // Let orbit controls handle mouse/keyboard camera events
+	}
 	// Only handle these specific key presses directly in the layer
 	if (event.getEventType() == Zyklon::EventType::KeyPressed &&
 		Zyklon::Input::keyPressed(ZYKLON_KEY_Q)) {
@@ -179,10 +177,7 @@ void ExampleLayer::onImguiRender()
 		resetState(); // Call resetState for full system reset
 	ImGui::End();
 
-	// Removed m_sphere[index]->renderGUI(); as rendering details are now
-	// handled by MeshRendererComponent and PObject doesn't have a direct GUI
-	// method here. If you want GUI per object, you'd add it to GameObject or a
-	// custom Component.
+	m_sphere_game_objects[index]->onImGuiRender();
 }
 
 void ExampleLayer::resetState()

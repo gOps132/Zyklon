@@ -29,6 +29,8 @@ public:
 	virtual void setVec3(const std::string &p_name, const glm::vec3 &p_value);
 	virtual void setMat4(const std::string &p_name, const glm::mat4 &p_value);
 
+	virtual void renderGUI() {}
+
 protected:
 	Ref<Shader> m_shader;
 	// store common texture here or specific ones for albedo classes

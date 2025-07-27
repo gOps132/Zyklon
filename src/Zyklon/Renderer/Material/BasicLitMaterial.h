@@ -41,17 +41,18 @@ public:
 		m_ambient_light_color = p_color;
 	}
 
+	virtual void renderGUI() override;
+
 private:
 	glm::vec3 m_color = {1.0f, 1.0f, 1.0f}; // default color
 	Ref<Texture2D> m_texture;
 	uint32_t m_texture_slot;
 
 	// lighting properties
-	glm::vec3 m_directional_light_direction = {0.0f, -1.0f,
-											   0.0f};		  // Example default
-	glm::vec3 m_directional_light_color = {1.0f, 1.0f, 1.0f}; // Example default
-	glm::vec3 m_ambient_light_color = {1.0f, 1.0f, 1.0f};	  // Example default
-	float m_ambient_light_intensity = 0.1f; // Example default};
+	glm::vec3 m_directional_light_direction = {0.0f, -1.0f, 0.0f}; // from above
+	glm::vec3 m_directional_light_color = {1.0f, 1.0f, 1.0f};
+	glm::vec3 m_ambient_light_color = {1.0f, 1.0f, 1.0f};
+	float m_ambient_light_intensity = 10.0f;
 };
 
 } // namespace Zyklon

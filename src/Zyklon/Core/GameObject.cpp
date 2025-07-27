@@ -1,5 +1,7 @@
 #include <zyklon_pch.h>
 
+#include <imgui-test/imgui.h>
+
 #include "GameObject.h"
 #include "Core.h"
 
@@ -222,6 +224,17 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 		// logical error.
 		ZYKLON_CORE_WARN("Component not found in GameObject {0}", m_name);
 	}
+}
+
+void GameObject::onImGuiRender()
+{
+	ImGui::Begin(m_name.c_str());
+
+	for (const auto &comp : m_components) {
+		comp->onImguiRender();
+	}
+
+	ImGui::End();
 }
 
 } // namespace Zyklon

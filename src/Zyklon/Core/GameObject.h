@@ -95,6 +95,8 @@ public:
 
 	void removeComponent(const Ref<Component> &p_component);
 
+	void onImGuiRender();
+
 protected:
 	// local transform
 	glm::vec3 m_local_position;
