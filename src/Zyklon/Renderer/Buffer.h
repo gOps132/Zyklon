@@ -8,13 +8,24 @@
 namespace Zyklon {
 
 enum class ShaderDataType : uint32_t {
-		None = 0, 
-		Float, Float2, Float3, Float4,
-		Mat2, Mat3, Mat4,
-		Int, Int2, Int3, Int4,
-		UInt, UInt2, UInt3, UInt4,
-		Bool,
-		Struct
+	None = 0,
+	Float,
+	Float2,
+	Float3,
+	Float4,
+	Mat2,
+	Mat3,
+	Mat4,
+	Int,
+	Int2,
+	Int3,
+	Int4,
+	UInt,
+	UInt2,
+	UInt3,
+	UInt4,
+	Bool,
+	Struct
 };
 
 static uint32_t shaderDataTypeSize(ShaderDataType p_type);
@@ -72,19 +83,19 @@ public:
 	virtual void setLayout(const BufferLayout &layout) = 0;
 	virtual const BufferLayout &getLayout() const = 0;
 
-	static VertexBuffer *create(float *vertices, size_t size);
+	static VertexBuffer *create(const float *vertices, size_t size);
 };
 
 class IndexBuffer {
 public:
-	virtual ~IndexBuffer(){};
+	virtual ~IndexBuffer() {};
 
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
 
 	inline virtual uint32_t getCount() const = 0;
 
-	static IndexBuffer *create(uint32_t *indices, size_t size);
+	static IndexBuffer *create(const uint32_t *indices, size_t size);
 };
 
 } // namespace Zyklon

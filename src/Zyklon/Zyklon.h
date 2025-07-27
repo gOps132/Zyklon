@@ -8,22 +8,22 @@
 #include "zyklon_exports.h"
 
 //------------CORE---------------
-#include "Zyklon/Core/Application.h"
-#include "Zyklon/Core/Layer.h"
-#include "Zyklon/Core/Log.h"
-#include "Zyklon/Core/Timestep.h"
-//-------------------------------
+#include "Core/Application.h"
+#include "Core/Layer.h"
+#include "Core/Log.h"
+#include "Core/Timestep.h"
+#include "Core/GameObject.h"
+#include "Core/Scene.h"
+#include "Core/SceneManager.h"
+#include "Core/UUID.h"
 
 //------------INPUT--------------
-#include "Zyklon/Input/Input.h"
-#include "Zyklon/Input/KeyCodes.h"
-#include "Zyklon/Input/MouseButtonCodes.h"
-//-------------------------------
+#include "Input/Input.h"
+#include "Input/KeyCodes.h"
+#include "Input/MouseButtonCodes.h"
 
 //------------IMGUI--------------
 #include "Imgui/ImguiLayer.h"
-//-------------------------------
-
 
 //-----------RENDERER------------
 #include "Renderer/Renderer.h"
@@ -39,11 +39,14 @@
 #include "Renderer/Camera/OrbitControls.h"
 
 #include "Renderer/Texture.h"
-//-------------------------------
+#include "Renderer/Shader.h"
+#include "Renderer/Mesh.h"
+
+#include "Renderer/Material/Material.h"
+#include "Renderer/Material/BasicLitMaterial.h"
 
 //----------Entry Point----------
 #include "Zyklon/Core/EntryPoint.h"
 //-------------------------------
-
 
 #endif // __ZYKLON_H__

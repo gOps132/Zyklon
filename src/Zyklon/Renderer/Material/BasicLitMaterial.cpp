@@ -8,7 +8,7 @@ BasicLitMaterial::BasicLitMaterial(const Ref<Shader> &p_shader,
 {
 	if (m_shader) {
 		m_shader->bind();
-		m_shader->setUniform1f("u_Texture", m_texture_slot);
+		m_shader->setUniform1i("u_Texture", m_texture_slot);
 		// set initial lighting conditions here too
 		m_shader->unbind();
 	}

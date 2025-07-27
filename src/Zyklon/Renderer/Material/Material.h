@@ -1,14 +1,15 @@
 #ifndef __MATERIAL_H__
+#define __MATERIAL_H__
 
 #include <zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
-#include "Texture.h"
-#include "Shader.h"
-
-namespace Zyklon {
+#include <Zyklon/Renderer/Texture.h>
+#include <Zyklon/Renderer/Shader.h>
 
 // TODO: shader handling, texture handling, uniform handling etc.
+namespace Zyklon {
+
 class Material {
 public:
 	Material(const Ref<Shader> &p_shader =

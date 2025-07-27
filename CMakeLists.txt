@@ -86,8 +86,9 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/VertexArray.cpp
 	${RENDERER_DIRECTORY}/RenderCommand.cpp
 	${RENDERER_DIRECTORY}/Texture.cpp
-	# ${RENDERER_DIRECTORY}/Mesh.cpp
-	# ${RENDERER_DIRECTORY}/Material.cpp
+	${RENDERER_DIRECTORY}/Mesh.cpp
+	${RENDERER_DIRECTORY}/Material/Material.cpp
+	${RENDERER_DIRECTORY}/Material/BasicLitMaterial.cpp
 
 	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp

@@ -1,20 +1,15 @@
-/*
- * Actual application instances
- */
-
-#include "zyklon_pch.h"
+#include <zyklon_pch.h>
 
 #include <Zyklon/Events/ApplicationEvent.h>
 #include <Zyklon/Input/Input.h>
 
+#include <Zyklon/Renderer/RenderCommand.h>
+#include <Zyklon/Renderer/Renderer.h>
+
 #include "Core.h"
 #include "Window.h"
-
 #include "Application.h"
-
-
-#include "Renderer/RenderCommand.h"
-#include "Renderer/Renderer.h"
+#include "SceneManager.h"
 
 namespace Zyklon {
 
@@ -62,10 +57,17 @@ void Application::run()
 		m_timestep = time - m_last_frame_time;
 		m_last_frame_time = time;
 
+		SceneManager::getInstance().update(m_timestep);
+
 		for (Layer *layer : m_layer_stack)
 			layer->onUpdate(m_timestep);
 
-		// TODO: Putting this on a seperate render thread
+		Zyklon::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+		Zyklon::RenderCommand::clear();
+
+		SceneManager::getInstance().render();
+
+		// TODO: Putting these on a seperate render thread
 		m_imgui_layer->begin();
 		for (Layer *layer : m_layer_stack)
 			layer->onImguiRender();

@@ -11,12 +11,13 @@
 #include "UUID.h"
 #include "Scene.h"
 
-#include <Components/Component.h>
+#include <Zyklon/Components/Component.h>
 
 namespace Zyklon {
 
 class GameObject : public std::enable_shared_from_this<GameObject> {
 	friend class Scene; // allow Scene to access private members
+
 public:
 	GameObject(const std::string &p_name = "GameObject");
 	virtual ~GameObject() {};
@@ -58,9 +59,39 @@ public:
 	void removeChild(const Ref<GameObject> &p_child);
 
 	// --- COMPONENT MANAGEMENT ---
-	template <typename T, typename... Args> Ref<T> addComponent(Args &&...args);
+	template <typename T, typename... Args> Ref<T> addComponent(Args &&...args)
+	{
+		// check if a component of this type already exists
+		if (getComponent<T>() != nullptr) {
+			ZYKLON_CORE_WARN(
+				"GameObject '{0}' already has component of type '{1}",
+				m_name.c_str(), typeid(T).name());
+			return getComponent<T>();
+		}
 
-	template <typename T> Ref<T> getComponent();
+		auto comp = createRef<T>(args...);
+		comp->m_owner = shared_from_this();
+		comp->m_scene = m_scene;
+
+		m_components.push_back(comp);
+
+		// store component by its type for quick lookup
+		m_component_map[std::type_index(typeid(T))] = comp;
+
+		comp->onAttach();
+
+		return comp;
+	}
+
+	template <typename T> Ref<T> getComponent()
+	{
+		for (const auto &comp : m_components) {
+			auto casted = std::dynamic_pointer_cast<T>(comp);
+			if (casted)
+				return casted; // return the first component of type T
+		}
+		return nullptr;
+	}
 
 	void removeComponent(const Ref<Component> &p_component);
 

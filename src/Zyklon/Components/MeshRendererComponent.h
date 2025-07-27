@@ -9,6 +9,13 @@
 
 namespace Zyklon {
 
+/**
+ * GENERAL PURPOSES OF MESH RENDERER COMPONENT
+ * 1. animation render properties
+ * 2. Updating bounding box volumes
+ * 3. LOD management
+ * 4. Visibility of render state flags
+ */
 class MeshRendererComponent : public Component {
 public:
 	MeshRendererComponent(const Ref<Mesh> &p_mesh = nullptr,
@@ -21,6 +28,7 @@ public:
 	Ref<Material> getMaterial() { return m_material; }
 	void setMaterial(Ref<Material> &p_material) { m_material = p_material; }
 
+	// manages the data and flags that the rendering system will consume
 	virtual void onUpdate(float p_delta_time) override;
 
 private:

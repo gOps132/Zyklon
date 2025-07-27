@@ -37,7 +37,7 @@ GLenum OpenGLHelperFunc::shaderTypeToOpenGLTypedef(ShaderDataType p_type)
 	return 0;
 }
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(float *p_vertices, size_t p_size)
+OpenGLVertexBuffer::OpenGLVertexBuffer(const float *p_vertices, size_t p_size)
 {
 	// GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 	GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
@@ -62,7 +62,8 @@ void OpenGLVertexBuffer::unbind() const
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
-OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_count)
+OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t *p_indices,
+									 uint32_t p_count)
 	: m_count(p_count)
 {
 	GLCall(glGenBuffers(1, &m_renderer_id));

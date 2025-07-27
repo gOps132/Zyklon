@@ -12,6 +12,8 @@ class GameObject;
 class Scene;
 
 class Component {
+	friend class GameObject;
+
 public:
 	Component(const std::string &p_name = "Component");
 	virtual ~Component() = default;

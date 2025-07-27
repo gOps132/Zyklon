@@ -8,10 +8,9 @@
 
 #include "Buffer.h"
 
-
 namespace Zyklon {
 
-VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
+VertexBuffer *VertexBuffer::create(const float *p_vertices, size_t p_size)
 {
 	switch (RendererAPI::getAPI()) {
 	case RendererAPI::API::None:
@@ -24,7 +23,7 @@ VertexBuffer *VertexBuffer::create(float *p_vertices, size_t p_size)
 	return nullptr;
 }
 
-IndexBuffer *IndexBuffer::create(uint32_t *p_indices, size_t p_size)
+IndexBuffer *IndexBuffer::create(const uint32_t *p_indices, size_t p_size)
 {
 	switch (Renderer::getAPI()) {
 	case RendererAPI::API::None:
@@ -70,8 +69,8 @@ uint32_t shaderDataTypeSize(ShaderDataType p_type)
 
 BufferElement::BufferElement(ShaderDataType p_type, const std::string &p_name,
 							 bool p_normalized = false)
-	: name(p_name), type(p_type), offset(0),
-	  size(shaderDataTypeSize(p_type)), normalized(p_normalized)
+	: name(p_name), type(p_type), offset(0), size(shaderDataTypeSize(p_type)),
+	  normalized(p_normalized)
 {
 }
 

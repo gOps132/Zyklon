@@ -17,7 +17,7 @@ public:
 
 class OpenGLVertexBuffer ZYKLON_OPENGL_FINAL : public VertexBuffer {
 public:
-	OpenGLVertexBuffer(float *p_vertices, size_t p_size);
+	OpenGLVertexBuffer(const float *p_vertices, size_t p_size);
 	virtual ~OpenGLVertexBuffer();
 
 	virtual void bind() const override;
@@ -36,7 +36,7 @@ private:
 
 class OpenGLIndexBuffer ZYKLON_OPENGL_FINAL : public IndexBuffer {
 public:
-	OpenGLIndexBuffer(uint32_t *p_indices, uint32_t p_size);
+	OpenGLIndexBuffer(const uint32_t *p_indices, uint32_t p_size);
 	virtual ~OpenGLIndexBuffer();
 
 	virtual void bind() const override;

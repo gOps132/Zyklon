@@ -5,47 +5,26 @@ layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec2 a_uv;
 
-struct DirectionalLight {
-	vec3 direction;
-	vec3 color;
-};
-
-out vec3 v_position;
-out vec3 v_color;
+out vec3 v_world_normal;
+out vec3 v_world_position;
 out vec2 v_uv;
 
-uniform vec3 u_directional_light_color;
-
 uniform mat4 u_view_projection;
-uniform mat4 u_transform;
-uniform vec3 u_stretch;
-uniform float u_time;
-
-out vec3 v_directional_light_color; 
-out float v_directional_light_intensity;
-
-uniform sampler2D u_Texture;
+uniform mat4 u_model; // Assuming u_transform is now passed as u_model
+uniform mat3 u_normal_matrix; // Needed for correct normal transformation
 
 void main()
 {
-	v_position = a_position;
-	v_uv = a_uv;
+    // Transform vertex position to world space
+    vec4 world_pos = u_model * vec4(a_position, 1.0);
+    v_world_position = world_pos.xyz;
 
-	DirectionalLight directional_light;
-	directional_light.direction = vec3(0.5, 0.5, -0.5 );
-	directional_light.color = u_directional_light_color;
+    // Transform normal to world space (using normal matrix for non-uniform scaling)
+    v_world_normal = u_normal_matrix * a_normal;
 
-	float intensity = dot(a_normal, directional_light.direction);
-	v_directional_light_intensity = (intensity > 0.0) ? intensity : 0.0;
-	v_directional_light_color = directional_light.color;
+    v_uv = a_uv;
 
-	v_color = u_directional_light_color;
-
-	float displacement = texture(u_Texture, v_uv).r;
-	vec3 displaced_position = v_position + a_normal  * displacement;
-
-	gl_Position = u_view_projection * u_transform * vec4(v_position, 1.0);
-	// gl_Position = u_view_projection * u_transform * vec4(displaced_position, 1.0);
+    gl_Position = u_view_projection * world_pos;
 }
 
 #shader fragment
@@ -53,29 +32,42 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-uniform vec3 u_color;
-uniform vec3 u_ambient_light_color;
-uniform float u_ambient_light_intensity;
-uniform sampler2D u_Texture;
+// Material uniforms from BasicLitMaterial.cpp
+uniform vec3 u_Color; // Matches m_color
+uniform sampler2D u_Texture; // Matches m_texture (sampler unit is set via setUniform1i)
 
-in vec3 v_position;
-in vec3 v_color;
+// Ambient Light uniforms from BasicLitMaterial.cpp
+uniform vec3 u_AmbientLightColor;
+uniform float u_AmbientLightIntensity;
 
-in vec3 v_directional_light_color; 
-in float v_directional_light_intensity;
+// Directional Light uniforms from BasicLitMaterial.cpp
+uniform vec3 u_DirectionalLightDirection; // Direction FROM the light source
+uniform vec3 u_DirectionalLightColor;
+
+in vec3 v_world_normal;
+in vec3 v_world_position;
 in vec2 v_uv;
 
 void main() 
 {
-	vec3 ambient_color = u_ambient_light_color * u_ambient_light_intensity;
-	vec3 diffuse_color =  v_directional_light_color * v_directional_light_intensity;
-	vec3 final_color = u_color * (ambient_color + diffuse_color);
+    vec3 normal = normalize(v_world_normal);
 
-	vec4 texture_color = texture(u_Texture, v_uv);
+    // Light direction (normalize since it's a direction, not a position)
+    // Assuming u_DirectionalLightDirection points FROM the light source towards the scene
+    vec3 light_direction = normalize(-u_DirectionalLightDirection); 
 
-	color = vec4(final_color, 1.0) * texture_color;
-	// color = vec4(vec3(v_uv.x, v_uv.y, v_uv.x * v_uv.y), 1.0);
+    // Material Albedo (base color), combined with texture
+    vec3 material_albedo = u_Color * texture(u_Texture, v_uv).rgb;
 
-	// color = vec4(final_color, 1.0);
+    // 1. Ambient Lighting
+    vec3 ambient_component = u_AmbientLightColor * u_AmbientLightIntensity * material_albedo;
+
+    // 2. Diffuse Lighting
+    float diffuse_factor = max(dot(normal, light_direction), 0.0);
+    vec3 diffuse_component = u_DirectionalLightColor * diffuse_factor * material_albedo;
+
+    // Final color (only ambient + diffuse based on your C++ material)
+    vec3 final_rgb_color = ambient_component + diffuse_component;
+
+    color = vec4(final_rgb_color, 1.0);
 }
-

@@ -21,11 +21,11 @@ public:
 
 	static void submit(const std::shared_ptr<Shader> &p_shader,
 					   const std::shared_ptr<VertexArray> &p_vertex_array,
-					   const glm::mat4 &p_transform = glm::mat4(1.0f));
+					   const glm::mat4 &p_model = glm::mat4(1.0f));
 	static void submitVertex(const std::shared_ptr<Shader> &p_shader,
 							 const std::shared_ptr<VertexArray> &p_vertex_array,
 							 uint32_t p_indices,
-							 const glm::mat4 &p_transform = glm::mat4(1.0f));
+							 const glm::mat4 &p_model = glm::mat4(1.0f));
 
 	/* Wrapper for definitions */
 	inline static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }

@@ -11,7 +11,7 @@ namespace Zyklon {
 
 class Mesh {
 public:
-	Mesh(const std::vector<VertexBuffer> &vertices,
+	Mesh(const std::vector<float> &vertices,
 		 const std::vector<uint32_t> &indices, const BufferLayout &layout);
 	~Mesh() = default;
 
@@ -22,6 +22,7 @@ public:
 	uint32_t getIndexCount() const { return m_index_buffer->getCount(); }
 
 protected:
+	uint32_t m_indices = 0;
 	Ref<VertexBuffer> m_vertex_buffer;
 	Ref<IndexBuffer> m_index_buffer;
 	Ref<VertexArray> m_vertex_array;

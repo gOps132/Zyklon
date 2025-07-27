@@ -12,7 +12,6 @@ GameObject::GameObject(const std::string &p_name)
 	  m_is_local_transformation_dirty(true),
 	  m_is_world_transformation_dirty(true)
 {
-	setUUID(UUID()); // generate a new UUID for the game object
 }
 
 void GameObject::setUUID(const UUID &p_uuid)
@@ -171,40 +170,6 @@ void GameObject::removeChild(const Ref<GameObject> &p_child)
 		// parent eventually expires
 		m_children.erase(it, m_children.end());
 	}
-}
-
-template <typename T, typename... Args>
-Ref<T> GameObject::addComponent(Args &&...args)
-{
-	// check if a component of this type already exists
-	if (getComponent<T>() != nullptr) {
-		ZYKLON_CORE_WARN("GameObject '{0}' already has component of type '{1}",
-						 m_name.c_str(), typeid(T).name());
-		return getComponent<T>();
-	}
-
-	auto comp = createRef<T>(args...);
-	comp->m_owner = shared_from_this();
-	comp->m_scene = m_scene;
-
-	m_components.push_back(comp);
-
-	// store component by its type for quick lookup
-	m_component_map[std::type_index(typeid(T))] = comp;
-
-	comp->onAttach();
-
-	return comp;
-}
-
-template <typename T> Ref<T> GameObject::getComponent()
-{
-	for (const auto &comp : m_components) {
-		auto casted = std::dynamic_pointer_cast<T>(comp);
-		if (casted)
-			return casted; // return the first component of type T
-	}
-	return nullptr;
 }
 
 void GameObject::removeComponent(const Ref<Component> &p_component)
