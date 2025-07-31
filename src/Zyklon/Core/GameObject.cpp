@@ -1,6 +1,7 @@
 #include <zyklon_pch.h>
 
 #include <imgui-test/imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "GameObject.h"
 #include "Core.h"
@@ -201,13 +202,39 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 
 void GameObject::onImGuiRender()
 {
-	ImGui::Begin(m_name.c_str());
+	ImGui::Text(m_name.c_str());
 
-	for (const auto &comp : m_components) {
-		comp->onImguiRender();
+	bool active = m_active;
+	if (ImGui::Checkbox("Active", &active)) {
+		setActive(active);
 	}
 
-	ImGui::End();
-}
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+		glm::vec3 pos = m_local_position;
+		if (ImGui::DragFloat3("Position", glm::value_ptr(pos), 0.1f)) {
+			setLocalPosition(pos);
+		}
+		glm::vec3 euler_rot = glm::degrees(glm::eulerAngles(
+			m_local_rotation)); // Convert quaternion to Euler for display
+		if (ImGui::DragFloat3("Rotation", glm::value_ptr(euler_rot),
+							  1.0f)) {	 // Degrees
+			setLocalRotation(euler_rot); // setLocalRotation should convert back
+										 // to quaternion
+		}
+		glm::vec3 scale = m_local_scale;
+		if (ImGui::DragFloat3("Scale", glm::value_ptr(scale), 0.1f)) {
+			setLocalScale(scale);
+		}
+	}
 
+	for (const auto &comp : m_components) {
+		ImGui::PushID(comp.get()); // Use pointer address as a unique ID
+		if (ImGui::CollapsingHeader(comp->getName().c_str(),
+									ImGuiTreeNodeFlags_DefaultOpen)) {
+			comp->onImguiRender(); // Let the component draw its specific
+								   // properties
+		}
+		ImGui::PopID(); // Pop the unique ID
+	}
+}
 } // namespace Zyklon

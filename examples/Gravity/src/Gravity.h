@@ -21,6 +21,8 @@ public:
 	virtual void onImguiRender() override;
 	void resetState();
 
+	void drawGameObjectNode(Zyklon::Ref<Zyklon::GameObject> go);
+
 private:
 	Zyklon::Ref<Zyklon::Scene> m_my_scene;
 
@@ -38,17 +40,11 @@ private:
 
 	bool m_is_orbit_mode = true; // NEW: Toggle between modes
 
-	glm::vec3 m_camera_position_unused; // Marked unused
-	float m_camera_rotation_unused;		// Marked unused
 	float m_fovy = 45.0f;
 	float m_aspect_ratio = Zyklon::Application::get().getWindow().getWidth() /
 						   Zyklon::Application::get().getWindow().getHeight();
 	float m_near_plane = 0.1f;
 	float m_far_plane = 1000.0f;
-	float m_camera_speed =
-		10.0f; // Note: Not used with Orbit/Panning controls directly
-
-	float m_scale = 0.5f; // Note: Not used
 
 	Zyklon::Ref<Zyklon::Shader> m_shader;
 	Zyklon::Ref<Zyklon::Texture2D> m_texture;

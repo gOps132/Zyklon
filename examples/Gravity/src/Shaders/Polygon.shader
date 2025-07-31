@@ -98,6 +98,5 @@ void main()
     vec3 final_rgb_color = ambient_component + diffuse_component;
 
     // Output the final calculated color for the fragment, with full opacity.
-    // color = vec4(final_rgb_color, 1.0);
-	color = tex;
+    color = tex;
 }

@@ -17,7 +17,6 @@ void MeshRendererComponent::onUpdate(float p_delta_time) {}
 
 void MeshRendererComponent::onImguiRender()
 {
-	ImGui::Text("Mesh Renderer");
 	if (m_material)
 		m_material->renderGUI();
 }

@@ -65,7 +65,7 @@ bool PanningControls::onMouseMoved(MouseMovedEvent &e)
 
 bool PanningControls::onMouseButtonPressed(MouseButtonPressedEvent &e)
 {
-	ZYKLON_CORE_INFO("Mouse button: {0}", e.getMouseButton());
+	// ZYKLON_CORE_INFO("Mouse button: {0}", e.getMouseButton());
 	if (e.getMouseButton() == ZYKLON_MOUSE_BUTTON_LEFT) {
 		m_is_panning = true;
 		m_last_mouse_pos = {Input::getMouseX(), Input::getMouseY()};

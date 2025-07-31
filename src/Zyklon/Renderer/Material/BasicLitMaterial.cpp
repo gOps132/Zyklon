@@ -53,17 +53,20 @@ void BasicLitMaterial::unbind() const
 
 void BasicLitMaterial::renderGUI()
 {
-	ImGui::Text("Material Properties");
-	ImGui::ColorPicker3("Color", glm::value_ptr(m_color));
-	ImGui::ColorPicker3("Ambient Light Color",
-						glm::value_ptr(m_ambient_light_color));
-	ImGui::SliderFloat("Ambient Light Intensity", &m_ambient_light_intensity,
-					   0.0f, 10.0f); // Adjust max as needed
-	ImGui::ColorPicker3("Directional Light Color",
-						glm::value_ptr(m_directional_light_color));
-	ImGui::DragFloat3("Directional Light Direction",
-					  glm::value_ptr(m_directional_light_direction), 0.01f,
-					  -1.0f, 1.0f); // Or use sliders for x,y,z individually
+	if (ImGui::CollapsingHeader("Basic Lit Material")) {
+		ImGui::ColorPicker3("Color", glm::value_ptr(m_color));
+		ImGui::ColorPicker3("Ambient Light Color",
+							glm::value_ptr(m_ambient_light_color));
+		ImGui::SliderFloat("Ambient Light Intensity",
+						   &m_ambient_light_intensity, 0.0f,
+						   10.0f); // Adjust max as needed
+		ImGui::ColorPicker3("Directional Light Color",
+							glm::value_ptr(m_directional_light_color));
+		ImGui::DragFloat3("Directional Light Direction",
+						  glm::value_ptr(m_directional_light_direction), 0.01f,
+						  -1.0f,
+						  1.0f); // Or use sliders for x,y,z individually
+	}
 }
 
 } // namespace Zyklon

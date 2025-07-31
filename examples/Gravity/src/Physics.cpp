@@ -73,7 +73,8 @@ void SystemState::ode_solve_euler(float ts)
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
 			float force_magnitude =
-				(1 * obj1->getMass() * obj2->getMass()) / (distance * distance);
+				(G_effective * obj1->getMass() * obj2->getMass()) /
+				(distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 
@@ -119,7 +120,8 @@ void SystemState::ode_solve_rk2(float ts)
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
 			float force_magnitude =
-				(1 * obj1->getMass() * obj2->getMass()) / (distance * distance);
+				(G_effective * obj1->getMass() * obj2->getMass()) /
+				(distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 
@@ -171,7 +173,8 @@ void SystemState::ode_solve_rk4(float ts)
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
 			float force_magnitude =
-				(G * obj1->getMass() * obj2->getMass()) / (distance * distance);
+				(G_effective * obj1->getMass() * obj2->getMass()) /
+				(distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 

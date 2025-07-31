@@ -42,11 +42,6 @@ protected:
 	// so we can interact with other game components and for
 	// contextual information needed for each unique system
 	std::weak_ptr<Scene> m_scene;
-
-	// Allow GameObject and Scene (or potentially Systems) to set these private
-	// members
-	// This is often done by making them 'friend' classes or providing protected
-	// setters.
 };
 
 } // namespace Zyklon

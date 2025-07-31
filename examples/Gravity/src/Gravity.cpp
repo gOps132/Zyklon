@@ -23,7 +23,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(
 		glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	// Initialize camera position for OrbitControls
-	m_camera->setPosition({0.0f, 0.0f, 200.0f}); // Initial distance for orbit
+	m_camera->setPosition({0.0f, 0.0f, 100.0f}); // Initial distance for orbit
 
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
 	m_panning = std::make_shared<Zyklon::PanningControls>(
@@ -47,7 +47,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis_pos(
-		-100.0, 100.0); // Larger range for positions
+		-10.0, 10.0); // Larger range for positions
 	std::uniform_real_distribution<> dis_vel(
 		-0.01, 0.01); // Smaller range for velocities
 
@@ -66,7 +66,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		// glm::vec3 initial_vel = initial_pos;
 		glm::vec3 initial_vel = {random_x_vel, random_y_vel, random_z_vel};
 
-		float radius = 5.0f;
+		float radius = 1.0f;
 		float mass =
 			200.0f + static_cast<float>(dis_pos(gen)); // Vary mass slightly
 
@@ -89,7 +89,6 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 			temp_uv_sphere.getVertices(), temp_uv_sphere.getIndices(),
 			uvSphereLayout);
 
-		// 3. Create a GameObject for rendering
 		Zyklon::Ref<Zyklon::GameObject> sphere_go =
 			m_my_scene->createGameObject("Sphere_" + std::to_string(i));
 		sphere_go->setLocalPosition(
@@ -97,10 +96,8 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		sphere_go->setLocalScale(
 			{radius, radius, radius}); // Scale based on physics radius
 
-		// 4. Attach a MeshRendererComponent to the GameObject
 		sphere_go->addComponent<Zyklon::MeshRendererComponent>(mesh,
 															   sphereMaterial);
-
 		m_sphere_game_objects.push_back(sphere_go);
 	}
 }
@@ -149,18 +146,17 @@ void ExampleLayer::onEvent(Zyklon::Event &event)
 			index = (index + 1) %
 					m_sphere_game_objects.size(); // Cycle through game objects
 		}
-		if (Zyklon::Input::keyPressed(ZYKLON_KEY_SPACE)) { // Toggle camera mode
+		// Toggle camera mode
+		if (Zyklon::Input::keyPressed(ZYKLON_KEY_SPACE)) {
 			m_is_orbit_mode = !m_is_orbit_mode;
 			ZYKLON_INFO("Camera Mode: {0}",
 						m_is_orbit_mode ? "Orbit" : "Panning");
-			// Optionally, reset the state of the newly active camera control
 			if (m_is_orbit_mode) {
 				m_orbit->reset();
 				m_orbit->setTarget(m_physics_objects_map[index]->getPosition());
 			}
 			else {
-				m_panning->reset(); // PanningControls reset usually sets
-									// last_mouse_pos to 0
+				m_panning->reset();
 			}
 		}
 	}
@@ -171,7 +167,7 @@ void ExampleLayer::onImguiRender()
 	ImGui::Begin("Camera Uniforms");
 	ImGui::Text("Camera options!");
 	ImGui::Text("Current Mode: %s", m_is_orbit_mode ? "Orbit" : "Panning");
-	if (ImGui::Button("Toggle Camera Mode (Space)")) { // Manual toggle in UI
+	if (ImGui::Button("Toggle Camera Mode (Space)")) {
 		m_is_orbit_mode = !m_is_orbit_mode;
 		ZYKLON_INFO("Camera Mode: {0}", m_is_orbit_mode ? "Orbit" : "Panning");
 		if (m_is_orbit_mode) {
@@ -194,8 +190,7 @@ void ExampleLayer::onImguiRender()
 						   5.0f))
 		m_camera->recalculatePerspectiveMatrix(
 			glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
-	// NEW: Panning speed and trackpad mode controls
-	if (!m_is_orbit_mode) { // Only show these if in Panning mode
+	if (!m_is_orbit_mode) {
 		float current_pan_speed = m_panning->getPanSpeed();
 		if (ImGui::SliderFloat("Panning Speed", &current_pan_speed, 0.001f,
 							   0.1f, "%.3f")) {
@@ -214,7 +209,9 @@ void ExampleLayer::onImguiRender()
 		resetState(); // Call resetState for full system reset
 	ImGui::End();
 
+	ImGui::Begin("Objects");
 	m_sphere_game_objects[index]->onImGuiRender();
+	ImGui::End();
 }
 
 void ExampleLayer::resetState()
@@ -227,7 +224,7 @@ void ExampleLayer::resetState()
 	// Reset orbit controls/camera position based on current mode
 	if (m_is_orbit_mode) {
 		m_camera->setPosition(
-			{0.0f, 0.0f, 200.0f}); // Default camera position for orbit
+			{0.0f, 0.0f, 100.0f}); // Default camera position for orbit
 		m_orbit->reset();		   // Reset orbit controls state
 		m_orbit->setTarget(
 			m_physics_objects_map[index]->getPosition()); // Set initial target
