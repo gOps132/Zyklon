@@ -76,7 +76,8 @@ void main()
     // --- How u_Color is used as the base color ---
     // The material's base color (albedo) is a combination of the uniform u_Color
     // and the color sampled from the texture at the current UV coordinate.
-    vec3 material_albedo = u_Color * texture(u_Texture, v_uv).rgb;
+	vec4 tex = texture(u_Texture, v_uv);
+    vec3 material_albedo = u_Color * tex.rgb;
 
     // --- Lighting Calculations ---
 
@@ -97,5 +98,6 @@ void main()
     vec3 final_rgb_color = ambient_component + diffuse_component;
 
     // Output the final calculated color for the fragment, with full opacity.
-    color = vec4(final_rgb_color, 1.0);
+    // color = vec4(final_rgb_color, 1.0);
+	color = tex;
 }

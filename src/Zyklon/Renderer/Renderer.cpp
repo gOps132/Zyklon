@@ -11,8 +11,7 @@ Renderer::SceneData *Renderer::m_scene_data = new Renderer::SceneData();
 
 void Renderer::beginScene(Camera &p_camera)
 {
-	m_scene_data->m_view_projection_matrix =
-		p_camera.get_view_projection_matrix();
+	m_scene_data->m_view_projection_matrix = p_camera.getViewProjectionMatrix();
 }
 
 void Renderer::endScene() {}

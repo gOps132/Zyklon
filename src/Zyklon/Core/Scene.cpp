@@ -194,4 +194,12 @@ void Scene::render()
 	Renderer::endScene();
 }
 
+const Ref<Camera> Scene::getActiveCamera() const
+{
+	if (m_active_camera)
+		return m_active_camera;
+	else
+		return nullptr;
+}
+
 } // namespace Zyklon

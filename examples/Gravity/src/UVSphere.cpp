@@ -1,28 +1,22 @@
 #include "UVSphere.h"
-
-// No longer needs Renderer.h or imgui.h here as it's not directly rendering or
-// having its own GUI
 #define _USE_MATH_DEFINES
 #include <math.h>
-
 #include <Zyklon/Core/Log.h>
 
-UVSphere::UVSphere(std::string name, float radius, float mass,
-				   glm::vec3 position, glm::vec3 velocity)
-	: PObject(mass, radius, position, velocity), m_name(name)
+// UVSphere no longer takes physics parameters in constructor
+UVSphere::UVSphere(std::string name) : m_name(name)
 {
-	reset();
-	generate(radius, m_stacks, m_slices); // Generate initial mesh data
+	// No PObject::reset();
+	generate(1.0f, m_stacks,
+			 m_slices); // Generate initial mesh data with a default radius
 }
 
-void UVSphere::reset()
-{
-	PObject::reset(); // Call base class reset
-					  // No rendering specific members to reset here
-}
+// remove reset() as it's now physics-specific
+// void UVSphere::reset() { }
 
 void UVSphere::generate(const float radius, const int stacks, const int slices)
 {
+	// ... (rest of your generate function, it's correct for mesh generation)
 	m_vertices.clear();
 	m_indices.clear();
 
@@ -55,9 +49,6 @@ void UVSphere::generate(const float radius, const int stacks, const int slices)
 			float x = radius * std::sin(phi) * std::cos(theta);
 			float z = radius * std::sin(phi) * std::sin(theta);
 			float u = 1.0f - static_cast<float>(j) / static_cast<float>(slices);
-
-			// ZYKLON_INFO("VERTICE: {0}, STACK: {1}, SLICE: {2}, x: {3:.2f}, y:
-			// {4:.2f}, z: {5:.2f}", 	i*stacks + j, i, j, x,y,z);
 
 			// positions
 			m_vertices.push_back(x);
@@ -95,16 +86,17 @@ void UVSphere::generate(const float radius, const int stacks, const int slices)
 		// Top stack (triangles connecting the top vertex)
 		m_indices.push_back(0);		// Top vertex
 		m_indices.push_back(j + 1); // First vertex on the next ring
-		// m_indices.push_back(j + 2);                // Next vertex on the next
-		// ring m_indices.push_back(j == slices - 1 ? 1 : j + 2);
-		m_indices.push_back((j + 1) % slices + 1);
+		m_indices.push_back((j + 1) % slices +
+							1); // Wrap around to form a triangle fan
 	}
 
 	// Middle stacks
-	for (int i = 0; i < stacks - 2; ++i) {
+	for (int i = 0; i < stacks - 1;
+		 ++i) { // Changed stacks - 2 to stacks - 1 to cover all quads
 		for (int j = 0; j < slices; ++j) {
-			int first = i * (slices + 1) + (j + 1);
-			int second = first + slices + 1;
+			int first =
+				i * (slices + 1) + 1 + j; // Adjusted start index for mid-rings
+			int second = first + (slices + 1);
 
 			// First triangle of the quad
 			m_indices.push_back(first);
@@ -120,16 +112,17 @@ void UVSphere::generate(const float radius, const int stacks, const int slices)
 
 	// Bottom stack (triangles connecting the bottom vertex)
 	int bottomVertexIndex = static_cast<int>(m_vertices.size() / 8) - 1;
-	int start = (stacks - 2) * (slices + 1) +
-				1; // First vertex of the bottom-most stack
+	int start_of_last_ring = (stacks - 1) * (slices + 1) +
+							 1; // Correct index for the start of the last ring
 
 	for (int j = 0; j < slices; ++j) {
-		m_indices.push_back(bottomVertexIndex);			 // Bottom pole
-		m_indices.push_back(start + j);					 // Current slice
-		m_indices.push_back(start + ((j + 1) % slices)); // Wrap to first slice
+		m_indices.push_back(bottomVertexIndex);
+		m_indices.push_back(start_of_last_ring + j +
+							1); // The next vertex on the ring
+		m_indices.push_back(start_of_last_ring +
+							j); // The current vertex on the ring
 	}
 
-	ZYKLON_INFO("Index: {0}, Vertex: {1}, Normal: ({2}, {3}, {4})",
-				m_indices.size(), m_vertices.size() / 8, normals.x, normals.y,
-				normals.z);
+	ZYKLON_INFO("Index: {0}, Vertex: {1}", m_indices.size(),
+				m_vertices.size() / 8);
 }

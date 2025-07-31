@@ -118,16 +118,10 @@ const glm::mat4 &GameObject::getWorldTransformationMatrix()
 
 void GameObject::invalidateWorldTransform()
 {
-	m_is_world_transformation_dirty =
-		true; // mark the world transformation as dirty
-	if (auto parent = m_parent.lock()) {
-		parent->invalidateWorldTransform(); // also invalidate parent's world
-											// transform
+	m_is_world_transformation_dirty = true;
+	for (const auto &child : m_children) {
+		child->invalidateWorldTransform();
 	}
-	m_local_transformation_matrix =
-		glm::mat4(1.0f); // reset local transformation matrix
-	m_is_local_transformation_dirty =
-		true; // mark local transformation as dirty
 }
 
 void GameObject::setParent(const Ref<GameObject> p_parent)
@@ -182,24 +176,6 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 		return;
 	}
 
-	// --- Explicit check if the component exists in the vector ---
-	bool component_found_in_vector = false;
-	for (const auto &comp : m_components) {
-		if (comp == p_component) { // shared_ptr equality compares raw pointers
-			component_found_in_vector = true;
-			break;
-		}
-	}
-
-	if (!component_found_in_vector) {
-		// This is likely the path being taken if your INFO line is inaccessible
-		ZYKLON_CORE_WARN("Component '{0}' not found in GameObject '{1}'. No "
-						 "component removed.",
-						 p_component->getName(), m_name);
-		return; // Exit early if not found
-	}
-
-	// proceed with removal
 	auto it = std::remove_if(m_components.begin(), m_components.end(),
 							 [&](const Ref<Component> &comp) {
 								 // Predicate returns true for elements to be
@@ -207,12 +183,9 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 								 return comp == p_component;
 							 });
 
-	// The component *should* be found at this point due to the explicit check
-	// above So, it != m_components.end() should be true
 	if (it != m_components.end()) {
 		p_component->onDetach();
 		m_components.erase(it, m_components.end());
-		// Remove from the map using the concrete type of the component instance
 		m_component_map.erase(std::type_index(
 			typeid(*p_component))); // expression with sideeffects will evaluate
 									// despite typeid
@@ -220,9 +193,9 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 						 p_component->getName(), m_name);
 	}
 	else {
-		// If we reach here and 'it == m_components.end()' it indicates a
-		// logical error.
-		ZYKLON_CORE_WARN("Component not found in GameObject {0}", m_name);
+		ZYKLON_CORE_INFO("Component not found in '{0}' from GameObject '{1}'. "
+						 "No component removed",
+						 p_component->getName(), m_name);
 	}
 }
 

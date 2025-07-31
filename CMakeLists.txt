@@ -93,6 +93,7 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/Camera/OrthographicCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/PerspectiveCamera.cpp
 	${RENDERER_DIRECTORY}/Camera/OrbitControls.cpp
+	${RENDERER_DIRECTORY}/Camera/PanningControls.cpp
 )
 
 set(IMGUI_SOURCE_FILES

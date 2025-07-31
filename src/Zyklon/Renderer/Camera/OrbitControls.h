@@ -20,9 +20,9 @@ class OrbitControls {
 public:
 	OrbitControls(std::shared_ptr<Camera> p_camera);
 
-	void set_target(glm::vec3 p_target) { m_target = p_target; }
-	void set_camera(std::shared_ptr<Camera> p_camera) { m_camera = p_camera; }
-	void set_rotation_speed(float rotation_speed)
+	void setTarget(glm::vec3 p_target) { m_target = p_target; }
+	void setCamera(std::shared_ptr<Camera> p_camera) { m_camera = p_camera; }
+	void setRotationSpeed(float rotation_speed)
 	{
 		m_rotation_speed = rotation_speed;
 	}
@@ -31,7 +31,7 @@ public:
 	void onUpdate(Timestep ts);	  // For frame-based updates if needed (e.g.,
 								  // inertia, smoothing
 	void onEvent(Event &event);
-	float &get_distance() { return m_distance; }
+	float &getDistance() { return m_distance; }
 	void reset();
 
 private:

@@ -37,6 +37,7 @@
 #include "Renderer/Camera/OrthographicCamera.h"
 #include "Renderer/Camera/PerspectiveCamera.h"
 #include "Renderer/Camera/OrbitControls.h"
+#include "Renderer/Camera/PanningControls.h"
 
 #include "Renderer/Texture.h"
 #include "Renderer/Shader.h"

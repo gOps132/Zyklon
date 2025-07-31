@@ -154,6 +154,16 @@ void SceneManager::clearScenes()
 	}
 }
 
+const Ref<Camera> SceneManager::getActiveCamera() const
+{
+	if (m_current_scene) {
+		return m_current_scene->getActiveCamera();
+	}
+
+	ZYKLON_CORE_WARN("No current scene to get active camera.");
+	return nullptr;
+}
+
 void SceneManager::setActiveCamera(const Ref<Camera> &p_camera)
 {
 	if (m_current_scene) {

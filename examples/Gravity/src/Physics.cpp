@@ -32,10 +32,8 @@ void SystemState::resolve_collision(const std::shared_ptr<PObject> &obj1,
 	float overlap = (obj1->getRadius() + obj2->getRadius()) - distance;
 
 	// Separate the spheres
-	obj1->setPosition(obj1->getPosition() -
-					   unit_direction * (overlap / 2.0f));
-	obj2->setPosition(obj2->getPosition() +
-					   unit_direction * (overlap / 2.0f));
+	obj1->setPosition(obj1->getPosition() - unit_direction * (overlap / 2.0f));
+	obj2->setPosition(obj2->getPosition() + unit_direction * (overlap / 2.0f));
 
 	// Calculate relative velocity
 	glm::vec3 relative_velocity = obj2->getVelocity() - obj1->getVelocity();
@@ -74,8 +72,8 @@ void SystemState::ode_solve_euler(float ts)
 			// USING GRAVITATIONAL CONSTANT!!! NOT VIABLE FOR MEAGER EULER
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
-			float force_magnitude = (1 * obj1->getMass() * obj2->getMass()) /
-									(distance * distance);
+			float force_magnitude =
+				(1 * obj1->getMass() * obj2->getMass()) / (distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 
@@ -120,8 +118,8 @@ void SystemState::ode_solve_rk2(float ts)
 			// USING GRAVITATIONAL CONSTANT!!! NOT VIABLE FOR MEAGER EULER
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
-			float force_magnitude = (1 * obj1->getMass() * obj2->getMass()) /
-									(distance * distance);
+			float force_magnitude =
+				(1 * obj1->getMass() * obj2->getMass()) / (distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 
@@ -172,8 +170,8 @@ void SystemState::ode_solve_rk4(float ts)
 			// USING GRAVITATIONAL CONSTANT!!! NOT VIABLE FOR MEAGER EULER
 			// INTEGRATION float force_magnitude = (G * obj1->getMass() *
 			// obj2->getMass()) / (distance * distance);
-			float force_magnitude = (1 * obj1->getMass() * obj2->getMass()) /
-									(distance * distance);
+			float force_magnitude =
+				(G * obj1->getMass() * obj2->getMass()) / (distance * distance);
 
 			glm::vec3 force = force_magnitude * unit_direction;
 

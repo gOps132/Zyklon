@@ -14,7 +14,8 @@ Zyklon::Application *Zyklon::Application::createApplication()
 }
 
 ExampleLayer::ExampleLayer()
-	: Layer("Example"), m_camera(new Zyklon::PerspectiveCamera(m_fovy, m_aspect_ratio, m_near_plane, m_far_plane))
+	: Layer("Example"), m_camera(new Zyklon::PerspectiveCamera(
+							m_fovy, m_aspect_ratio, m_near_plane, m_far_plane))
 {
 	resetState();
 }
@@ -24,39 +25,40 @@ void ExampleLayer::resetState()
 	m_square_vertex_array.reset(Zyklon::VertexArray::create());
 
 	// TODO: include issues may arrive later
-	m_square_shader.reset(Zyklon::Shader::create("examples/Maze/src/Shaders/Square.shader"));
+	m_square_shader.reset(
+		Zyklon::Shader::create("examples/Maze/src/Shaders/Square.shader"));
 
 	float square_vertices[5 * 4] = {
 		// Position             // Texture coordinates
-		-0.5f,  0.5f, 0.0f,     0.0f, 1.0f,   // Top-left
-		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,   // Top-right
-		0.5f, -0.5f, 0.0f,     1.0f, 0.0f,   // Bottom-right
-		-0.5f, -0.5f, 0.0f,     0.0f, 0.0f    // Bottom-left
+		-0.5f, 0.5f,  0.0f, 0.0f, 1.0f, // Top-left
+		0.5f,  0.5f,  0.0f, 1.0f, 1.0f, // Top-right
+		0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, // Bottom-right
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f	// Bottom-left
 	};
 
 	uint32_t square_indices[3 * 2] = {
-		0, 1, 2,   // First triangle
-		0, 2, 3    // Second triangle
+		0, 1, 2, // First triangle
+		0, 2, 3	 // Second triangle
 	};
 
 	m_square_vertex_buffer.reset(
 		Zyklon::VertexBuffer::create(square_vertices, sizeof(square_vertices)));
-	m_square_vertex_buffer->setLayout({
-		{Zyklon::ShaderDataType::Float3, "a_Position", false},
-		{Zyklon::ShaderDataType::Float2, "a_Tex", false}
-	});
+	m_square_vertex_buffer->setLayout(
+		{{Zyklon::ShaderDataType::Float3, "a_Position", false},
+		 {Zyklon::ShaderDataType::Float2, "a_Tex", false}});
 	m_square_vertex_array->addVertexBuffer(m_square_vertex_buffer);
 
-	m_square_shader->setUniform3fv("light_color", glm::vec3(0.5,1.0,1.0));
+	m_square_shader->setUniform3fv("light_color", glm::vec3(0.5, 1.0, 1.0));
 
-	m_model_position = glm::vec3(0.0f,0.0f,0.0f);
-	m_camera_position = glm::vec3(0.0f,0.0f,1.0f);
+	m_model_position = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_camera_position = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_camera_rotation = 0.0f;
 
 	m_camera->setPosition(m_camera_position);
-	m_camera->set_rotation(m_camera_rotation);
+	m_camera->setRotation(m_camera_rotation);
 
-	m_square_index_buffer.reset(Zyklon::IndexBuffer::create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
+	m_square_index_buffer.reset(Zyklon::IndexBuffer::create(
+		square_indices, sizeof(square_indices) / sizeof(uint32_t)));
 	m_square_vertex_array->setIndexBuffer(m_square_index_buffer);
 }
 
@@ -64,8 +66,9 @@ void ExampleLayer::resetState()
 void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 {
 	float time = Zyklon::Application::get().getWindow().getTime();
-	float frequency = 1.0f; // Adjust for desired oscillation speed (higher = faster)
-    float amplitude = 0.2f; // Adjust for desired oscillation range
+	float frequency =
+		1.0f; // Adjust for desired oscillation speed (higher = faster)
+	float amplitude = 0.2f; // Adjust for desired oscillation range
 
 	float model_rotation_speed = 15.0f;
 
@@ -104,10 +107,11 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 		m_camera_rotation += m_camera_rotation_speed * ts;
 
 	m_camera->setPosition(m_camera_position);
-	m_camera->set_rotation(m_camera_rotation);
+	m_camera->setRotation(m_camera_rotation);
 
 	m_square_shader->setUniform1f("u_time", time);
-	m_square_shader->setUniform3fv("u_color", {m_color[0], m_color[1], m_color[2]});
+	m_square_shader->setUniform3fv("u_color",
+								   {m_color[0], m_color[1], m_color[2]});
 
 	Zyklon::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
 	Zyklon::RenderCommand::clear();
@@ -115,16 +119,16 @@ void ExampleLayer::onUpdate(Zyklon::Timestep ts)
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
 	Zyklon::Renderer::beginScene(*m_camera);
-		// for (int i = 0; i < 5; i++)
-		// {
-		// 	for (int y = 0; y < 5; y++)
-		// 	{
-		// 		glm::vec3 offset(i * 0.11f, y * 0.11f, 0.0f);
-		// 		glm::mat4 transform = glm::translate(m_model, offset) * scale;
-				glm::mat4 transform = glm::translate(m_model, glm::vec3(0.0f)) * scale;
-				Zyklon::Renderer::submit(m_square_shader, m_square_vertex_array, transform);
-		// 	}
-		// }
+	// for (int i = 0; i < 5; i++)
+	// {
+	// 	for (int y = 0; y < 5; y++)
+	// 	{
+	// 		glm::vec3 offset(i * 0.11f, y * 0.11f, 0.0f);
+	// 		glm::mat4 transform = glm::translate(m_model, offset) * scale;
+	glm::mat4 transform = glm::translate(m_model, glm::vec3(0.0f)) * scale;
+	Zyklon::Renderer::submit(m_square_shader, m_square_vertex_array, transform);
+	// 	}
+	// }
 	Zyklon::Renderer::endScene();
 	// m_square_shader->bind();
 }

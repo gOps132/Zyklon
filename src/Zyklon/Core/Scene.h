@@ -8,6 +8,7 @@
 #include "Core.h"
 #include "UUID.h"
 
+// TODO: be aware of the UUID consistency between scene and gameobject
 namespace Zyklon {
 
 class GameObject; // forward declaration of GameObject to avoid circular
@@ -16,7 +17,8 @@ class GameObject; // forward declaration of GameObject to avoid circular
 // TODO: make a scene tracking feature
 
 class Scene : public std::enable_shared_from_this<Scene> {
-	friend class GameObject; // allow GameObject to access private members
+	friend class GameObject;
+
 public:
 	Scene(const std::string &p_name = "New Scene");
 	~Scene();
@@ -45,7 +47,7 @@ public:
 	{
 		m_active_camera = p_camera;
 	}
-	const Ref<Camera> getActiveCamera() const { return m_active_camera; }
+	const Ref<Camera> getActiveCamera() const;
 
 	void setUUID(const UUID &p_uuid) { m_uuid = p_uuid; }
 	const UUID &getUUID() const { return m_uuid; }

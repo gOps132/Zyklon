@@ -39,7 +39,7 @@ void OrbitControls::update(float dx, float dy)
 	glm::vec3 camera_pos = m_target + direction * m_distance;
 
 	// update camera values
-	m_camera->look_at(camera_pos, m_target, up);
+	m_camera->lookAt(camera_pos, m_target, up);
 }
 
 void OrbitControls::onUpdate(Timestep ts)
@@ -47,6 +47,8 @@ void OrbitControls::onUpdate(Timestep ts)
 	// This can be used for things like camera smoothing, or if movement is
 	// time-based. For direct mouse input, the main `update` function is called
 	// from `onEvent`. If you want inertia/damping, implement it here.
+
+	update();
 }
 
 void OrbitControls::onEvent(Event &event)

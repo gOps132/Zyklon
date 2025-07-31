@@ -85,10 +85,17 @@ public:
 
 	template <typename T> Ref<T> getComponent()
 	{
-		for (const auto &comp : m_components) {
-			auto casted = std::dynamic_pointer_cast<T>(comp);
-			if (casted)
-				return casted; // return the first component of type T
+		// for (const auto &comp : m_components) {
+		// 	auto casted = std::dynamic_pointer_cast<T>(comp);
+		// 	if (casted)
+		// 		return casted; // return the first component of type T
+		// }
+		auto it = m_component_map.find(std::type_index(typeid(T)));
+		if (it != m_component_map.end()) {
+			// static_pointer_cast is safe here because we stored it with
+			// typeid(T)
+			// and we are retrieving it with the same typeid(T).
+			return std::static_pointer_cast<T>(it->second);
 		}
 		return nullptr;
 	}

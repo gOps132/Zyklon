@@ -1,7 +1,7 @@
 #ifndef __UVSPHERE_H__
 #define __UVSPHERE_H__
 
-#include "Physics.h"
+// #include "Physics.h" // No longer needed if not inheriting PObject
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -10,14 +10,16 @@
 #include <vector>
 #include <memory>
 
-class UVSphere : public PObject {
+// Remove : public PObject
+class UVSphere {
 public:
 	// Constructor now simplified, as it doesn't directly manage shader/texture
-	// paths
-	UVSphere(std::string name, float radius, float mass, glm::vec3 position,
-			 glm::vec3 velocity);
+	// paths Removed physics-related parameters as they belong to PObject
+	UVSphere(std::string name = "UVSphereMesh"); // Simplified constructor
 
-	void reset();
+	// reset() is no longer meaningful here as it's not a PObject
+	// void reset();
+
 	void generate(const float radius, const int stacks, const int slices);
 
 	// Getters for mesh data

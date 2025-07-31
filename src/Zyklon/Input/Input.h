@@ -22,8 +22,8 @@ public:
 	{
 		return s_instance->getMousePosImpl();
 	};
-	inline static float get_mouse_x() { return s_instance->getMouseXImpl(); }
-	inline static float get_mouse_y() { return s_instance->getMouseYImpl(); }
+	inline static float getMouseX() { return s_instance->getMouseXImpl(); }
+	inline static float getMouseY() { return s_instance->getMouseYImpl(); }
 
 protected:
 	virtual bool keyPressedImpl(int keycode) = 0;
