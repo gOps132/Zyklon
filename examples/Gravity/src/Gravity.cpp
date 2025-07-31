@@ -224,11 +224,6 @@ void ExampleLayer::resetState()
 		glm::radians(m_fovy), m_aspect_ratio, 0.1f,
 		1000.0f); // Reset to default near/far
 
-	// Reset physics objects (assuming SystemState doesn't have a full reset
-	// function, you might need to re-create it or implement a deep reset)
-	// m_planets->reset_all_physical_objects(); // Currently commented out/not
-	// implemented
-
 	// Reset orbit controls/camera position based on current mode
 	if (m_is_orbit_mode) {
 		m_camera->setPosition(

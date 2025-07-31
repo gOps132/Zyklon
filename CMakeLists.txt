@@ -26,7 +26,6 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 add_subdirectory(lib/stb)
-add_subdirectory(lib/voro)
 
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/CompilerWarnings.cmake)
