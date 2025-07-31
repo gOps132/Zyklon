@@ -221,7 +221,6 @@ target_link_libraries(
 		PUBLIC		imgui-test
 		PUBLIC		spdlog
 		PUBLIC		stb
-		PUBLIC		voro++
 )
 
 target_precompile_headers(
