@@ -19,11 +19,8 @@ public:
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
 
-	Ref<Shader> get_shader() const { return m_shader; }
-	virtual void set_shader(const Ref<Shader> &p_shader)
-	{
-		m_shader = p_shader;
-	}
+	Ref<Shader> getShader() const { return m_shader; }
+	virtual void setShader(const Ref<Shader> &p_shader) { m_shader = p_shader; }
 
 	virtual void setFloat(const std::string &p_name, float p_value);
 	virtual void setVec3(const std::string &p_name, const glm::vec3 &p_value);

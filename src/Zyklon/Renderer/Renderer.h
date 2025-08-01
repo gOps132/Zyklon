@@ -2,12 +2,14 @@
 #define __RENDERER_H__
 
 #include <zyklon_pch.h>
+#include <Zyklon/Core/Core.h>
 
 #include <glm/glm.hpp>
 
 #include "RendererAPI.h"
 #include "Shader.h"
-
+#include "Material/Material.h"
+#include "Mesh.h"
 #include "Camera/Camera.h"
 
 namespace Zyklon {
@@ -19,6 +21,8 @@ public:
 	static void beginScene(Camera &p_camera);
 	static void endScene();
 
+	static void submit(const Ref<Material> &p_material, Ref<Mesh> &p_mesh,
+					   glm::mat4 &p_transform);
 	static void submit(const std::shared_ptr<Shader> &p_shader,
 					   const std::shared_ptr<VertexArray> &p_vertex_array,
 					   const glm::mat4 &p_transform = glm::mat4(1.0f));

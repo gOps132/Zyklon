@@ -23,7 +23,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	m_camera = std::make_shared<Zyklon::PerspectiveCamera>(
 		glm::radians(m_fovy), m_aspect_ratio, m_near_plane, m_far_plane);
 	// Initialize camera position for OrbitControls
-	m_camera->setPosition({0.0f, 0.0f, 100.0f}); // Initial distance for orbit
+	m_camera->setPosition({0.0f, 0.0f, 00.0f}); // Initial distance for orbit
 
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
 	m_panning = std::make_shared<Zyklon::PanningControls>(
@@ -224,8 +224,8 @@ void ExampleLayer::resetState()
 	// Reset orbit controls/camera position based on current mode
 	if (m_is_orbit_mode) {
 		m_camera->setPosition(
-			{0.0f, 0.0f, 100.0f}); // Default camera position for orbit
-		m_orbit->reset();		   // Reset orbit controls state
+			{0.0f, 0.0f, 00.0f}); // Default camera position for orbit
+		m_orbit->reset();		  // Reset orbit controls state
 		m_orbit->setTarget(
 			m_physics_objects_map[index]->getPosition()); // Set initial target
 	}

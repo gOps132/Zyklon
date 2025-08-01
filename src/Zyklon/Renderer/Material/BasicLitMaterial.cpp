@@ -20,7 +20,6 @@ void BasicLitMaterial::bind() const
 {
 	if (m_shader) {
 		m_shader->bind();
-
 		m_shader->setUniform3fv("u_Color", m_color);
 		if (m_texture) {
 			m_texture->bind(m_texture_slot);

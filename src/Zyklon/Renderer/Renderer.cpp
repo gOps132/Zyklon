@@ -16,11 +16,21 @@ void Renderer::beginScene(Camera &p_camera)
 
 void Renderer::endScene() {}
 
-// void Renderer::submit(const Ref<Material>& p_material, const Ref<Mesh>&
-// p_mesh, const glm::mat4& p_transform)
-// {
+void Renderer::submit(const Ref<Material> &p_material, Ref<Mesh> &p_mesh,
+					  glm::mat4 &p_transform)
+{
+	Ref<Shader> shader = p_material->getShader();
+	p_material->bind();
+	shader->setUniformMatrix4fv("u_view_projection",
+								m_scene_data->m_view_projection_matrix);
+	shader->setUniformMatrix4fv("u_model", p_transform);
+	glm::mat3 normal_matrix =
+		glm::transpose(glm::inverse(glm::mat3(p_transform)));
+	shader->setUniformMatrix3fv("u_normal_matrix", normal_matrix);
 
-// }
+	p_mesh->bind();
+	RenderCommand::drawIndexed(p_mesh->getVertexArray());
+}
 
 void Renderer::submit(const std::shared_ptr<Shader> &p_shader,
 					  const std::shared_ptr<VertexArray> &p_vertex_array,

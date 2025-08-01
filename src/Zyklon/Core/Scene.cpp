@@ -166,14 +166,17 @@ void Scene::render()
 				Ref<Material> material = mesh_renderer->getMaterial();
 
 				if (mesh && material) {
-					Ref<Shader> shader = material->get_shader();
-					Ref<VertexArray> vertex_array = mesh->getVertexArray();
-
-					if (shader && vertex_array) {
+					// Note: it seems that the
+					// bind function for shader and material
+					// should check for the missing properties
+					// and not this subroutine but seeing as there potentially
+					// can be a lot of implementations for the bind function
+					// its probably worth just keeping this here
+					if (material->getShader() && mesh->getVertexArray()) {
 						glm::mat4 model_matrix =
 							game_object->getWorldTransformationMatrix();
 
-						Renderer::submit(shader, vertex_array, model_matrix);
+						Renderer::submit(material, mesh, model_matrix);
 					}
 					else {
 						ZYKLON_CORE_WARN(
