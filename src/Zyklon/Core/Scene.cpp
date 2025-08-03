@@ -166,12 +166,14 @@ void Scene::render()
 				Ref<Material> material = mesh_renderer->getMaterial();
 
 				if (mesh && material) {
-					// Note: it seems that the
-					// bind function for shader and material
-					// should check for the missing properties
-					// and not this subroutine but seeing as there potentially
-					// can be a lot of implementations for the bind function
-					// its probably worth just keeping this here
+					/*
+					 * Note: it seems that the
+					 * bind function for shader and material
+					 * should check for the missing properties
+					 * and not this subroutine but seeing as there potentially
+					 * can be a lot of implementations for the bind function
+					 * its probably worth just keeping this here
+					 */
 					if (material->getShader() && mesh->getVertexArray()) {
 						glm::mat4 model_matrix =
 							game_object->getWorldTransformationMatrix();

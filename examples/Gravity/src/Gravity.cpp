@@ -210,7 +210,16 @@ void ExampleLayer::onImguiRender()
 	ImGui::End();
 
 	ImGui::Begin("Objects");
-	m_sphere_game_objects[index]->onImGuiRender();
+	for (auto &go : m_sphere_game_objects) {
+		ImGui::PushID(go.get()); // Use pointer address as a unique ID
+		if (ImGui::CollapsingHeader(go->getName().c_str(),
+									ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+			ImGui::Indent();
+			go->onImGuiRender();
+			ImGui::Unindent();
+		}
+		ImGui::PopID();
+	}
 	ImGui::End();
 }
 

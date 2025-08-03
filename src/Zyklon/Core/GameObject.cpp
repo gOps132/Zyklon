@@ -202,14 +202,13 @@ void GameObject::removeComponent(const Ref<Component> &p_component)
 
 void GameObject::onImGuiRender()
 {
-	ImGui::Text(m_name.c_str());
-
 	bool active = m_active;
 	if (ImGui::Checkbox("Active", &active)) {
 		setActive(active);
 	}
 
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Indent();
 		glm::vec3 pos = m_local_position;
 		if (ImGui::DragFloat3("Position", glm::value_ptr(pos), 0.1f)) {
 			setLocalPosition(pos);
@@ -225,14 +224,17 @@ void GameObject::onImGuiRender()
 		if (ImGui::DragFloat3("Scale", glm::value_ptr(scale), 0.1f)) {
 			setLocalScale(scale);
 		}
+		ImGui::Unindent();
 	}
 
 	for (const auto &comp : m_components) {
 		ImGui::PushID(comp.get()); // Use pointer address as a unique ID
 		if (ImGui::CollapsingHeader(comp->getName().c_str(),
-									ImGuiTreeNodeFlags_DefaultOpen)) {
+									ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+			ImGui::Indent();
 			comp->onImguiRender(); // Let the component draw its specific
 								   // properties
+			ImGui::Unindent();
 		}
 		ImGui::PopID(); // Pop the unique ID
 	}
