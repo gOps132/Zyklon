@@ -42,7 +42,7 @@ bool PanningControls::onMouseMoved(MouseMovedEvent &e)
 		}
 
 		glm::vec2 delta = current_mouse_pos - m_last_mouse_pos;
-		ZYKLON_INFO("Moused moved x:{0}, y: {1}", delta.x, delta.y);
+		// ZYKLON_INFO("Moused moved x:{0}, y: {1}", delta.x, delta.y);
 		// NEW: Apply trackpad sensitivity factor
 		float current_pan_speed = m_pan_speed;
 

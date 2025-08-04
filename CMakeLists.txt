@@ -26,6 +26,7 @@ add_subdirectory(lib/ZyklonProfiler)
 # add_subdirectory(lib/imgui-cmake)
 add_subdirectory(lib/imgui-test)
 add_subdirectory(lib/stb)
+add_subdirectory(lib/assimp)
 
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/CompilerWarnings.cmake)
@@ -221,6 +222,7 @@ target_link_libraries(
 		PUBLIC		imgui-test
 		PUBLIC		spdlog
 		PUBLIC		stb
+		PUBLIC		assimp
 )
 
 target_precompile_headers(

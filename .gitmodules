@@ -16,3 +16,6 @@
 [submodule "lib/stb"]
 	path = lib/stb
 	url = git@github.com:gOps132/stb.git
+[submodule "lib/assimp"]
+	path = lib/assimp
+	url = https://github.com/assimp/assimp.git
