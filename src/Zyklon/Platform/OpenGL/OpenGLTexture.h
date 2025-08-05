@@ -11,7 +11,7 @@ namespace Zyklon {
 class OpenGLTexture2D : public Texture2D {
 public:
 	OpenGLTexture2D(const TextureSpecification &p_specification);
-	OpenGLTexture2D(const std::string &p_path);
+	OpenGLTexture2D(const std::filesystem::path &p_filepath);
 	virtual ~OpenGLTexture2D();
 
 	virtual const TextureSpecification &getSpecification() const override

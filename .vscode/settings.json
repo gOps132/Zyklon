@@ -126,7 +126,8 @@
 		"__verbose_abort": "cpp",
 		"execution": "cpp",
 		"print": "cpp",
-		"typeindex": "cpp"
+		"typeindex": "cpp",
+		"any": "cpp"
 	},
 	"dotnet.defaultSolution": "lib/imgui-test/examples/imgui_examples.sln",
 }

@@ -5,6 +5,7 @@
 
 #include <Zyklon/Renderer/RenderCommand.h>
 #include <Zyklon/Renderer/Renderer.h>
+#include <Zyklon/Renderer/ShaderLibrary.h>
 
 #include "Core.h"
 #include "Window.h"
@@ -18,6 +19,7 @@ Application *Application::s_instance = nullptr;
 Application::Application()
 {
 	ZYKLON_CORE_ASSERT(!s_instance, "Application already exists!");
+	ShaderLibrary::getInstance();
 
 	s_instance = this;
 	m_window = std::unique_ptr<Window>(Window::create());

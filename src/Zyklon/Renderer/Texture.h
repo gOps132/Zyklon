@@ -39,7 +39,7 @@ public:
 class Texture2D : public Texture {
 public:
 	static Ref<Texture2D> create(const TextureSpecification &p_specification);
-	static Ref<Texture2D> create(const std::string &p_path);
+	static Ref<Texture2D> create(const std::filesystem::path &p_filepath);
 };
 
 } // namespace Zyklon

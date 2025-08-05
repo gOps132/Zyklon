@@ -12,6 +12,7 @@
 #include "OpenGLShader.h"
 
 namespace Zyklon {
+const std::string &OpenGLShader::getName() const { return m_name; }
 
 void OpenGLShader::setUniform1i(const std::string &name, const int value)
 {
@@ -76,7 +77,7 @@ void OpenGLShader::setUniformMatrix4fv(const std::string &name,
 			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(buffer)));
 }
 
-OpenGLShader::OpenGLShader(const std::string &p_filepath)
+OpenGLShader::OpenGLShader(const std::filesystem::path &p_filepath)
 {
 	ZYKLON_CORE_INFO("Loading shader: {0}", p_filepath.c_str());
 	m_shader_source = parseShader(p_filepath);

@@ -40,12 +40,11 @@ public:
 	virtual void setUniformMatrix4fv(const std::string &name,
 									 const glm::mat4 &buffer) = 0;
 
-	static Shader *create(const std::string &p_filepath);
+	virtual const std::string &getName() const = 0;
+
+	static Shader *create(const std::filesystem::path &p_filepath);
 
 	static ShaderProgramSource parseShader(const std::string &p_filePath);
-
-private:
-	uint32_t m_renderer_id;
 };
 
 } // namespace Zyklon

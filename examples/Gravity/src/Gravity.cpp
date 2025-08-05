@@ -37,7 +37,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	Zyklon::SceneManager::getInstance().setCurrentScene(m_my_scene);
 
 	m_shader = Zyklon::Ref<Zyklon::Shader>(
-		Zyklon::Shader::create("examples/Gravity/src/Shaders/Polygon.shader"));
+		Zyklon::Shader::create("examples/Gravity/src/Shaders/BasicLit.shader"));
 	m_texture = Zyklon::Ref<Zyklon::Texture2D>(
 		Zyklon::Texture2D::create("examples/Gravity/images/earthpng.png"));
 

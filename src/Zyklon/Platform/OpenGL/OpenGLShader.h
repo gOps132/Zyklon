@@ -9,7 +9,7 @@
 namespace Zyklon {
 class OpenGLShader ZYKLON_OPENGL_FINAL : public Shader {
 public:
-	OpenGLShader(const std::string &p_filepath);
+	OpenGLShader(const std::filesystem::path &p_filepath);
 	~OpenGLShader();
 
 	virtual void setUniform1i(const std::string &name,
@@ -26,6 +26,8 @@ public:
 	virtual void setUniformMatrix4fv(const std::string &name,
 									 const glm::mat4 &buffer) override;
 
+	virtual const std::string &getName() const override;
+
 	virtual void bind() override;
 	virtual void unbind() override;
 
@@ -33,6 +35,7 @@ private:
 	// std::vector<ShaderUniform> m_shader_uniforms;
 	ShaderProgramSource m_shader_source;
 	uint32_t m_renderer_id;
+	std::string m_name;
 };
 
 } // namespace Zyklon

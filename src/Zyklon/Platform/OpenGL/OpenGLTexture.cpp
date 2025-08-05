@@ -61,7 +61,8 @@ OpenGLTexture2D::OpenGLTexture2D(const TextureSpecification &p_specification)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
-OpenGLTexture2D::OpenGLTexture2D(const std::string &p_string) : m_path(p_string)
+OpenGLTexture2D::OpenGLTexture2D(const std::filesystem::path &p_filepath)
+	: m_path(p_filepath) // implicit conversion
 {
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);

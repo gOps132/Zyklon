@@ -83,6 +83,7 @@ set(RENDERER_SOURCE_FILES
 	${RENDERER_DIRECTORY}/Renderer.cpp
 	${RENDERER_DIRECTORY}/Buffer.cpp
 	${RENDERER_DIRECTORY}/Shader.cpp
+	${RENDERER_DIRECTORY}/ShaderLibrary.cpp
 	${RENDERER_DIRECTORY}/VertexArray.cpp
 	${RENDERER_DIRECTORY}/RenderCommand.cpp
 	${RENDERER_DIRECTORY}/Texture.cpp
