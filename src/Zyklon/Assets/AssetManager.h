@@ -48,8 +48,7 @@ typedef struct ModelAssetData {
 } ModelAssetData;
 
 class ZYKLON_EXPORT AssetManager {
-public:
-	static AssetManager &getInstance();
+static AssetManager &getInstance();
 	AssetManager(const AssetManager &) = delete;
 	AssetManager &operator=(const AssetManager &) = delete;
 

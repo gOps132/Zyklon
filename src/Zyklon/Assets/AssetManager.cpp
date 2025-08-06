@@ -37,9 +37,9 @@ bool AssetManager::loadModel(const std::filesystem::path &p_filepath)
 	// const aiScene *ai_scene = m_assimp_importer->ReadFile(p_filepath, );
 }
 
-Ref<GameObject> AssetManager::instantiateModel(const std::filesystem::path &model_filepath,
-									Ref<Scene> target_scene)
+Ref<GameObject>
+AssetManager::instantiateModel(const std::filesystem::path &model_filepath,
+							   Ref<Scene> target_scene)
 {
-
 }
 } // namespace Zyklon
