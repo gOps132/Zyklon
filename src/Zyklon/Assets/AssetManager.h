@@ -1,12 +1,16 @@
-#ifndef __ASSSETMANAGER_H__
-#define __ASSSETMANAGER_H__
+#ifndef __ASSETMANAGER_H__
+#define __ASSETMANAGER_H__
 
 #include <zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
 #include <glm/glm.hpp>
 
+// Assimp includes
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/material.h>
 
 namespace Zyklon {
 class Mesh;
@@ -16,13 +20,6 @@ class Texture2D;
 class GameObject;
 class Scene;
 class BufferLayout;
-
-// Assimp forward declarations
-struct aiScene;
-struct aiNode;
-struct aiMaterial;
-struct aiMesh;
-struct aiMatrix4x4; // For node transforms
 
 // helper struct to represent the node in an imported model's hierarchy which
 // the asset manager will cache
@@ -48,7 +45,7 @@ typedef struct ModelAssetData {
 } ModelAssetData;
 
 class ZYKLON_EXPORT AssetManager {
-static AssetManager &getInstance();
+	static AssetManager &getInstance();
 	AssetManager(const AssetManager &) = delete;
 	AssetManager &operator=(const AssetManager &) = delete;
 
@@ -83,8 +80,8 @@ public:
 	 */
 private:
 	// internal helper for assimp processing
-	void processAssimpNode(ModelNodeData &p_out_node_data, aiNode *p_ai_node,
-						   const aiScene *ai_scene,
+	void processAssimpNode(ModelNodeData &p_out_node_data, ::aiNode *p_ai_node,
+						   const ::aiScene *ai_scene,
 						   const std::filesystem::path &p_model_dir_path);
 
 	// maps for caching various asset types
@@ -97,7 +94,7 @@ private:
 	std::unordered_map<std::string, ModelAssetData> m_model_asset_data_cache;
 
 	// assimp importer instance, should be managed globally for parsing
-	std::unique_ptr<Assimp::Importer> m_assimp_importer;
+	std::unique_ptr<::Assimp::Importer> m_assimp_importer;
 
 	// default shader, for materials that don't specify one
 	Ref<Shader> m_default_shader;
@@ -105,4 +102,4 @@ private:
 
 } // namespace Zyklon
 
-#endif // __ASSSETMANAGER_H__
+#endif // __ASSETMANAGER_H__

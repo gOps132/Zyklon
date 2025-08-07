@@ -7,6 +7,7 @@
  * Don't run this from distribution builds*
  */
 
+#include <zyklon_pch.h>
 #include <Zyklon/zyklon_exports.h>
 
 #include <spdlog/spdlog.h>
@@ -34,22 +35,48 @@ private:
 } // namespace Zyklon
 
 /* Strip these from distribution builds */
-#define ZYKLON_CORE_TRACE(...)                                                 \
-	::Zyklon::Log::getCoreLogger()->trace(__VA_ARGS__)
-#define ZYKLON_CORE_INFO(...)                                                  \
-	::Zyklon::Log::getCoreLogger()->info(__VA_ARGS__)
-#define ZYKLON_CORE_WARN(...)                                                  \
-	::Zyklon::Log::getCoreLogger()->warn(__VA_ARGS__)
-#define ZYKLON_CORE_ERROR(...)                                                 \
-	::Zyklon::Log::getCoreLogger()->error(__VA_ARGS__)
-#define ZYKLON_CORE_CRITICAL(...)                                              \
-	::Zyklon::Log::getCoreLogger()->critical(__VA_ARGS__)
+#ifdef _WIN32
+#define ZYKLON_FILE_NAME                                                       \
+	(strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#else
+#define ZYKLON_FILE_NAME                                                       \
+	(strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#endif
 
-#define ZYKLON_TRACE(...) ::Zyklon::Log::getClientLogger()->trace(__VA_ARGS__)
-#define ZYKLON_INFO(...) ::Zyklon::Log::getClientLogger()->info(__VA_ARGS__)
-#define ZYKLON_WARN(...) ::Zyklon::Log::getClientLogger()->warn(__VA_ARGS__)
-#define ZYKLON_ERROR(...) ::Zyklon::Log::getClientLogger()->error(__VA_ARGS__)
+// We are now explicitly including file/line in the message format.
+// The `fmt::format` around `__VA_ARGS__` ensures that the user's
+// format string and arguments are processed into a single string
+// before being combined with our file/line prefix.
+#define ZYKLON_CORE_TRACE(...)                                                 \
+	::Zyklon::Log::getCoreLogger()->trace("[{}:{}] {}", ZYKLON_FILE_NAME,      \
+										  __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_CORE_INFO(...)                                                  \
+	::Zyklon::Log::getCoreLogger()->info("[{}:{}] {}", ZYKLON_FILE_NAME,       \
+										 __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_CORE_WARN(...)                                                  \
+	::Zyklon::Log::getCoreLogger()->warn("[{}:{}] {}", ZYKLON_FILE_NAME,       \
+										 __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_CORE_ERROR(...)                                                 \
+	::Zyklon::Log::getCoreLogger()->error("[{}:{}] {}", ZYKLON_FILE_NAME,      \
+										  __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_CORE_CRITICAL(...)                                              \
+	::Zyklon::Log::getCoreLogger()->critical(                                  \
+		"[{}:{}] {}", ZYKLON_FILE_NAME, __LINE__, fmt::format(__VA_ARGS__))
+
+#define ZYKLON_TRACE(...)                                                      \
+	::Zyklon::Log::getClientLogger()->trace(                                   \
+		"[{}:{}] {}", ZYKLON_FILE_NAME, __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_INFO(...)                                                       \
+	::Zyklon::Log::getClientLogger()->info("[{}:{}] {}", ZYKLON_FILE_NAME,     \
+										   __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_WARN(...)                                                       \
+	::Zyklon::Log::getClientLogger()->warn("[{}:{}] {}", ZYKLON_FILE_NAME,     \
+										   __LINE__, fmt::format(__VA_ARGS__))
+#define ZYKLON_ERROR(...)                                                      \
+	::Zyklon::Log::getClientLogger()->error(                                   \
+		"[{}:{}] {}", ZYKLON_FILE_NAME, __LINE__, fmt::format(__VA_ARGS__))
 #define ZYKLON_CRITICAL(...)                                                   \
-	::Zyklon::Log::getClientLogger()->critical(__VA_ARGS__)
+	::Zyklon::Log::getClientLogger()->critical(                                \
+		"[{}:{}] {}", ZYKLON_FILE_NAME, __LINE__, fmt::format(__VA_ARGS__))
 
 #endif // __LOG_H__
