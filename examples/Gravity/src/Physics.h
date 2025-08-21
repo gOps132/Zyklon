@@ -1,10 +1,7 @@
 #ifndef __PHYSICS_H__
 #define __PHYSICS_H__
 
-#include "PhysicsConstants.h"
-
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/glm.hpp>
 
 #include <vector>
 #include <memory>

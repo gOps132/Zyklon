@@ -8,7 +8,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 // Remove : public PObject
 class UVSphere {

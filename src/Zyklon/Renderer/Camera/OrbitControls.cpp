@@ -109,7 +109,7 @@ void OrbitControls::reset()
 {
 	m_yaw = 0.0f;
 	m_pitch = 0.0f;
-	m_distance = 200.0f;		   // Reset to default distance
+	// m_distance = 200.0f;		   // Reset to default distance
 	m_target = {0.0f, 0.0f, 0.0f}; // Reset target
 	m_is_mouse_down = false;	   // Ensure mouse state is reset
 	update();					   // Update the camera position after resetting

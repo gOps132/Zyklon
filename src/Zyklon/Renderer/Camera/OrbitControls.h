@@ -4,6 +4,8 @@
 #include <zyklon_pch.h>
 #include <Zyklon/Events/Event.h>
 
+#include <Zyklon/Core/Timestep.h>
+
 #include <Zyklon/Events/Event.h>
 #include <Zyklon/Events/MouseEvent.h>
 #include <Zyklon/Input/Input.h>

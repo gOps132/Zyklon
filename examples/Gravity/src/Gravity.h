@@ -7,10 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Physics.h"
-#include "UVSphere.h"
 
 #include <vector>
-#include <memory>
 
 class ExampleLayer : public Zyklon::Layer {
 public:
@@ -41,8 +39,9 @@ private:
 	bool m_is_orbit_mode = true; // NEW: Toggle between modes
 
 	float m_fovy = 45.0f;
-	float m_aspect_ratio = Zyklon::Application::get().getWindow().getWidth() /
-						   Zyklon::Application::get().getWindow().getHeight();
+	float m_aspect_ratio =
+		static_cast<float>(Zyklon::Application::get().getWindow().getWidth()) /
+		static_cast<float>(Zyklon::Application::get().getWindow().getHeight());
 	float m_near_plane = 0.1f;
 	float m_far_plane = 1000.0f;
 

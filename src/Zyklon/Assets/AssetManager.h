@@ -41,38 +41,41 @@ typedef struct ModelAssetData {
 	// for map insertion
 	ModelAssetData() = default;
 	ModelAssetData(const std::filesystem::path &p_filepath)
-		: filepath(p_filepath) {};
+		: filepath(p_filepath){};
 } ModelAssetData;
 
 class ZYKLON_EXPORT AssetManager {
-	static AssetManager &getInstance();
-	AssetManager(const AssetManager &) = delete;
-	AssetManager &operator=(const AssetManager &) = delete;
-
 private:
 	AssetManager();	 // prevents new instances
 	~AssetManager(); // cleans up the assimp importer
 public:
+	static AssetManager &getInstance();
+	AssetManager(const AssetManager &) = delete;
+	AssetManager &operator=(const AssetManager &) = delete;
 	// loads a model from file (gltf, fbx, etc.) into internal cache
 	bool loadModel(const std::filesystem::path &p_filepath);
+
 	// instantiates cached model into a scene, returns root of the instantiate
 	// model
 	Ref<GameObject>
 	instantiateModel(const std::filesystem::path &model_filepath,
 					 Ref<Scene> target_scene);
 	// --- direct asset loading (for assets not part of a model) ---
-	Ref<Texture2D> loadTexture(const std::filesystem::path p_filepath);
+	Ref<Texture2D> loadTexture(const std::filesystem::path &p_filepath);
 	Ref<Material> loadMaterial(const std::string &p_name,
 							   const Ref<Shader> &p_shader,
 							   const Ref<Texture2D> p_texture);
 	Ref<Mesh> loadMesh(const std::string &p_name,
 					   const std::vector<float> &p_vertices,
+					   const std::vector<uint32_t> &p_indices,
 					   const BufferLayout &p_layout);
 
 	// --- Asset retrieval from cache ---
 	Ref<Texture2D> getTexture(const std::filesystem::path &p_filepath);
 	Ref<Material> getMaterial(const std::string &p_name);
 	Ref<Mesh> getMesh(const std::string &p_mesh);
+	Ref<Shader> getDefaultShader() const { return m_default_shader; }
+
 	/**
 	 * we wouldn't typically retrieve a ModelAssetData directly, but instantiate
 	 * it. However, we could have a getModelData() if a higher-level cache
@@ -80,8 +83,8 @@ public:
 	 */
 private:
 	// internal helper for assimp processing
-	void processAssimpNode(ModelNodeData &p_out_node_data, ::aiNode *p_ai_node,
-						   const ::aiScene *ai_scene,
+	void processAssimpNode(ModelNodeData &p_out_node_data, aiNode *p_ai_node,
+						   const aiScene *ai_scene,
 						   const std::filesystem::path &p_model_dir_path);
 
 	// maps for caching various asset types
@@ -94,7 +97,7 @@ private:
 	std::unordered_map<std::string, ModelAssetData> m_model_asset_data_cache;
 
 	// assimp importer instance, should be managed globally for parsing
-	std::unique_ptr<::Assimp::Importer> m_assimp_importer;
+	std::unique_ptr<Assimp::Importer> m_assimp_importer;
 
 	// default shader, for materials that don't specify one
 	Ref<Shader> m_default_shader;

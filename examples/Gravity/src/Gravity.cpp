@@ -1,8 +1,6 @@
 #include "Gravity.h"
+#include "UVSphere.h"
 #include <imgui-test/imgui.h>
-
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include <Zyklon/Renderer/Shader.h>
 #include <Zyklon/Renderer/Texture.h>
@@ -232,16 +230,16 @@ void ExampleLayer::resetState()
 
 	// Reset orbit controls/camera position based on current mode
 	if (m_is_orbit_mode) {
-		m_camera->setPosition(
-			{0.0f, 0.0f, 00.0f}); // Default camera position for orbit
+		// m_camera->setPosition(
+		// 	{0.0f, 0.0f, 00.0f}); // Default camera position for orbit
 		m_orbit->reset();		  // Reset orbit controls state
 		m_orbit->setTarget(
 			m_physics_objects_map[index]->getPosition()); // Set initial target
 	}
 	else {
-		m_camera->setPosition(
-			{0.0f, 0.0f,
-			 200.0f}); // Default camera position for panning (adjust as needed)
+		// m_camera->setPosition(
+		// 	{0.0f, 0.0f,
+		// 	 200.0f}); // Default camera position for panning (adjust as needed)
 		m_panning->reset(); // Reset panning controls state
 	}
 
