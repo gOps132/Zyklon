@@ -21,10 +21,10 @@ void OpenGLContext::init()
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	ZYKLON_CORE_ASSERT(status, "failed to initialize glad");
 
-	ZYKLON_CORE_INFO("OPENGL INFO:");
-	ZYKLON_CORE_INFO("  VENDOR: {0}", glGetString(GL_VENDOR));
-	ZYKLON_CORE_INFO("  RENDERER: {0}", glGetString(GL_RENDERER));
-	ZYKLON_CORE_INFO("  VERSION: {0}", glGetString(GL_VERSION));
+	ZYKLON_CORE_WARN("OPENGL INFO:");
+	ZYKLON_CORE_WARN("  VENDOR: {0}", glGetString(GL_VENDOR));
+	ZYKLON_CORE_WARN("  RENDERER: {0}", glGetString(GL_RENDERER));
+	ZYKLON_CORE_WARN("  VERSION: {0}", glGetString(GL_VERSION));
 
 	glEnable(GL_DEPTH_TEST);
 }

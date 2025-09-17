@@ -99,5 +99,4 @@ void main()
 
     // Output the final calculated color for the fragment, with full opacity.
     color = vec4(final_rgb_color, 1.0);
-	// color = vec4(0.0, 0.0, 1.0, 1.0);
 }

@@ -1,5 +1,6 @@
 #include "Gravity.h"
 #include "UVSphere.h"
+#include <cstdint>
 #include <imgui-test/imgui.h>
 
 #include <Zyklon/Renderer/Shader.h>
@@ -24,8 +25,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	m_camera->setPosition({0.0f, 0.0f, 00.0f}); // Initial distance for orbit
 
 	m_orbit = std::make_shared<Zyklon::OrbitControls>(m_camera);
-	m_panning = std::make_shared<Zyklon::PanningControls>(
-		m_camera); // NEW: Initialize PanningControls
+	m_panning = std::make_shared<Zyklon::PanningControls>(m_camera);
 	m_planets = std::make_shared<SystemState>();
 
 	m_my_scene = Zyklon::createRef<Zyklon::Scene>("GravityScene");
@@ -34,13 +34,11 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	Zyklon::SceneManager::getInstance().addScene(m_my_scene);
 	Zyklon::SceneManager::getInstance().setCurrentScene(m_my_scene);
 
-	m_shader = Zyklon::Ref<Zyklon::Shader>(
-		Zyklon::Shader::create("examples/Gravity/src/Shaders/BasicLit.shader"));
-	m_texture = Zyklon::Ref<Zyklon::Texture2D>(
-		Zyklon::Texture2D::create("examples/Gravity/images/earthpng.png"));
+	std::vector<std::string> textures = {"examples/Gravity/Assets/Images/earthpng.png",
+										 "examples/Gravity/Assets/Images/moon.png"};
 
-	Zyklon::Ref<Zyklon::Material> sphereMaterial =
-		Zyklon::createRef<Zyklon::BasicLitMaterial>(m_shader, m_texture);
+	m_shader = Zyklon::Ref<Zyklon::Shader>(
+		Zyklon::Shader::create("examples/Gravity/Assets/Shaders/BasicLit.shader"));
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -49,9 +47,13 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 	std::uniform_real_distribution<> dis_vel(
 		-0.01, 0.01); // Smaller range for velocities
 
-	int num_spheres = 3; // Example: Create 5 spheres
+	for (uint64_t i = 0; i < textures.size(); i++) {
+		Zyklon::Ref<Zyklon::Texture2D> texture = Zyklon::Ref<Zyklon::Texture2D>(
+			Zyklon::Texture2D::create(textures.at(i)));
 
-	for (int i = 0; i < num_spheres; i++) {
+		Zyklon::Ref<Zyklon::Material> sphereMaterial =
+			Zyklon::createRef<Zyklon::BasicLitMaterial>(m_shader, texture);
+
 		float random_x_pos = static_cast<float>(dis_pos(gen));
 		float random_y_pos = static_cast<float>(dis_pos(gen));
 		float random_z_pos = static_cast<float>(dis_pos(gen));
@@ -66,16 +68,15 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 
 		float radius = 1.0f;
 		float mass =
-			200.0f + static_cast<float>(dis_pos(gen)); // Vary mass slightly
+			200.0f + static_cast<float>(dis_pos(gen));
 
-		// PObject and UVSphere decoupling (as discussed in review)
 		auto p_object =
 			std::make_shared<PObject>(mass, radius, initial_pos, initial_vel);
 		m_planets->add_physical_object(p_object);
 		m_physics_objects_map.push_back(p_object);
 
 		UVSphere temp_uv_sphere(
-			"temp_name"); // UVSphere no longer inherits PObject
+			"temp_name"); 
 		temp_uv_sphere.generate(radius, 50, 50);
 
 		Zyklon::BufferLayout uvSphereLayout = {
@@ -90,7 +91,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		Zyklon::Ref<Zyklon::GameObject> sphere_go =
 			m_my_scene->createGameObject("Sphere_" + std::to_string(i));
 		sphere_go->setLocalPosition(
-			initial_pos); // Set initial position from physics object
+			initial_pos); 
 		sphere_go->setLocalScale(
 			{radius, radius, radius}); // Scale based on physics radius
 
@@ -199,7 +200,7 @@ void ExampleLayer::onImguiRender()
 	if (ImGui::Button("reset camera"))
 		resetState();
 	ImGui::Text("Application Average %.3f ms/frame (%.1f FPS)",
-				1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+				static_cast<double>(1000.0f / ImGui::GetIO().Framerate), static_cast<double>(ImGui::GetIO().Framerate));
 	ImGui::End();
 
 	ImGui::Begin("All States");

@@ -1,14 +1,12 @@
 #ifndef __GRAVITY_H__
 #define __GRAVITY_H__
 
+#include "Zyklon/Core/Core.h"
+#include "Zyklon/Core/GameObject.h"
 #include <Zyklon/Zyklon.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-#include "Physics.h"
-
-#include <vector>
 
 class ExampleLayer : public Zyklon::Layer {
 public:
@@ -23,10 +21,6 @@ public:
 
 private:
 	Zyklon::Ref<Zyklon::Scene> m_my_scene;
-
-	Zyklon::Ref<SystemState> m_planets;
-	std::vector<Zyklon::Ref<Zyklon::GameObject>> m_sphere_game_objects;
-	std::vector<Zyklon::Ref<PObject>> m_physics_objects_map;
 
 	unsigned int index = 0;
 
@@ -45,15 +39,15 @@ private:
 	float m_near_plane = 0.1f;
 	float m_far_plane = 1000.0f;
 
-	Zyklon::Ref<Zyklon::Shader> m_shader;
-	// Zyklon::Ref<Zyklon::Texture2D> m_texture;
+	Zyklon::Ref<Zyklon::GameObject> m_bunny_model_root;
+	Zyklon::Ref<Zyklon::GameObject> m_selected_game_object;
 };
 
-class Gravity : public Zyklon::Application {
+class BasicModel : public Zyklon::Application {
 public:
-	Gravity() { pushLayer(new ExampleLayer()); }
+	BasicModel() { pushLayer(new ExampleLayer()); }
 
-	virtual ~Gravity() override { ZYKLON_INFO("Stopped application"); }
+	virtual ~BasicModel() override { ZYKLON_INFO("Stopped application"); }
 };
 
 #endif // __GRAVITY_H__

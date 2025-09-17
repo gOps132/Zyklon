@@ -85,22 +85,21 @@ private:
 	// internal helper for assimp processing
 	void processAssimpNode(ModelNodeData &p_out_node_data, aiNode *p_ai_node,
 						   const aiScene *ai_scene,
-						   const std::filesystem::path &p_model_dir_path);
+						   const std::string &p_model_dir_path);
 
 	// maps for caching various asset types
 	std::unordered_map<std::string, Ref<Texture2D>> m_textures;
 	std::unordered_map<std::string, Ref<Material>> m_materials;
-	std::unordered_map<std::string, Ref<Mesh>>
-		m_meshes; // meshes can be shared across models
-
+	// meshes can be shared across models
+	std::unordered_map<std::string, Ref<Mesh>> m_meshes;
 	// cache for parsed model data (meshes, materials, node structure)
 	std::unordered_map<std::string, ModelAssetData> m_model_asset_data_cache;
 
-	// assimp importer instance, should be managed globally for parsing
 	std::unique_ptr<Assimp::Importer> m_assimp_importer;
 
 	// default shader, for materials that don't specify one
 	Ref<Shader> m_default_shader;
+	Ref<Texture2D> m_default_texture;
 };
 
 } // namespace Zyklon
