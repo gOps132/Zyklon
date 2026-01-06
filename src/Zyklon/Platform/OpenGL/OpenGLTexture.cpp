@@ -12,13 +12,13 @@ static GLenum image_format_to_gl_format(ImageFormat p_format)
 {
 	switch (p_format) {
 	case ImageFormat::R8:
-		return GL_R8;
+		return GL_RED;
 	case ImageFormat::RGB8:
-		return GL_RGB8;
+		return GL_RGB;
 	case ImageFormat::RGBA8:
-		return GL_RGBA8;
+		return GL_RGBA;
 	case ImageFormat::RGBA32F:
-		return GL_RGBA32F;
+		return GL_RGBA;
 	default:
 		return GL_NONE;
 	}

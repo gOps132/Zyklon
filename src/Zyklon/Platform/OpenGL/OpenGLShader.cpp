@@ -1,8 +1,8 @@
 #include <zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
-#include <Renderer/Renderer.h>
-#include <Renderer/Shader.h>
+#include <Zyklon/Renderer/Renderer.h>
+#include <Zyklon/Renderer/Shader.h>
 
 #include <glad/glad.h>
 

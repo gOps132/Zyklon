@@ -6,7 +6,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <Platform/OpenGL/OpenGLContext.h>
+#include <Zyklon/Platform/OpenGL/OpenGLContext.h>
 
 namespace Zyklon {
 

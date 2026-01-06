@@ -3,7 +3,7 @@
 
 #include <Zyklon/Core/Core.h>
 
-#include <Renderer/Texture.h>
+#include <Zyklon/Renderer/Texture.h>
 
 #include <glad/glad.h>
 

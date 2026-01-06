@@ -1,8 +1,8 @@
 #ifndef __GRAVITY_H__
 #define __GRAVITY_H__
 
-#include "Zyklon/Core/Core.h"
-#include "Zyklon/Core/GameObject.h"
+#include <Zyklon/Core/Core.h>
+#include <Zyklon/Core/GameObject.h>
 #include <Zyklon/Zyklon.h>
 
 #include <glm/glm.hpp>

@@ -6,7 +6,7 @@
 #include "RendererAPI.h"
 #include "Renderer.h"
 
-#include <Platform/OpenGL/OpenGLTexture.h>
+#include <Zyklon/Platform/OpenGL/OpenGLTexture.h>
 
 namespace Zyklon {
 Ref<Texture2D> Texture2D::create(const TextureSpecification &p_specification)

@@ -27,29 +27,28 @@
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
-namespace Zyklon 
+namespace Zyklon {
+template <typename T> using Scope = std::unique_ptr<T>;
+
+template <typename T, typename... Args>
+constexpr Scope<T> createScope(Args &&...args)
 {
-	template<typename T>
-	using Scope = std::unique_ptr<T>;
-	
-	template<typename T, typename ...Args>
-	constexpr Scope<T> createScope(Args&& ... args)
-	{
-		return std::make_unique<T>(std::forward<Args>(args)...);
-	}
-	
-	template<typename T>
-	using Ref = std::shared_ptr<T>;
-	
-	template<typename T, typename ...Args>
-	constexpr Ref<T> createRef(Args&& ... args)
-	{
-		return std::make_shared<T>(std::forward<Args>(args)...);
-	}
+	return std::make_unique<T>(std::forward<Args>(args)...);
 }
+
+template <typename T> using Ref = std::shared_ptr<T>;
+
+template <typename T, typename... Args>
+constexpr Ref<T> createRef(Args &&...args)
+{
+	return std::make_shared<T>(std::forward<Args>(args)...);
+}
+} // namespace Zyklon
 
 #ifdef ZYKLON_ENABLE_OPENGL
 #define ZYKLON_OPENGL_FINAL final
+#else
+#define ZYKLON_OPENGL_FINAL 
 #endif
 
 #endif // __CORE_H__

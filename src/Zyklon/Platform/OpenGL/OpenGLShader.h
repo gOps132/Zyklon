@@ -4,7 +4,7 @@
 #include <zyklon_pch.h>
 #include <Zyklon/Core/Core.h>
 
-#include "Renderer/Shader.h"
+#include <Zyklon/Renderer/Shader.h>
 
 namespace Zyklon {
 class OpenGLShader ZYKLON_OPENGL_FINAL : public Shader {

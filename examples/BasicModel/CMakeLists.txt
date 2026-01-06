@@ -16,7 +16,7 @@ set(SOURCE
 add_executable(${PROJECT_NAME} ${SOURCE})
 
 target_link_libraries(${PROJECT_NAME} 
-	Zyklon
+	${ZYKLON_EXAMPLE_TARGET}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 

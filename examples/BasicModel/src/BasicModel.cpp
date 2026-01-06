@@ -1,5 +1,4 @@
 #include "BasicModel.h"
-#include "Zyklon/Assets/AssetManager.h"
 
 #include <filesystem>
 #include <imgui-test/imgui.h>
@@ -51,14 +50,13 @@ ExampleLayer::ExampleLayer() : Layer("Example")
         ZYKLON_INFO("Successfully loaded model: {0}", bunny_model_path.string());
         m_bunny_model_root = Zyklon::AssetManager::getInstance().instantiateModel(bunny_model_path, m_my_scene);
         if (m_bunny_model_root) {
-            m_bunny_model_root->setName("Stanford_Bunny"); // Give it a friendly name in scene
+            m_bunny_model_root->setName("Stanford_Bunny");
             m_bunny_model_root->setLocalPosition({0.0f, 0.0f, 0.0f});
-            // m_bunny_model_root->setLocalScale({1.0f, 1.0f, 1.0f}); // Adjust scale if needed
-
+            
             m_selected_game_object = m_bunny_model_root;
-
-            // Adjust camera target if the model's position isn't at origin
             m_orbit->setTarget(m_bunny_model_root->getLocalPosition());
+            
+            ZYKLON_CORE_INFO("Model instantiated with {0} GameObjects in scene", m_my_scene->getAllGameObjects().size());
         } else {
             ZYKLON_CORE_ERROR("Failed to instantiate Stanford Bunny model from '{0}'", bunny_model_path.string());
         }

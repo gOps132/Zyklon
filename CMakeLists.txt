@@ -36,6 +36,7 @@ set(ENBALE_CPPCHECK             ON)
 set(ENABLE_INCLUDE_WHAT_YOU_USE ON)
 
 option(ZYKLON_ENABLE_OPENGL ON)
+option(ZYKLON_BUILD_SHARED "Build Zyklon as shared library (DLL)" OFF)
 # if(APPLE)
 #     set(PLATFORM_SOURCES 
 #         src/Zyklon/Platform/Macos/MacosWindow.cpp
@@ -54,16 +55,12 @@ option(ZYKLON_ENABLE_OPENGL ON)
 # endif()
 
 set(ZYKLON_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Zyklon")
+set(ASSETS_DIRECTORY 	"${CMAKE_CURRENT_SOURCE_DIR}/assets")
 set(CORE_DIRECTORY		"${ZYKLON_DIRECTORY}/Core")
 set(IMGUI_DIRECTORY 	"${ZYKLON_DIRECTORY}/Imgui")
 set(RENDERER_DIRECTORY 	"${ZYKLON_DIRECTORY}/Renderer")
 set(COMPONENT_DIRECTORY "${ZYKLON_DIRECTORY}/Components")
 set(PLATFORM_DIRECTORY 	"${ZYKLON_DIRECTORY}/Platform")
-set(ASSETS_DIRECTORY 	"${ZYKLON_DIRECTORY}/Assets")
-
-set(ASSETS_SOURCE_FILES
-	${ASSETS_DIRECTORY}/AssetManager.cpp
-)
 
 set(OPENGL_SOURCE_FILES
 	${PLATFORM_DIRECTORY}/OpenGL/OpenGLContext.cpp
@@ -115,6 +112,7 @@ set(CORE_FILES
 	${CORE_DIRECTORY}/GameObject.cpp
 	${CORE_DIRECTORY}/Scene.cpp
 	${CORE_DIRECTORY}/SceneManager.cpp
+	${CORE_DIRECTORY}/AssetManager.cpp
 )
 
 set(COMPONENT_FILES
@@ -125,7 +123,6 @@ set(COMPONENT_FILES
 set(ZYKLON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/zyklon_pch.cpp
 	${CORE_FILES}
-	${ASSETS_SOURCE_FILES}
 	${COMPONENT_FILES}
 	${IMGUI_SOURCE_FILES}
 	${RENDERER_SOURCE_FILES}
@@ -144,10 +141,26 @@ set(CMAKE_CXX_FLAGS_DEBUG
 )
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
+# Suppress vendor library warnings
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-inline-cpp-without-extern")
+endif()
+
 # ------------------------------------------
-# GENERATE ZYKLON STATIC LIBRARY
+# GENERATE ZYKLON LIBRARY (STATIC OR SHARED)
 # ------------------------------------------
-add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
+if(ZYKLON_BUILD_SHARED)
+	add_library(${PROJECT_NAME} SHARED ${ZYKLON_SOURCE_FILES})
+	add_library(${PROJECT_NAME}_static STATIC ${ZYKLON_SOURCE_FILES})
+	set_target_properties(${PROJECT_NAME} PROPERTIES 
+		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+	)
+	# Copy shared library properties to static version
+	target_link_libraries(${PROJECT_NAME}_static ${EXTRA_LIBS} glfw glad zyklon_profiler_header_only glm imgui-test spdlog stb assimp)
+	target_include_directories(${PROJECT_NAME}_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor ${CMAKE_CURRENT_SOURCE_DIR}/src)
+else()
+	add_library(${PROJECT_NAME} STATIC ${ZYKLON_SOURCE_FILES})
+endif()
 
 # ------------------------------------------
 # EXTERNAL
@@ -239,9 +252,9 @@ target_precompile_headers(
 target_include_directories(${PROJECT_NAME}
 	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/vendor
 	PUBLIC		${CMAKE_CURRENT_SOURCE_DIR}/src
+	PUBLIC		${ZYKLON_DIRECTORY}
 
 	PRIVATE		${RENDERER_DIRECTORY}
-	PRIVATE		${ZYKLON_DIRECTORY}
 	PRIVATE		${IMGUI_DIRECTORY}
 	PRIVATE		${PLATFORM_DIRECTORY}
 )
@@ -249,9 +262,17 @@ target_include_directories(${PROJECT_NAME}
 # ------------------------------------------
 # BUILD EXAMPLES
 # ------------------------------------------
-option(BUILD_ZYKLON_EXAMPLES "Build the sandbox project" OFF)
-if(BUILD_ZYKLON_EXAMPLES)
+# option(BUILD_ZYKLON_EXAMPLES "Build example projects" ON)
+# if(BUILD_ZYKLON_EXAMPLES)
+	if(ZYKLON_BUILD_SHARED)
+		# Regular examples use static library to avoid DLL issues
+		set(ZYKLON_EXAMPLE_TARGET Zyklon_static)
+	else()
+		set(ZYKLON_EXAMPLE_TARGET Zyklon)
+	endif()
+
 	add_subdirectory(examples/Sandbox)
 	add_subdirectory(examples/Gravity)
 	add_subdirectory(examples/BasicModel)
-endif()
+	add_subdirectory(examples/BasicModelDLL)
+# endif()

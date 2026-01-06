@@ -16,7 +16,7 @@ set(SOURCE
 
 add_executable(${TARGET_NAME} ${SOURCE})
 
-target_link_libraries(${TARGET_NAME} Zyklon)
+target_link_libraries(${TARGET_NAME} ${ZYKLON_EXAMPLE_TARGET})
 
 set_target_properties(${TARGET_NAME} PROPERTIES 
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"

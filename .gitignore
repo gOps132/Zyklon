@@ -3,6 +3,8 @@ build/
 bin/
 cmake-build-debug/
 .cache/
+.amazonq
+GEMINI.md
 
 # Prerequisites
 *.d

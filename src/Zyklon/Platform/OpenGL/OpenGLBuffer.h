@@ -6,7 +6,7 @@
 
 #include <glad/glad.h>
 
-#include <Renderer/Buffer.h>
+#include <Zyklon/Renderer/Buffer.h>
 
 namespace Zyklon {
 

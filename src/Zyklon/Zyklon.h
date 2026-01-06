@@ -16,6 +16,7 @@
 #include "Core/Scene.h"
 #include "Core/SceneManager.h"
 #include "Core/UUID.h"
+#include "Core/AssetManager.h"
 
 //------------INPUT--------------
 #include "Input/Input.h"

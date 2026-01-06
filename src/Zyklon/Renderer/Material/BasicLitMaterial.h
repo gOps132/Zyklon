@@ -51,8 +51,8 @@ private:
 	// lighting properties
 	glm::vec3 m_directional_light_direction = {0.0f, -1.0f, 0.0f}; // from above
 	glm::vec3 m_directional_light_color = {1.0f, 1.0f, 1.0f};
-	glm::vec3 m_ambient_light_color = {1.0f, 1.0f, 1.0f};
-	float m_ambient_light_intensity = 1.0f;
+	glm::vec3 m_ambient_light_color = {0.3f, 0.3f, 0.3f}; // Softer ambient
+	float m_ambient_light_intensity = 0.5f; // Reasonable ambient intensity
 };
 
 } // namespace Zyklon

@@ -6,12 +6,16 @@ namespace Zyklon {
 
 BasicLitMaterial::BasicLitMaterial(const Ref<Shader> &p_shader,
 								   const Ref<Texture2D> &p_texture)
-	: Material(p_shader), m_texture(p_texture)
+	: Material(p_shader), m_texture(p_texture), m_texture_slot(0)
 {
 	if (m_shader) {
 		m_shader->bind();
 		m_shader->setUniform1i("u_Texture", m_texture_slot);
-		// set initial lighting conditions here too
+		// Set default lighting uniforms
+		m_shader->setUniform3fv("u_DirectionalLightDirection", m_directional_light_direction);
+		m_shader->setUniform3fv("u_DirectionalLightColor", m_directional_light_color);
+		m_shader->setUniform3fv("u_AmbientLightColor", m_ambient_light_color);
+		m_shader->setUniform1f("u_AmbientLightIntensity", m_ambient_light_intensity);
 		m_shader->unbind();
 	}
 }

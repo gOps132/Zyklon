@@ -4,7 +4,7 @@
 
 #include "Renderer.h"
 
-#include <Platform/OpenGL/OpenGLBuffer.h>
+#include <Zyklon/Platform/OpenGL/OpenGLBuffer.h>
 
 #include "Buffer.h"
 
